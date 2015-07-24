@@ -1,10 +1,6 @@
 //#include <tlnc/expressions.hpp>
 
-#include <tlnc/expressions/constant.hpp>
-#include <tlnc/expressions/binary-operators.hpp>
-#include <tlnc/expressions/scalar-functions.hpp>
-#include <tlnc/expressions/arguments.hpp>
-#include <tlnc/expressions/binary-operators.hpp>
+#include <tlnc/expressions.hpp>
 
 #include <iostream>
 

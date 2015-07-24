@@ -49,13 +49,6 @@
 		constexpr functions::name name{};\
 	}
 
-namespace tlnc{
-	namespace expressions{
-		template <typename Expr>
-		struct cos;
-	}
-}
-
 // namespace tlnc{
 // 	namespace expressions{
 // 		template <typename Expr>
@@ -97,8 +90,4 @@ namespace tlnc{
 //
 // 	constexpr functions::sin sin{};
 // }
-
-TLNC_SCALAR_FUNCTION(sin, (cos<Expr>{} * Expr{}.template derivative<X>()).reduction())
-TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>{}).reduction() * Expr{}.template derivative<X>()).reduction())
-TLNC_SCALAR_FUNCTION(tan, 1)
 
