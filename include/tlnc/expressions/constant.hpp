@@ -5,6 +5,7 @@
 #include <bcl/double.hpp>
 
 #include <cti/interval.hpp>
+#include <cti/rdouble.hpp>
 
 #include <tlnc/traits.hpp>
 
@@ -32,6 +33,14 @@ namespace tlnc{
 			}
 		};
 	}
+
+	template <typename Value>
+	struct is_constant<expressions::constant<Value>> : ::std::true_type{
+	};
+
+	template <typename Value>
+	struct is_expression<expressions::constant<Value>> : ::std::true_type{
+	};
 }
 
 // make double constant
@@ -53,13 +62,11 @@ namespace tlnc{
 #endif
 
 // alias to TLNC_I
-#if !defined(I_) && !defined(I_I_1) && !defined(I_I_2)
-# define I_I_1(x) ::tlnc::expressions::constant<::cti::interval<BCL_DOUBLE_T(x), BCL_DOUBLE_T(x)>>{}
-# define I_I_2(x, y) ::tlnc::expressions::constant<::cti::interval<BCL_DOUBLE_T(x), BCL_DOUBLE_T(y)>>{}
+#if !defined(I_)
 # if defined(_MSC_VER)
 #  define I_(...) BOOST_PP_CAT(BOOST_PP_OVERLOAD(TLNC_I_I_,__VA_ARGS__)(__VA_ARGS),BOOST_PP_EMPTY())
 # else
-#  define I_(...) BOOST_PP_OVERLOAD(I_I_,__VA_ARGS__)(__VA_ARGS__)
+#  define I_(...) BOOST_PP_OVERLOAD(TLNC_I_I_,__VA_ARGS__)(__VA_ARGS__)
 # endif
 #endif
 

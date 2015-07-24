@@ -1,8 +1,27 @@
 //#include <tlnc/expressions.hpp>
 
 #include <tlnc/expressions/constant.hpp>
+#include <tlnc/expressions/binary-operators.hpp>
+#include <tlnc/expressions/scalar-functions.hpp>
+#include <tlnc/expressions/arguments.hpp>
+#include <tlnc/expressions/binary-operators.hpp>
 
 #include <iostream>
+
+#include <typeinfo>
+#include <cxxabi.h>
+
+template <typename T>
+const char *name()
+{
+	return abi::__cxa_demangle(typeid(T).name(), 0, 0, nullptr);
+}
+
+template <typename T>
+const char *name(T)
+{
+	return name<T>();
+}
 
 int main()
 {
@@ -12,5 +31,15 @@ int main()
 	std::cout << i1 << std::endl;
 	std::cout << i2 << std::endl;
 	std::cout << I_(t{}, 1.0).derivative<int>() << std::endl;
+	std::cout << name(tlnc::sin(tlnc::x())) << std::endl;
+
+	{
+		using namespace tlnc::expressions;
+		std::cout << name(op_mul<arg, arg, arg>{}.derivative<arg>()) << std::endl;
+		std::cout << name(arg{} + arg{} * arg{} * arg{}) << std::endl;
+		std::cout << name(arg{} / arg{}) << std::endl;
+		std::cout << name(-arg{}) << std::endl;
+		std::cout << name(tlnc::sin(arg{}).derivative<arg>()) << std::endl;
+	}
 }
 

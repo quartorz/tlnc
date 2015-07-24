@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include <tlnc/traits.hpp>
+#include <tlnc/expressions/constant.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -18,7 +19,7 @@ namespace tlnc{
 			template <typename X>
 			typename ::std::enable_if<
 				::std::is_same<X, vector_arg<I>>::value,
-				one
+				decltype(TLNC_C(1.0))
 			>::type
 			derivative() const
 			{
@@ -28,7 +29,7 @@ namespace tlnc{
 			template <typename X>
 			typename ::std::enable_if<
 				!::std::is_same<X, vector_arg<I>>::value,
-				zero
+				decltype(TLNC_C(0.0))
 			>::type
 			derivative() const
 			{
@@ -47,7 +48,7 @@ namespace tlnc{
 			template <typename X>
 			typename ::std::enable_if<
 				::std::is_same<X, matrix_arg<I, J>>::value,
-				one
+				decltype(TLNC_C(1.0))
 			>::type
 			derivative() const
 			{
@@ -57,7 +58,7 @@ namespace tlnc{
 			template <typename X>
 			typename ::std::enable_if<
 				!::std::is_same<X, matrix_arg<I, J>>::value,
-				zero
+				decltype(TLNC_C(0.0))
 			>::type
 			derivative() const
 			{
@@ -87,7 +88,7 @@ namespace tlnc{
 			template <typename X>
 			typename ::std::enable_if<
 				::std::is_same<X, arg>::value,
-				one
+				decltype(TLNC_C(1.0))
 			>::type
 			derivative() const
 			{
@@ -97,7 +98,7 @@ namespace tlnc{
 			template <typename X>
 			typename ::std::enable_if<
 				!::std::is_same<X, arg>::value,
-				zero
+				decltype(TLNC_C(0.0))
 			>::type
 			derivative() const
 			{

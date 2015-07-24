@@ -68,7 +68,12 @@ namespace tlnc{
 	// and T and the value is mutually convertible,
 	// and the value can do arithmetics.
 	template <typename T>
-	struct is_constant : ::bcl::is_encoded_double<T>{
+	struct is_value : ::bcl::is_encoded_double<T>{
+	};
+
+	// true if T is tlnc::expressoins::constant<T>
+	template <typename T>
+	struct is_constant : ::std::false_type{
 	};
 }
 

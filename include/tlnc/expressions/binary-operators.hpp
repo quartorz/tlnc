@@ -2,176 +2,305 @@
 
 #include <type_traits>
 
+#include <sprout/index_tuple.hpp>
+
+#include <bcl/tuple.hpp>
+#include <bcl/tuple_operation.hpp>
+#include <bcl/value_tuple.hpp>
+#include <bcl/double.hpp>
+
 #include <tlnc/traits.hpp>
-//#include <tlnc/expressions/constant.hpp>
-#include <tlnc/expressions/unary-operators.hpp>
+#include <tlnc/expressions/constant.hpp>
+#include <tlnc/expressions/pow.hpp>
 
-#define NCT_BINARY_OPERATOR(op, name, ...)\
-	namespace tlnc{\
-		namespace expressions{\
-			template <typename T, typename U>\
-			struct op_ ## name{\
-				const T lhs;\
-				const U rhs;\
-				op_ ## name(const T &l, const U &r)\
-					: lhs(l), rhs(r)\
-				{\
-				}\
-				op_ ## name(T &&l, U &&r)\
-					: lhs(::std::move(l)), rhs(::std::move(r))\
-				{\
-				}\
-				op_ ## name<T, U> reduction() const\
-				{\
-					return *this;\
-				}\
-				template <typename A>\
-				auto operator()(const A &x) const -> decltype(lhs(x) op rhs(x))\
-				{\
-					return lhs(x) op rhs(x);\
-				}\
-				template <typename X>\
-				auto derivative() const -> decltype(__VA_ARGS__)\
-				{\
-					return __VA_ARGS__;\
-				}\
-			};\
-			template <typename T, typename U>\
-			typename ::std::enable_if<\
-				::tlnc::is_expression<T>::value && ::tlnc::is_expression<U>::value,\
-				op_ ## name<T, U>\
-			>::type\
-			operator op(T x, U y)\
-			{\
-				return {::std::move(x), ::std::move(y)};\
-			}\
-		}\
-		template <typename T, typename U>\
-		struct is_expression<expressions::op_ ## name<T, U>> : ::std::true_type{\
-		};\
-	}
-
-//#define NCT_BINARY_OPERATOR(op, name, deriv, ...) NCT_BINARY_OPERATOR_I(op, name, NCT_EXPAND ## deriv, __VA_ARGS__)
-
-NCT_BINARY_OPERATOR(+, add, (lhs.template derivative<X>() + rhs.template derivative<X>()).reduction())
-NCT_BINARY_OPERATOR(-, sub, (lhs.template derivative<X>() - rhs.template derivative<X>()).reduction())
-NCT_BINARY_OPERATOR(*, mul, ((lhs.template derivative<X>() * rhs).reduction() + (rhs.template derivative<X>() * lhs).reduction()).reduction())
-NCT_BINARY_OPERATOR(/, div, ((lhs.template derivative<X>() / rhs).reduction() - ((lhs * rhs.template derivative<X>()).reduction() / (rhs * rhs))).reduction())
-
-#undef NCT_BINARY_OPERATOR
-/*
 namespace tlnc{
 	namespace expressions{
-		template <typename T>
-		struct op_add<T, zero> : T{
-			op_add(const T &lhs, zero)
-				: T(lhs)
+		template <typename ... Exprs>
+		struct op_add;
+
+		template <typename ... Exprs>
+		struct op_mul;
+	}
+}
+
+namespace tlnc{
+	namespace expressions{
+		template <typename ... Exprs>
+		struct op_add{
+			template <typename Arg>
+			constexpr auto operator()(Arg &&x) const
 			{
+				return (Exprs{}(x) + ...);
 			}
-			T reduction() const
+
+			template <typename X>
+			constexpr auto derivative() const
 			{
-				return *this;
+				return op_add<decltype(Exprs{}.template derivative<X>())...>{};
 			}
-		};
-		template <typename U>
-		struct op_add<zero, U> : U{
-			op_add(zero, const U &rhs)
-				: U(rhs)
+
+			constexpr auto reduction() const
 			{
-			}
-			U reduction() const
-			{
-				return *this;
-			}
-		};
-		template <typename T>
-		struct op_sub<T, zero> : T{
-			op_sub(const T &lhs, zero)
-				: T(lhs)
-			{
-			}
-			T reduction() const
-			{
-				return *this;
+				return op_add<Exprs...>{};
 			}
 		};
-		template <typename U>
-		struct op_sub<zero, U> : U{
-			op_sub(zero, const U &rhs)
-				: U(rhs)
+
+		namespace detail{
+			template <typename X, typename Tuple, ::std::size_t I, ::std::size_t N>
+			struct op_mul_derivative_impl{
+				using left = op_mul_derivative_impl<X, Tuple, I, N / 2 + N % 2>;
+				using right = op_mul_derivative_impl<X, Tuple, I + N / 2 + N % 2, N / 2>;
+
+				using type = ::bcl::tuple_concat_t<typename left::type, typename right::type>;
+			};
+
+			template <typename X, typename Tuple, ::std::size_t I>
+			struct op_mul_derivative_impl<X, Tuple, I, 0>{
+				using type = ::bcl::tuple<>;
+			};
+
+			template <typename X, typename ... Exprs, ::std::size_t I>
+			struct op_mul_derivative_impl<X, ::bcl::tuple<Exprs...>, I, 1>{
+				using tuple = ::bcl::tuple<Exprs...>;
+				using expr = ::bcl::tuple_element_t<I, tuple>;
+				using others = ::bcl::tuple_remove_t<::bcl::value_tuple<::std::size_t, I>, tuple>;
+				using type = ::bcl::tuple<
+					::bcl::tuple_transform_t<
+						::tlnc::expressions::op_mul,
+						::bcl::tuple_concat_t<
+							::bcl::tuple<decltype(expr{}.template derivative<X>())>,
+							others
+						>
+					>
+				>;
+			};
+		}
+
+		template <typename ... Exprs>
+		struct op_mul{
+			template <typename Arg>
+			constexpr auto operator()(Arg &&x) const
 			{
+				return (Exprs{}(x) * ...);
 			}
-			U reduction() const
+
+			template <typename X>
+			constexpr auto derivative() const
 			{
-				return *this;
+				using tuple = typename detail::op_mul_derivative_impl<
+					X, ::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
+				>::type;
+				using result = ::bcl::tuple_transform_t<op_add, tuple>;
+				return result{};
 			}
-		};
-		template <typename T>
-		struct op_mul<T, one> : T{
-			op_mul(const T &lhs, one)
-				: T(lhs)
+
+			constexpr auto reduction() const
 			{
-			}
-			T reduction() const
-			{
-				return *this;
-			}
-		};
-		template <typename U>
-		struct op_mul<one, U> : U{
-			op_mul(one, const U &rhs)
-				: U(rhs)
-			{
-			}
-			U reduction() const
-			{
-				return *this;
-			}
-		};
-		template <typename T>
-		struct op_mul<T, zero> : zero{
-			op_mul(const T &lhs, zero)
-				: zero(0)
-			{
-			}
-			zero reduction() const
-			{
-				return {};
-			}
-		};
-		template <typename U>
-		struct op_mul<zero, U> : zero{
-			op_mul(zero, const U &rhs)
-				: zero(0)
-			{
-			}
-			zero reduction() const
-			{
-				return {};
-			}
-		};
-		template <typename T, typename U>
-		struct op_mul<op_minus<T>, op_minus<U>> : op_mul<T, U>{
-			op_mul(const op_minus<T> &lhs, const op_minus<U> &rhs)
-				: op_mul<T, U>(lhs.expr, rhs.expr)
-			{
-			}
-			op_mul<T, U> reduction() const
-			{
-				return *this;
-			}
-		};
-		template <typename T>
-		struct op_div<T, one> : T{
-			op_div(const T &lhs, one)
-				: T(lhs)
-			{
-			}
-			T reduction() const
-			{
-				return *this;
+				return op_mul<Exprs...>{};
 			}
 		};
 	}
-}*/
+
+	template <typename ... Exprs>
+	struct is_expression<expressions::op_add<Exprs...>> : ::std::true_type{
+	};
+
+	template <typename ... Exprs>
+	struct is_expression<expressions::op_mul<Exprs...>> : ::std::true_type{
+	};
+}
+
+namespace tlnc{
+	namespace expressions{
+		template <typename ... ExprsL, typename ... ExprsR>
+		constexpr auto operator+(op_add<ExprsL...>, op_add<ExprsR...>)
+		{
+			return op_add<ExprsL..., ExprsR...>{};
+		}
+
+		template <
+			typename ... Exprs, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator+(op_add<Exprs...>, U &&)
+		{
+			return op_add<Exprs..., ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename ... Exprs, typename U,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<U>>{}
+			>* = nullptr
+		>
+		constexpr auto operator+(op_add<Exprs...>, U &&)
+		{
+			return op_add<Exprs..., constant<::std::decay_t<U>>>{};
+		}
+
+		template <
+			typename T, typename ... Exprs,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+			>* = nullptr
+		>
+		constexpr auto operator+(T &&, op_add<Exprs...>)
+		{
+			return op_add<::std::decay_t<T>, Exprs...>{};
+		}
+
+		template <
+			typename T, typename ... Exprs,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<T>>{}
+			>* = nullptr
+		>
+		constexpr auto operator+(T &&, op_add<Exprs...>)
+		{
+			return op_add<constant<::std::decay_t<T>>, Exprs...>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator+(T &&, U &&)
+		{
+			return op_add<::std::decay_t<T>, ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_value<::std::decay_t<U>>{}
+			>* = nullptr
+		>
+		constexpr auto operator+(T &&, T &&)
+		{
+			return op_add<::std::decay_t<T>, constant<::std::decay_t<U>>>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<T>>{}
+				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator+(T &&, U &&)
+		{
+			return op_add<constant<::std::decay_t<T>>, ::std::decay_t<U>>{};
+		}
+
+		template <typename T, typename U>
+		constexpr auto operator-(T &&x, U &&y)
+		{
+			return x + BCL_DOUBLE_V(-1.0) * y;
+		}
+
+		template <typename ... ExprsL, typename ... ExprsR>
+		constexpr auto operator*(op_mul<ExprsL...>, op_mul<ExprsR...>)
+		{
+			return op_mul<ExprsL..., ExprsR...>{};
+		}
+
+		template <
+			typename ... Exprs, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator*(op_mul<Exprs...>, U &&)
+		{
+			return op_mul<Exprs..., ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename ... Exprs, typename U,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<U>>{}
+			>* = nullptr
+		>
+		constexpr auto operator*(op_mul<Exprs...>, U &&)
+		{
+			return op_mul<Exprs..., constant<::std::decay_t<U>>>{};
+		}
+
+		template <
+			typename T, typename ... Exprs,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+			>* = nullptr
+		>
+		constexpr auto operator*(T &&, op_mul<Exprs...>)
+		{
+			return op_mul<::std::decay_t<T>, Exprs...>{};
+		}
+
+		template <
+			typename T, typename ... Exprs,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<T>>{}
+			>* = nullptr
+		>
+		constexpr auto operator*(T &&, op_mul<Exprs...>)
+		{
+			return op_mul<constant<::std::decay_t<T>>, Exprs...>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_expression_v<::std::decay_t<T>>
+			>* = nullptr
+		>
+		constexpr auto operator*(T &&, U &&)
+		{
+			return op_mul<::std::decay_t<T>, ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_value<::std::decay_t<U>>{}
+			>* = nullptr
+		>
+		constexpr auto operator*(T &&, U &&)
+		{
+			return op_mul<::std::decay_t<T>, constant<::std::decay_t<U>>>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<T>>{}
+				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator*(T &&, U &&)
+		{
+			return op_mul<constant<::std::decay_t<T>>, ::std::decay_t<U>>{};
+		}
+
+		template <typename T, typename U>
+		constexpr auto operator/(T &&x, U &&)
+		{
+			return x * pow<U, decltype(TLNC_C(-1.0))>{};
+		}
+
+		template <typename T>
+		constexpr auto operator-(T &&x)
+		{
+			return TLNC_C(-1.0) * x;
+		}
+	}
+}
 

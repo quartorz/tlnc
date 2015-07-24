@@ -10,10 +10,8 @@
 		namespace expressions{\
 			template <typename Expr>\
 			struct name{\
-				Expr expr;\
-				constexpr name(Expr e) : expr(e){}\
 				template <typename T>\
-				constexpr auto operator()(const T & x) const\
+				constexpr auto operator()(T &&x) const\
 				{\
 					return ::tlnc::generic::name{}(x);\
 				}\
@@ -29,17 +27,17 @@
 				template <typename Expr>\
 				constexpr ::std::enable_if_t<\
 					::tlnc::is_expression_v<Expr>,\
-					::tlnc::expressions::sin<Expr>\
+					::tlnc::expressions::name<Expr>\
 				>\
-				operator()(Expr expr) const\
+				operator()(Expr &&) const\
 				{\
-					return {expr};\
+					return {};\
 				}\
 				template <\
 					typename T,\
-					typename = ::std::enable_if_t<!::tlnc::is_expression_v<T>>\
+					::std::enable_if_t<!::tlnc::is_expression_v<T>>* = nullptr\
 				>\
-				constexpr auto operator()(const T & x) const\
+				constexpr auto operator()(T &&x) const\
 				{\
 					return ::tlnc::generic::name{}(x);\
 				}\
@@ -100,7 +98,7 @@ namespace tlnc{
 // 	constexpr functions::sin sin{};
 // }
 
-TLNC_SCALAR_FUNCTION(sin, (cos<Expr>(expr) * expr.template derivative<X>()).reduction())
-TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>(expr)).reduction() * expr.template derivative<X>()).reduction())
+TLNC_SCALAR_FUNCTION(sin, (cos<Expr>{} * Expr{}.template derivative<X>()).reduction())
+TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>{}).reduction() * Expr{}.template derivative<X>()).reduction())
 TLNC_SCALAR_FUNCTION(tan, 1)
 
