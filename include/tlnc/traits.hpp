@@ -34,20 +34,25 @@ namespace tlnc{
 	template <typename T>
 	constexpr auto is_expression_v = is_expression<T>::value;
 
+	namespace detail{
+		template <typename T>
+		struct value_type_impl{
+			using type = T;
+		};
+
+		template <typename T, typename A>
+		struct value_type_impl<ub::vector<T, A>>{
+			using type = T;
+		};
+
+		template <typename T, typename L, typename A>
+		struct value_type_impl<ub::matrix<T, L, A>>{
+			using type = T;
+		};
+	}
+
 	template <typename T>
-	struct value_type{
-		using type = T;
-	};
-
-	template <typename T, typename A>
-	struct value_type<ub::vector<T, A>>{
-		using type = T;
-	};
-
-	template <typename T, typename L, typename A>
-	struct value_type<ub::matrix<T, L, A>>{
-		using type = T;
-	};
+	using value_type = detail::value_type_impl<::std::decay_t<T>>;
 
 	template <typename T>
 	using value_type_t = typename value_type<T>::type;

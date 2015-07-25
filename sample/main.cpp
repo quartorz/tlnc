@@ -1,6 +1,9 @@
 //#include <tlnc/expressions.hpp>
 
+#include <boost/numeric/ublas/vector.hpp>
+
 #include <tlnc/expressions.hpp>
+#include <tlnc/call.hpp>
 
 #include <iostream>
 
@@ -29,6 +32,8 @@ int main()
 	std::cout << I_(t{}, 1.0).derivative<int>() << std::endl;
 	std::cout << name(tlnc::sin(tlnc::x())) << std::endl;
 	std::cout << tlnc::sin(tlnc::x())(1.0) << std::endl;
+	std::cout << tlnc::call(tlnc::sin(tlnc::x()), 1.0) << std::endl;
+	std::cout << tlnc::call(tlnc::sin(tlnc::x()), 1.0, bcl::tuple<>{}).first << std::endl;
 
 	{
 		using namespace tlnc::expressions;
@@ -42,6 +47,11 @@ int main()
 		using memo = expr::make_memo_t<bcl::tuple<>, double>;
 
 		std::cout << name<memo>() << std::endl;
+
+		using expr2 = decltype(vector_arg<0>{} + tlnc::cos(tlnc::sin(vector_arg<1>{})));
+		using memo2 = expr2::make_memo_t<bcl::tuple<>, boost::numeric::ublas::vector<double>>;
+
+		std::cout << name<memo2>() << std::endl;
 	}
 }
 

@@ -43,8 +43,7 @@ namespace tlnc::expressions::detail{
 	namespace detail{
 		template <
 			typename Memo, typename Arg, typename Tuple,
-			::std::size_t I, ::std::size_t N,
-			typename = void
+			::std::size_t I, ::std::size_t N
 		>
 		struct memoize_make_memo_impl{
 			using left = memoize_make_memo_impl<
@@ -56,60 +55,14 @@ namespace tlnc::expressions::detail{
 		};
 
 		template <typename Memo, typename Arg, typename Tuple, ::std::size_t I>
-		struct memoize_make_memo_impl<Memo, Arg, Tuple, I, 0, void>{
+		struct memoize_make_memo_impl<Memo, Arg, Tuple, I, 0>{
 			using type = Memo;
-		};
-/*
-		template <typename Memo, typename Arg, typename Tuple, ::std::size_t I>
-		struct memoize_make_memo_impl<
-			Memo, Arg, Tuple, I, 1,
-			::std::enable_if_t<
-				::bcl::has_value_v<
-					::bcl::tuple_find_t<
-						::std::pair<
-							::bcl::tuple_element_t<I, Tuple>,
-							::std::result_of_t<
-								::bcl::tuple_element_t<I, Tuple>(Arg)
-							>
-						>,
-						Memo
-					>
-				>
-			>
-		>
-		{
-			using type = Memo;
-		};*/
-
-		template <typename T>
-		struct x{
-			char : 16;
-			using type = T;
 		};
 
 		template <typename Memo, typename Arg, typename Tuple, ::std::size_t I>
-		struct memoize_make_memo_impl<
-			Memo, Arg, Tuple, I, 1,void
-/*			::std::enable_if_t<
-				!::bcl::has_value_v<
-					::bcl::tuple_find_t<
-						::std::pair<
-							::bcl::tuple_element_t<I, Tuple>,
-							::std::result_of_t<
-								::bcl::tuple_element_t<I, Tuple>(Arg)
-							>
-						>,
-						Memo
-					>
-				>
-			>*/
-		>
+		struct memoize_make_memo_impl<Memo, Arg, Tuple, I, 1>
 		{
-			using element = typename x<::bcl::tuple_element_t<I, Tuple>>::type;
-			using result = typename x<::std::result_of_t<element(Arg)>>::type;
-			/*using type = ::bcl::tuple_concat_t<
-				Memo, ::bcl::tuple<::std::pair<element, result>>
-			>;*/
+			using element = ::bcl::tuple_element_t<I, Tuple>;
 			using type = typename element::template make_memo_t<Memo, Arg>;
 		};
 	}

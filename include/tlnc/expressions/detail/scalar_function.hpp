@@ -14,7 +14,7 @@
 				template <typename T>\
 				constexpr auto operator()(T &&x) const\
 				{\
-					return ::tlnc::generic::name{}(x);\
+					return ::tlnc::generic::name{}(Expr{}(x));\
 				}\
 				template <typename X>\
 				auto derivative() const\
