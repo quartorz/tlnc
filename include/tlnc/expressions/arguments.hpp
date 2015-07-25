@@ -11,98 +11,92 @@ namespace tlnc{
 		template <::std::size_t I>
 		struct vector_arg{
 			template <typename T>
-			typename T::value_type operator()(const T &x) const
+			constexpr auto operator()(T &&x) const
 			{
 				return x(I);
 			}
 
-			template <typename X>
-			typename ::std::enable_if<
-				::std::is_same<X, vector_arg<I>>::value,
-				decltype(TLNC_C(1.0))
-			>::type
-			derivative() const
+			template <
+				typename X,
+				::std::enable_if_t<
+					::std::is_same<X, vector_arg<I>>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
 			{
-				return {};
+				return TLNC_C(1.0);
 			}
 
-			template <typename X>
-			typename ::std::enable_if<
-				!::std::is_same<X, vector_arg<I>>::value,
-				decltype(TLNC_C(0.0))
-			>::type
-			derivative() const
+			template <
+				typename X,
+				::std::enable_if_t<
+					!::std::is_same<X, vector_arg<I>>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
 			{
-				return {};
+				return TLNC_C(0.0);
 			}
 		};
 
 		template <::std::size_t I, ::std::size_t J>
 		struct matrix_arg{
 			template <typename T>
-			typename T::value_type operator()(const T &x) const
+			constexpr auto operator()(T &&x) const
 			{
 				return x(I, J);
 			}
 
-			template <typename X>
-			typename ::std::enable_if<
-				::std::is_same<X, matrix_arg<I, J>>::value,
-				decltype(TLNC_C(1.0))
-			>::type
-			derivative() const
+			template <
+				typename X,
+				::std::enable_if_t<
+					::std::is_same<X, matrix_arg<I, J>>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
 			{
-				return {};
+				return TLNC_C(1.0);
 			}
 
-			template <typename X>
-			typename ::std::enable_if<
-				!::std::is_same<X, matrix_arg<I, J>>::value,
-				decltype(TLNC_C(0.0))
-			>::type
-			derivative() const
+			template <
+				typename X,
+				::std::enable_if_t<
+					!::std::is_same<X, matrix_arg<I, J>>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
 			{
-				return {};
+				return TLNC_C(0.0);
 			}
 		};
 
 		struct arg{
-			template <::std::size_t I>
-			vector_arg<I> at() const
-			{
-				return {};
-			}
-
-			template <::std::size_t I, ::std::size_t J>
-			matrix_arg<I, J> at() const
-			{
-				return {};
-			}
-
 			template <typename T>
-			T operator()(const T &x) const
+			constexpr auto operator()(T &&x) const
 			{
 				return x;
 			}
 
-			template <typename X>
-			typename ::std::enable_if<
-				::std::is_same<X, arg>::value,
-				decltype(TLNC_C(1.0))
-			>::type
-			derivative() const
+			template <
+				typename X,
+				::std::enable_if_t<
+					::std::is_same<X, arg>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
 			{
-				return {};
+				return TLNC_C(1.0);
 			}
 
-			template <typename X>
-			typename ::std::enable_if<
-				!::std::is_same<X, arg>::value,
-				decltype(TLNC_C(0.0))
-			>::type
-			derivative() const
+			template <
+				typename X,
+				::std::enable_if_t<
+					!::std::is_same<X, arg>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
 			{
-				return {};
+				return TLNC_C(0.0);
 			}
 		};
 	}
@@ -135,20 +129,20 @@ namespace tlnc{
 	struct is_argument<expressions::arg> : ::std::true_type{
 	};
 
-	expressions::arg x()
+	constexpr auto x()
 	{
-		return{};
+		return expressions::arg{};
 	}
 
 	template <int I>
-	expressions::vector_arg<I> x()
+	constexpr auto x()
 	{
-		return{};
+		return expressions::vector_arg<I>{};
 	}
 
 	template <int I, int J>
-	expressions::matrix_arg<I, J> x()
+	constexpr auto x()
 	{
-		return{};
+		return expressions::matrix_arg<I, J>{};
 	}
 }
