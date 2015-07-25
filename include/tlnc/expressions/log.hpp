@@ -2,6 +2,8 @@
 
 #include <tlnc/generic.hpp>
 #include <tlnc/expressions/constant.hpp>
+#include <tlnc/expressions/detail/make_memo.hpp>
+#include <tlnc/expressions/pow.hpp>
 
 namespace tlnc{
 	namespace expressions{

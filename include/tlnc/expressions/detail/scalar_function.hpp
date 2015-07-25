@@ -4,6 +4,7 @@
 
 #include <tlnc/traits.hpp>
 #include <tlnc/generic.hpp>
+#include <tlnc/expressions/detail/make_memo.hpp>
 
 #define TLNC_SCALAR_FUNCTION(name, ...)\
 	namespace tlnc{\
@@ -20,6 +21,10 @@
 				{\
 					return __VA_ARGS__;\
 				}\
+				template <typename Memo, typename Arg>\
+				using make_memo = detail::make_memo<name<Expr>, Memo, Arg>;\
+				template <typename Memo, typename Arg>\
+				using make_memo_t = typename make_memo<Memo, Arg>::type;\
 			};\
 		}\
 		namespace functions{\

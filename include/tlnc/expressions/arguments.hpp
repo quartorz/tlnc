@@ -5,6 +5,7 @@
 
 #include <tlnc/traits.hpp>
 #include <tlnc/expressions/constant.hpp>
+#include <tlnc/expressions/detail/make_memo.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -37,6 +38,12 @@ namespace tlnc{
 			{
 				return TLNC_C(0.0);
 			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = typename detail::make_memo<vector_arg<I>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 
 		template <::std::size_t I, ::std::size_t J>
@@ -68,6 +75,12 @@ namespace tlnc{
 			{
 				return TLNC_C(0.0);
 			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = typename detail::make_memo<matrix_arg<I, J>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 
 		struct arg{
@@ -98,6 +111,12 @@ namespace tlnc{
 			{
 				return TLNC_C(0.0);
 			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<arg, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 

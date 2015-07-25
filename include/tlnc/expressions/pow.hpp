@@ -4,6 +4,7 @@
 
 #include <tlnc/traits.hpp>
 #include <tlnc/generic.hpp>
+#include <tlnc/expressions/detail/make_memo.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -26,6 +27,12 @@ namespace tlnc{
 					* pow<Base, Exponent>{}
 				).reduction();
 			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<pow<Base, Exponent>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 

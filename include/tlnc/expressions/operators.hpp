@@ -12,6 +12,7 @@
 #include <tlnc/traits.hpp>
 #include <tlnc/expressions/constant.hpp>
 #include <tlnc/expressions/pow.hpp>
+#include <tlnc/expressions/detail/make_memo.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -43,6 +44,12 @@ namespace tlnc{
 			{
 				return op_add<Exprs...>{};
 			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<op_add<Exprs...>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 
 		namespace detail{
@@ -98,6 +105,12 @@ namespace tlnc{
 			{
 				return op_mul<Exprs...>{};
 			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<op_mul<Exprs...>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 

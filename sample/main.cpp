@@ -37,6 +37,11 @@ int main()
 		std::cout << name(arg{} / arg{}) << std::endl;
 		std::cout << name(-arg{}) << std::endl;
 		std::cout << name(tlnc::sin(arg{}).derivative<arg>()) << std::endl;
+
+		using expr = decltype(arg{} + tlnc::cos(tlnc::sin(arg{})));
+		using memo = expr::make_memo_t<bcl::tuple<>, double>;
+
+		std::cout << name<memo>() << std::endl;
 	}
 }
 

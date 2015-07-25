@@ -2,7 +2,11 @@
 
 #include <boost/preprocessor/facilities/overload.hpp>
 
+#include <utility>
+
 #include <bcl/double.hpp>
+#include <bcl/tuple.hpp>
+#include <bcl/has_xxx.hpp>
 
 #include <cti/interval.hpp>
 #include <cti/rdouble.hpp>
@@ -21,7 +25,7 @@ namespace tlnc{
 			}
 
 			template <typename Arg>
-			constexpr auto operator()(const Arg &) const
+			constexpr auto operator()(Arg &&) const
 			{
 				return ::tlnc::value_type_t<Arg>(Value{});
 			}
@@ -31,6 +35,34 @@ namespace tlnc{
 			{
 				return constant<decltype(Value{} * BCL_DOUBLE_V(0.0))>{};
 			}
+
+			template <typename Arg>
+			using result_type = ::std::result_of_t<constant<Value>(Arg)>;
+
+			template <bool, typename Memo, typename Pair>
+			struct make_memo_impl{
+				using type = Memo;
+			};
+
+			template <typename Memo, typename Pair>
+			struct make_memo_impl<false, Memo, Pair>{
+				using type = ::bcl::tuple_concat_t<Memo, ::bcl::tuple<Pair>>;
+			};
+
+			template <typename Memo, typename Arg>
+			using make_memo = make_memo_impl<
+				::bcl::has_value_v<
+					::bcl::tuple_find_t<
+						::std::pair<constant<Value>, result_type<Arg>>,
+						Memo
+					>
+				>,
+				Memo,
+				::std::pair<constant<Value>, result_type<Arg>>
+			>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 
