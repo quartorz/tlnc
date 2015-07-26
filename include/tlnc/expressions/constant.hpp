@@ -97,7 +97,6 @@ namespace tlnc{
 #endif
 
 // alias to TLNC_C
-// t@github.com:quartorz/bcl.gitC_
 #if !defined(C_)
 # define C_(x) TLNC_C(x)
 #endif
