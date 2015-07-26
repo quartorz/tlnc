@@ -1,1 +1,1 @@
-/mingw64/bin/clang++ -std=c++1z -I../../include -O3 bench.cpp   0.00s user 0.03s system 0% cpu 10.721 total
+/mingw64/bin/clang++ -std=c++1z -I../../include -O3 bench.cpp   0.00s user 0.01s system 0% cpu 32.140 total
