@@ -1,15 +1,32 @@
 not memoized
 77.6163
 776163
-1355483micro sec
+1418237micro sec
 
 memoized
 77.6163
 776163
-159micro sec
+66micro sec
 
 normal function
 77.6163
 776163
-1356451micro sec
+1326250micro sec
+
+summation
+77.6163
+776163
+202micro sec
+
+not memoized
+775150
+1298439micro sec
+
+memoized
+775150
+25933micro sec
+
+normal
+775150
+1388627micro sec
 
