@@ -5,6 +5,7 @@
 #include <tlnc/traits.hpp>
 #include <tlnc/generic.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
+#include <tlnc/expressions/detail/memo_find.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -26,6 +27,17 @@ namespace tlnc{
 					(Exponent{} * log<Base>{}).template derivative<X>()
 					* pow<Base, Exponent>{}
 				).reduction();
+			}
+
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				constexpr ::std::size_t index1 = detail::memo_find_t<Base, Memo>::value;
+				constexpr ::std::size_t index2 = detail::memo_find_t<Exponent, Memo>::value;
+				::bcl::get<I>(memo).second = ::tlnc::generic::pow{}(
+					::bcl::get<index1>(memo).second,
+					::bcl::get<index2>(memo).second
+				);
 			}
 
 			template <typename Memo, typename Arg>

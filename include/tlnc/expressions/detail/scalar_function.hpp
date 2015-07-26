@@ -1,10 +1,14 @@
 #pragma once
 
+#include <cstdint>
 #include <type_traits>
+
+#include <bcl/tuple.hpp>
 
 #include <tlnc/traits.hpp>
 #include <tlnc/generic.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
+#include <tlnc/expressions/detail/memo_find.hpp>
 
 #define TLNC_SCALAR_FUNCTION(name, ...)\
 	namespace tlnc{\
@@ -20,6 +24,12 @@
 				auto derivative() const\
 				{\
 					return __VA_ARGS__;\
+				}\
+				template <::std::size_t I, typename Arg, typename Memo>\
+				constexpr void update_memo(Arg &&arg, Memo &memo)\
+				{\
+					constexpr ::std::size_t index = detail::memo_find_t<Expr, Memo>::value;\
+					::bcl::get<I>(memo).second = ::tlnc::generic::name{}(::bcl::get<index>(memo).second);\
 				}\
 				template <typename Memo, typename Arg>\
 				using make_memo = detail::make_memo<name<Expr>, Memo, Arg>;\

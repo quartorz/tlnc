@@ -8,16 +8,18 @@
 #include <bcl/tuple.hpp>
 #include <bcl/has_xxx.hpp>
 
+#include <tlnc/expressions/detail/memo_find.hpp>
+
 namespace tlnc{
 	namespace detail{
 		template <typename Arg, typename Memo, ::sprout::index_t ... Is>
-		constexpr void memo_update(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>)
+		constexpr void update_memo(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>)
 		{
-			((::bcl::get<Is>(memo).second = ::bcl::get<Is>(memo).first(arg)), ...);
+			((::bcl::get<Is>(memo).first.template update_memo<Is>(arg, memo)), ...);
 		}
 
 		template <typename MemoOld, typename MemoNew, ::sprout::index_t ... Is>
-		constexpr void memo_copy_impl(MemoOld &&m1, MemoNew &m2, ::sprout::index_tuple<Is...>)
+		constexpr void copy_memo_impl(MemoOld &&m1, MemoNew &m2, ::sprout::index_tuple<Is...>)
 		{
 			((::bcl::get<Is>(m2) = ::bcl::get<Is>(m1)), ...);
 		}
@@ -28,7 +30,7 @@ namespace tlnc{
 				::std::is_same<MemoOld, MemoNew>{}
 			>* = nullptr
 		>
-		constexpr auto memo_copy(MemoOld &&m1)
+		constexpr auto copy_memo(MemoOld &&m1)
 		{
 			MemoNew m2 = m1;
 			return m2;
@@ -40,50 +42,12 @@ namespace tlnc{
 				!::std::is_same<MemoOld, MemoNew>{}
 			>* = nullptr
 		>
-		constexpr auto memo_copy(MemoOld &&m1)
+		constexpr auto copy_memo(MemoOld &&m1)
 		{
 			MemoNew m2;
-			memo_copy_impl(m1, m2, ::sprout::index_range<0, ::bcl::tuple_size<MemoOld>::value>::make());
+			copy_memo_impl(m1, m2, ::sprout::index_range<0, ::bcl::tuple_size<MemoOld>::value>::make());
 			return m2;
 		}
-
-		template <typename T, typename Memo, ::std::size_t I, ::std::size_t N, typename = void>
-		struct memo_find{
-			using left = typename memo_find<T, Memo, I, N / 2 + N % 2>::type;
-			using type = ::std::conditional_t<
-				::bcl::has_value_v<left>,
-				left,
-				typename memo_find<T, Memo, I + N / 2 + N % 2, N / 2>::type
-			>;
-		};
-
-		template <typename T, typename Memo, ::std::size_t I>
-		struct memo_find<T, Memo, I, 0, void>{
-			using type = memo_find;
-		};
-
-		template <typename T, typename Memo, ::std::size_t I>
-		struct memo_find<
-			T, Memo, I, 1,
-			::std::enable_if_t<
-				!::std::is_same<T, ::std::tuple_element_t<0, ::bcl::tuple_element_t<I, Memo>>>{}
-			>
-		>
-		{
-			using type = memo_find;
-		};
-
-		template <typename T, typename Memo, ::std::size_t I>
-		struct memo_find<
-			T, Memo, I, 1,
-			::std::enable_if_t<
-				::std::is_same<T, ::std::tuple_element_t<0, ::bcl::tuple_element_t<I, Memo>>>{}
-			>
-		>
-		{
-			using type = memo_find;
-			static constexpr auto value = I;
-		};
 	}
 
 	template <typename Func, typename Arg>
@@ -102,14 +66,16 @@ namespace tlnc{
 		constexpr auto memo_old_size = ::bcl::tuple_size<memo_t>::value;
 		constexpr auto memo_new_size = ::bcl::tuple_size<memo_new_t>::value;
 
-		memo_new_t memo_new = detail::memo_copy<memo_new_t>(memo);
+		memo_new_t memo_new = detail::copy_memo<memo_new_t>(memo);
 
-		detail::memo_update(
+		detail::update_memo(
 			arg,
 			memo_new,
 			::sprout::index_range<memo_old_size, memo_new_size>::make());
 
-		constexpr auto index = detail::memo_find<func_t, memo_new_t, 0, memo_new_size>::type::value;
+		constexpr auto index = expressions::detail::memo_find<
+			func_t, memo_new_t
+		>::type::value;
 
 		return ::std::make_pair(
 			::bcl::get<index>(memo_new).second,

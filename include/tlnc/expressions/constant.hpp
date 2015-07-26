@@ -36,6 +36,12 @@ namespace tlnc{
 				return constant<decltype(Value{} * BCL_DOUBLE_V(0.0))>{};
 			}
 
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				::bcl::get<I>(memo) = operator()(arg);
+			}
+
 			template <typename Arg>
 			using result_type = ::std::result_of_t<constant<Value>(Arg)>;
 

@@ -74,26 +74,28 @@ namespace tlnc::expressions::detail{
 	struct make_memo<Func<Args...>, Memo, Arg>{
 	private:
 		using func = Func<Args...>;
+		using func_pair = ::std::pair<func, ::std::result_of_t<func(Arg)>>;
 
 		struct make_memo_impl{
 			using arg_memo = typename detail::memoize_make_memo_impl<
 				Memo, Arg, ::bcl::tuple<Args...>, 0, sizeof...(Args)
 			>::type;
-			using func_pair = ::std::pair<func, ::std::result_of_t<func(Arg)>>;
-			using type = ::std::conditional_t<
-				::bcl::has_value_v<
-					::bcl::tuple_find_t<func_pair, arg_memo>
-				>,
+			using type = ::bcl::tuple_concat_t<
 				arg_memo,
-				::bcl::tuple_concat_t<
-					arg_memo,
-					::bcl::tuple<func_pair>
-				>
+				::bcl::tuple<func_pair>
 			>;
 		};
 
+		struct dummy{
+			using type = Memo;
+		};
+
 	public:
-		using type = typename make_memo_impl::type;
+		using type = typename ::std::conditional_t<
+			::bcl::has_value_v<::bcl::tuple_find_t<func_pair, Memo>>,
+			dummy,
+			make_memo_impl
+		>::type;
 	};
 }
 

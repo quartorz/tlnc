@@ -1,8 +1,13 @@
 #pragma once
 
+#include <cstdint>
+
+#include <bcl/tuple.hpp>
+
 #include <tlnc/generic.hpp>
 #include <tlnc/expressions/constant.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
+#include <tlnc/expressions/detail/memo_find.hpp>
 #include <tlnc/expressions/pow.hpp>
 
 namespace tlnc{
@@ -23,6 +28,19 @@ namespace tlnc{
 			{
 				return (pow<Expr, decltype(TLNC_C(-1.0))>{} * Expr{}.template derivative<X>()).reduction();
 			}
+
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				constexpr ::std::size_t index = detail::memo_find_t<Expr, Memo>::value;
+				::bcl::get<I>(memo).second = ::tlnc::generic::log{}(::bcl::get<index>(memo).second);
+			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<log<Expr>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 

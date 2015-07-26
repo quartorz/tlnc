@@ -3,6 +3,8 @@
 #include <type_traits>
 #include <cstdint>
 
+#include <bcl/tuple.hpp>
+
 #include <tlnc/traits.hpp>
 #include <tlnc/expressions/constant.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
@@ -37,6 +39,12 @@ namespace tlnc{
 			constexpr auto derivative() const
 			{
 				return TLNC_C(0.0);
+			}
+
+			template <::std::size_t Idx, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				::bcl::get<Idx>(memo).second = arg(I);
 			}
 
 			template <typename Memo, typename Arg>
@@ -76,6 +84,12 @@ namespace tlnc{
 				return TLNC_C(0.0);
 			}
 
+			template <::std::size_t Idx, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				::bcl::get<Idx>(memo).second = arg(I, J);
+			}
+
 			template <typename Memo, typename Arg>
 			using make_memo = typename detail::make_memo<matrix_arg<I, J>, Memo, Arg>;
 
@@ -110,6 +124,12 @@ namespace tlnc{
 			constexpr auto derivative() const
 			{
 				return TLNC_C(0.0);
+			}
+
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				::bcl::get<I>(memo).second = arg;
 			}
 
 			template <typename Memo, typename Arg>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <type_traits>
+#include <cstdint>
 
 #include <sprout/index_tuple.hpp>
 
@@ -13,6 +14,7 @@
 #include <tlnc/expressions/constant.hpp>
 #include <tlnc/expressions/pow.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
+#include <tlnc/expressions/detail/memo_find.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -43,6 +45,22 @@ namespace tlnc{
 			constexpr auto reduction() const
 			{
 				return op_add<Exprs...>{};
+			}
+
+		private:
+			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
+			constexpr void update_memo_impl(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>)
+			{
+				::bcl::get<I>(memo).second = (::bcl::get<Is>(memo).second + ...);
+			}
+
+		public:
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				update_memo_impl<I>(
+					arg, memo,
+					::sprout::index_tuple<detail::memo_find_t<Exprs, Memo>::value...>::make());
 			}
 
 			template <typename Memo, typename Arg>
@@ -104,6 +122,22 @@ namespace tlnc{
 			constexpr auto reduction() const
 			{
 				return op_mul<Exprs...>{};
+			}
+
+		private:
+			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
+			constexpr void update_memo_impl(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>)
+			{
+				::bcl::get<I>(memo).second = (::bcl::get<Is>(memo).second * ...);
+			}
+
+		public:
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo)
+			{
+				update_memo_impl<I>(
+					arg, memo,
+					::sprout::index_tuple<detail::memo_find_t<Exprs, Memo>::value...>::make());
 			}
 
 			template <typename Memo, typename Arg>
