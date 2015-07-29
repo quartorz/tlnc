@@ -42,7 +42,7 @@ namespace tlnc{
 			}
 
 			template <::std::size_t Idx, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo)
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				::bcl::get<Idx>(memo).second = arg(I);
 			}
@@ -85,7 +85,7 @@ namespace tlnc{
 			}
 
 			template <::std::size_t Idx, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo)
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				::bcl::get<Idx>(memo).second = arg(I, J);
 			}
@@ -127,7 +127,7 @@ namespace tlnc{
 			}
 
 			template <::std::size_t I, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo)
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				::bcl::get<I>(memo).second = arg;
 			}

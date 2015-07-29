@@ -37,7 +37,7 @@ namespace tlnc{
 			}
 
 			template <::std::size_t I, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo)
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				::bcl::get<I>(memo).second = operator()(arg);
 			}

@@ -26,7 +26,7 @@
 					return __VA_ARGS__;\
 				}\
 				template <::std::size_t I, typename Arg, typename Memo>\
-				constexpr void update_memo(Arg &&arg, Memo &memo)\
+				constexpr void update_memo(Arg &&arg, Memo &memo) const\
 				{\
 					constexpr ::std::size_t index = detail::memo_find_t<Expr, Memo>::value;\
 					::bcl::get<I>(memo).second = ::tlnc::generic::name{}(::bcl::get<index>(memo).second);\

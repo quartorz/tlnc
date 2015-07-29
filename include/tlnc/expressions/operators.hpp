@@ -23,6 +23,9 @@ namespace tlnc{
 
 		template <typename ... Exprs>
 		struct op_mul;
+
+		template <typename ... Exprs>
+		struct op_comma;
 	}
 }
 
@@ -49,14 +52,14 @@ namespace tlnc{
 
 		private:
 			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
-			constexpr void update_memo_impl(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>)
+			constexpr void update_memo_impl(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>) const
 			{
 				::bcl::get<I>(memo).second = (::bcl::get<Is>(memo).second + ...);
 			}
 
 		public:
 			template <::std::size_t I, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo)
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				update_memo_impl<I>(
 					arg, memo,
@@ -126,14 +129,14 @@ namespace tlnc{
 
 		private:
 			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
-			constexpr void update_memo_impl(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>)
+			constexpr void update_memo_impl(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>) const
 			{
 				::bcl::get<I>(memo).second = (::bcl::get<Is>(memo).second * ...);
 			}
 
 		public:
 			template <::std::size_t I, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo)
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				update_memo_impl<I>(
 					arg, memo,
@@ -145,6 +148,16 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+		};
+
+		template <typename ... Exprs>
+		struct op_comma{
+			template <typename Arg>
+			constexpr auto operator()(Arg &&x) const
+			{
+				using common_t = ::std::common_type_t<decltype(Exprs{}(x))...>;
+
+			}
 		};
 	}
 
@@ -159,11 +172,11 @@ namespace tlnc{
 
 namespace tlnc{
 	namespace expressions{
-		template <typename ... ExprsL, typename ... ExprsR>
+		/*template <typename ... ExprsL, typename ... ExprsR>
 		constexpr auto operator+(op_add<ExprsL...>, op_add<ExprsR...>)
 		{
 			return op_add<ExprsL..., ExprsR...>{};
-		}
+		}*/
 
 		template <
 			typename ... Exprs, typename U,
@@ -195,7 +208,7 @@ namespace tlnc{
 		>
 		constexpr auto operator+(T &&, op_add<Exprs...>)
 		{
-			return op_add<::std::decay_t<T>, Exprs...>{};
+			return op_add<::std::decay_t<T>, op_add<Exprs...>>{};
 		}
 
 		template <
@@ -206,7 +219,7 @@ namespace tlnc{
 		>
 		constexpr auto operator+(T &&, op_add<Exprs...>)
 		{
-			return op_add<constant<::std::decay_t<T>>, Exprs...>{};
+			return op_add<constant<::std::decay_t<T>>, op_add<Exprs...>>{};
 		}
 
 		template <
@@ -251,11 +264,11 @@ namespace tlnc{
 			return x + BCL_DOUBLE_V(-1.0) * y;
 		}
 
-		template <typename ... ExprsL, typename ... ExprsR>
+		/*template <typename ... ExprsL, typename ... ExprsR>
 		constexpr auto operator*(op_mul<ExprsL...>, op_mul<ExprsR...>)
 		{
 			return op_mul<ExprsL..., ExprsR...>{};
-		}
+		}*/
 
 		template <
 			typename ... Exprs, typename U,
@@ -287,7 +300,7 @@ namespace tlnc{
 		>
 		constexpr auto operator*(T &&, op_mul<Exprs...>)
 		{
-			return op_mul<::std::decay_t<T>, Exprs...>{};
+			return op_mul<::std::decay_t<T>, op_mul<Exprs...>>{};
 		}
 
 		template <
@@ -298,7 +311,7 @@ namespace tlnc{
 		>
 		constexpr auto operator*(T &&, op_mul<Exprs...>)
 		{
-			return op_mul<constant<::std::decay_t<T>>, Exprs...>{};
+			return op_mul<constant<::std::decay_t<T>>, op_mul<Exprs...>>{};
 		}
 
 		template <
