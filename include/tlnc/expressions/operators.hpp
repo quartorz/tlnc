@@ -3,6 +3,8 @@
 #include <type_traits>
 #include <cstdint>
 
+#include <boost/numeric/ublas/vector.hpp>
+
 #include <sprout/index_tuple.hpp>
 
 #include <bcl/tuple.hpp>
@@ -26,6 +28,31 @@ namespace tlnc{
 
 		template <typename ... Exprs>
 		struct op_comma;
+
+		namespace detail{
+			template <
+				typename Func,
+				::std::enable_if_t<
+					::tlnc::is_reductive<Func>{}
+				>* = nullptr
+			>
+			constexpr auto reduction()
+			{
+				return ::std::decay_t<Func>{}.reduction();
+			}
+
+			template <
+				typename Func,
+				::std::enable_if_t<
+					!::tlnc::is_reductive<Func>{}
+				>* = nullptr
+			>
+			constexpr auto reduction()
+			{
+				return ::std::decay_t<Func>{};
+			}
+
+		}
 	}
 }
 
@@ -47,7 +74,7 @@ namespace tlnc{
 
 			constexpr auto reduction() const
 			{
-				return op_add<Exprs...>{};
+				return op_add<decltype(detail::reduction<Exprs>())...>{};
 			}
 
 		private:
@@ -124,7 +151,7 @@ namespace tlnc{
 
 			constexpr auto reduction() const
 			{
-				return op_mul<Exprs...>{};
+				return op_mul<decltype(detail::reduction<Exprs>())...>{};
 			}
 
 		private:
@@ -139,7 +166,7 @@ namespace tlnc{
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
 				update_memo_impl<I>(
-					arg, memo,
+					::std::forward<Arg>(arg), memo,
 					::sprout::index_tuple<detail::memo_find_t<Exprs, Memo>::value...>::make());
 			}
 
@@ -157,7 +184,59 @@ namespace tlnc{
 			{
 				using common_t = ::std::common_type_t<decltype(Exprs{}(x))...>;
 
+				::boost::numeric::ublas::vector<common_t> result(sizeof...(Exprs));
+
+				::std::size_t i = 0;
+
+				for(auto &&v : {static_cast<common_t>(Exprs{}(x))...}){
+					result[i] = ::std::move(v);
+				}
+
+				return result;
 			}
+
+			template <typename X>
+			constexpr auto derivative() const
+			{
+				return op_comma<decltype(Exprs{}.derivative())...>{};
+			}
+
+			constexpr auto reduction() const
+			{
+				return op_comma<decltype(detail::reduction<Exprs>())...>{};
+			}
+
+		private:
+			template <
+				::std::size_t I, typename Arg, typename Memo,
+				::sprout::index_t ... Is, ::sprout::index_t ... Js
+			>
+			constexpr void update_memo_impl(
+				Arg &&arg, Memo &memo,
+				::sprout::index_tuple<Is...>, ::sprout::index_tuple<Js...>
+			) const
+			{
+				using common_t = ::std::common_type_t<decltype(Exprs{}(arg))...>;
+				::boost::numeric::ublas::vector<common_t> v(sizeof...(Exprs));
+				((v(Js) = ::bcl::get<Is>(memo).second), ...);
+				::bcl::get<I>(memo).second = ::std::move(v);
+			}
+
+		public:
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
+			{
+				update_memo_impl<I>(
+					::std::forward<Arg>(arg), memo,
+					::sprout::index_tuple<::bcl::tuple_find_t<Exprs, Memo>::value...>::make(),
+					::sprout::index_range<0, sizeof...(Exprs)>::make());
+			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<op_comma<Exprs...>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 
@@ -167,6 +246,22 @@ namespace tlnc{
 
 	template <typename ... Exprs>
 	struct is_expression<expressions::op_mul<Exprs...>> : ::std::true_type{
+	};
+
+	template <typename ... Exprs>
+	struct is_expression<expressions::op_comma<Exprs...>> : ::std::true_type{
+	};
+
+	template <typename ... Exprs>
+	struct is_reductive<expressions::op_add<Exprs...>> : ::std::true_type{
+	};
+
+	template <typename ... Exprs>
+	struct is_reductive<expressions::op_mul<Exprs...>> : ::std::true_type{
+	};
+
+	template <typename ... Exprs>
+	struct is_reductive<expressions::op_comma<Exprs...>> : ::std::true_type{
 	};
 }
 

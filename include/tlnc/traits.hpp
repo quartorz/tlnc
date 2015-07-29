@@ -80,5 +80,9 @@ namespace tlnc{
 	template <typename T>
 	struct is_constant : ::std::false_type{
 	};
+
+	template <typename T>
+	struct is_reductive : ::std::false_type{
+	};
 }
 
