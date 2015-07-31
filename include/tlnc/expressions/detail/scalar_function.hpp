@@ -39,18 +39,22 @@
 		}\
 		namespace functions{\
 			struct name{\
-				template <typename Expr>\
-				constexpr ::std::enable_if_t<\
-					::tlnc::is_expression_v<Expr>,\
-					::tlnc::expressions::name<Expr>\
+				template <\
+					typename Expr,\
+					::std::enable_if_t<\
+						::tlnc::is_expression_v<::std::decay_t<Expr>>\
+					>* = nullptr\
 				>\
+				constexpr auto\
 				operator()(Expr &&) const\
 				{\
-					return {};\
+					return ::tlnc::expressions::name<::std::decay_t<Expr>>{};\
 				}\
 				template <\
 					typename T,\
-					::std::enable_if_t<!::tlnc::is_expression_v<T>>* = nullptr\
+					::std::enable_if_t<\
+						!::tlnc::is_expression_v<::std::decay_t<T>>\
+					>* = nullptr\
 				>\
 				constexpr auto operator()(T &&x) const\
 				{\

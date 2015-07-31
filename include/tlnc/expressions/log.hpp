@@ -49,18 +49,18 @@ namespace tlnc{
 			template <
 				typename T,
 				::std::enable_if_t<
-					::tlnc::is_expression_v<T>
+					::tlnc::is_expression_v<::std::decay_t<T>>
 				>* = nullptr
 			>
 			constexpr auto operator()(T &&) const
 			{
-				return ::tlnc::expressions::log<T>{};
+				return ::tlnc::expressions::log<::std::decay_t<T>>{};
 			}
 
 			template <
 				typename T,
 				::std::enable_if_t<
-					!::tlnc::is_expression_v<T>
+					!::tlnc::is_expression_v<::std::decay_t<T>>
 				>* = nullptr
 			>
 			constexpr auto operator()(T &&x) const

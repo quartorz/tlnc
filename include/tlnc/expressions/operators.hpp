@@ -267,11 +267,11 @@ namespace tlnc{
 
 namespace tlnc{
 	namespace expressions{
-		/*template <typename ... ExprsL, typename ... ExprsR>
+		template <typename ... ExprsL, typename ... ExprsR>
 		constexpr auto operator+(op_add<ExprsL...>, op_add<ExprsR...>)
 		{
-			return op_add<ExprsL..., ExprsR...>{};
-		}*/
+			return op_add<ExprsL..., op_add<ExprsR...>>{};
+		}
 
 		template <
 			typename ... Exprs, typename U,
@@ -359,11 +359,11 @@ namespace tlnc{
 			return x + BCL_DOUBLE_V(-1.0) * y;
 		}
 
-		/*template <typename ... ExprsL, typename ... ExprsR>
+		template <typename ... ExprsL, typename ... ExprsR>
 		constexpr auto operator*(op_mul<ExprsL...>, op_mul<ExprsR...>)
 		{
-			return op_mul<ExprsL..., ExprsR...>{};
-		}*/
+			return op_mul<ExprsL..., op_mul<ExprsR...>>{};
+		}
 
 		template <
 			typename ... Exprs, typename U,
