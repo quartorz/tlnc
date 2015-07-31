@@ -168,20 +168,16 @@ namespace tlnc{
 	struct is_argument<expressions::arg> : ::std::true_type{
 	};
 
-	constexpr auto x()
-	{
-		return expressions::arg{};
-	}
+	template <int ... Is>
+	constexpr auto x = ::std::enable_if_t<
+		sizeof...(Is) == 0,
+		expressions::arg
+	>{};
 
 	template <int I>
-	constexpr auto x()
-	{
-		return expressions::vector_arg<I>{};
-	}
+	constexpr auto x<I> = expressions::vector_arg<I>{};
 
 	template <int I, int J>
-	constexpr auto x()
-	{
-		return expressions::matrix_arg<I, J>{};
-	}
+	constexpr auto x<I, J> = expressions::matrix_arg<I, J>{};
 }
+

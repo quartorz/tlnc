@@ -30,8 +30,8 @@ int main()
 		// g(x) = f'(x)
 		// h(x) = g'(x)
 
-		auto f = tlnc::cos(tlnc::sin(tlnc::x()));
-		auto g = tlnc::derivative(f, tlnc::x());
+		auto f = tlnc::cos(tlnc::sin(tlnc::x<>));
+		auto g = tlnc::derivative(f, tlnc::x<>);
 		auto h = tlnc::derivative(g);
 
 		auto x = boost::numeric::ublas::vector<double>(2);
@@ -57,9 +57,9 @@ int main()
 		// g(x1, x2) = Å›f / Å›x1 = x2 + cos(x1)
 		// h(x1, x2) = Å›f / Å›x2 = x1
 
-		auto f = tlnc::x<0>() * tlnc::x<1>() + tlnc::sin(tlnc::x<0>());
-		auto g = tlnc::derivative(f, tlnc::x<0>());
-		auto h = tlnc::derivative(f, tlnc::x<1>());
+		auto f = tlnc::x<0> * tlnc::x<1> + tlnc::sin(tlnc::x<0>);
+		auto g = tlnc::derivative(f, tlnc::x<0>);
+		auto h = tlnc::derivative(f, tlnc::x<1>);
 
 		auto x = boost::numeric::ublas::vector<double>(2);
 		x(0) = 1.0;
@@ -83,7 +83,7 @@ int main()
 	}
 
 	{
-		auto f = I_(0.0, 1.0) * tlnc::x();
+		auto f = I_(0.0, 1.0) * tlnc::x<>;
 	}
 }
 
