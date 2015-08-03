@@ -34,8 +34,8 @@ int main()
 		// g(x) = f'(x)
 		// h(x) = g'(x)
 
-		auto f = tlnc::cos(tlnc::sin(tlnc::x()));
-		auto g = tlnc::derivative(f, tlnc::x());
+		auto f = tlnc::cos(tlnc::sin(tlnc::x<>));
+		auto g = tlnc::derivative(f, tlnc::x<>);
 		auto h = tlnc::derivative(g);
 		auto fgh = (f, g, h);
 
@@ -58,7 +58,7 @@ int main()
 		std::cout << "type of f : " << typeid(f).name() << std::endl << std::endl;
 		std::cout << "type of g : " << typeid(g).name() << std::endl << std::endl;
 		std::cout << "type of h : " << typeid(h).name() << std::endl << std::endl;
-		std::cout << "type of h' : " << typeid(tlnc::derivative(h, tlnc::x())).name() << std::endl << std::endl;
+		std::cout << "type of h' : " << typeid(tlnc::derivative(h, tlnc::x<>)).name() << std::endl << std::endl;
 		std::cout << "type of (f, g, h) : " << typeid(fgh).name() << std::endl << std::endl;
 	}
 
@@ -67,9 +67,9 @@ int main()
 		// g(x1, x2) = Ýf / Ýx1 = x2 + cos(x1)
 		// h(x1, x2) = Ýf / Ýx2 = x1
 
-		auto f = tlnc::x<0>() * tlnc::x<1>() + tlnc::sin(tlnc::x<0>());
-		auto g = tlnc::derivative(f, tlnc::x<0>());
-		auto h = tlnc::derivative(f, tlnc::x<1>());
+		auto f = tlnc::x<0> * tlnc::x<1> + tlnc::sin(tlnc::x<0>);
+		auto g = tlnc::derivative(f, tlnc::x<0>);
+		auto h = tlnc::derivative(f, tlnc::x<1>);
 		auto fgh = (f, g, h);
 
 		auto x = boost::numeric::ublas::vector<double>(2);
@@ -95,21 +95,21 @@ int main()
 		std::cout << "type of g : " << typeid(g).name() << std::endl << std::endl;
 		std::cout << "type of h : " << typeid(h).name() << std::endl << std::endl;
 		std::cout << "type of (f, g, h) : " << typeid(fgh).name() << std::endl << std::endl;
-		std::cout << "type of (Ýf/Ýx1, Ýg/Ýx1, Ýh/Ýx1) : " << typeid(tlnc::derivative(fgh, tlnc::x<0>())).name() << std::endl << std::endl;
+		std::cout << "type of (Ýf/Ýx1, Ýg/Ýx1, Ýh/Ýx1) : " << typeid(tlnc::derivative(fgh, tlnc::x<0>)).name() << std::endl << std::endl;
 
 		std::cout << (fgh, fgh)(x) << std::endl;
 		std::cout << ((f, g, h), (f, g, h))(x) << std::endl;
 		std::cout << (((f, g, h), (f, g, h)), ((f, g, h), (f, g, h)))(x) << std::endl;
-		std::cout << (fgh, tlnc::derivative(fgh, tlnc::x<0>()))(x) << std::endl;
-		std::cout << tlnc::derivative((((f, g, h), (f, g, h)), ((f, g, h), (f, g, h))), tlnc::x<0>())(x) << std::endl << std::endl;
+		std::cout << (fgh, tlnc::derivative(fgh, tlnc::x<0>))(x) << std::endl;
+		std::cout << tlnc::derivative((((f, g, h), (f, g, h)), ((f, g, h), (f, g, h))), tlnc::x<0>)(x) << std::endl << std::endl;
 	}
 
 	{
 		// x(r, ƒÆ) = r * cosƒÆ
 		// y(r, ƒÆ) = r * sinƒÆ
 
-		auto r = tlnc::x<0>();
-		auto theta = tlnc::x<1>();
+		auto r = tlnc::x<0>(;
+		auto theta = tlnc::x<1>;
 
 		auto x = r * tlnc::cos(theta);
 		auto y = r * tlnc::sin(theta);

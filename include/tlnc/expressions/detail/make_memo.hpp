@@ -5,7 +5,6 @@
 #include <utility>
 
 #include <bcl/tuple.hpp>
-#include <bcl/tuple_operation.hpp>
 #include <bcl/has_xxx.hpp>
 
 namespace tlnc::expressions::detail{

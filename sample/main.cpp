@@ -30,10 +30,10 @@ int main()
 	std::cout << i1 << std::endl;
 	std::cout << i2 << std::endl;
 	std::cout << I_(t{}, 1.0).derivative<int>() << std::endl;
-	std::cout << name(tlnc::sin(tlnc::x())) << std::endl;
-	std::cout << tlnc::sin(tlnc::x())(1.0) << std::endl;
-	std::cout << tlnc::call(tlnc::sin(tlnc::x()), 1.0) << std::endl;
-	std::cout << tlnc::call(tlnc::sin(tlnc::x()), 1.0, bcl::tuple<>{}).first << std::endl;
+	std::cout << name(tlnc::sin(tlnc::x<>)) << std::endl;
+	std::cout << tlnc::sin(tlnc::x<>)(1.0) << std::endl;
+	std::cout << tlnc::call(tlnc::sin(tlnc::x<>), 1.0) << std::endl;
+	std::cout << tlnc::call(tlnc::sin(tlnc::x<>), 1.0, bcl::tuple<>{}).first << std::endl;
 
 	{
 		using namespace tlnc::expressions;
