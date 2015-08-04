@@ -129,6 +129,7 @@ namespace tlnc{
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 
+		// for op_mul::derivative
 		namespace detail{
 			template <typename X, typename Tuple, ::std::size_t I, ::std::size_t N>
 			class op_mul_derivative_impl{
@@ -161,7 +162,10 @@ namespace tlnc{
 					>
 				>;
 			};
+		}
 
+		// fpr op_mul::expand
+		namespace detail{
 			template <typename T>
 			struct op_add_trait{
 				static constexpr bool is_add = false;
@@ -281,6 +285,10 @@ namespace tlnc{
 			public:
 				using type = ::bcl::tuple<typename op_mul_expand_impl_aux<tuple, Mul>::type>;
 			};
+		}
+
+		// for op_mul::
+		namespace detail{
 		}
 
 		template <typename ... Exprs>
