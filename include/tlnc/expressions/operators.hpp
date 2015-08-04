@@ -175,8 +175,31 @@ namespace tlnc{
 
 			template <::std::size_t I, ::std::size_t N>
 			struct op_mul_expand_pair{
-				static constexpr ::std::size_t i = I;
-				static constexpr ::std::size_t j = N;
+			};
+
+			template <::std::size_t I>
+			struct op_mul_expand_single{
+			};
+
+			template <typename T, typename U>
+			struct op_mul_expand_dispatch;
+
+			template <::std::size_t I, ::std::size_t N, typename ... Exprs>
+			class op_mul_expand_dispatch<op_mul_expand_pair<I, N>, op_mul<Exprs...>>{
+				using tuple = ::bcl::tuple<Exprs...>;
+				// expr_add is assumed to be op_add<Exprs...>
+				using expr_add = ::bcl::tuple_element_t<I, tuple>;
+
+			public:
+				using type = ::bcl::tuple_element_t<N, ::bcl::tuple_from_t<expr_add>>;
+			};
+
+			template <::std::size_t I, typename ... Exprs>
+			class op_mul_expand_dispatch<op_mul_expand_single<I>, op_mul<Exprs...>>{
+				using tuple = ::bcl::tuple<Exprs...>;
+
+			public:
+				using type = ::bcl::tuple_element_t<I, tuple>;
 			};
 
 			template <::std::size_t I, typename Index>
@@ -224,7 +247,39 @@ namespace tlnc{
 					!op_add_trait<::bcl::tuple_element_t<I, Tuple>>::is_add
 				>
 			>{
+				using type = ::bcl::tuple<::bcl::tuple<::bcl::tuple<op_mul_expand_single<I>>>>;
+			};
+
+			template <typename Tuple, typename Mul, ::std::size_t I, ::std::size_t N>
+			class op_mul_expand_impl{
+				using left = op_mul_expand_impl<Tuple, Mul, I, N / 2 + N % 2>;
+				using right = op_mul_expand_impl<Tuple, Mul, I + N / 2 + N % 2, N / 2>;
+
+			public:
+				using type = ::bcl::tuple_concat_t<
+					typename left::type, typename right::type
+				>;
+			};
+
+			template <typename Tuple, typename Mul, ::std::size_t I>
+			struct op_mul_expand_impl<Tuple, Mul, I, 0>{
 				using type = ::bcl::tuple<>;
+			};
+
+			template <typename Tuple, typename Mul>
+			struct op_mul_expand_impl_aux;
+
+			template <typename ... Ts, typename Mul>
+			struct op_mul_expand_impl_aux<::bcl::tuple<Ts...>, Mul>{
+				using type = ::tlnc::expressions::op_mul<typename op_mul_expand_dispatch<Ts, Mul>::type...>;
+			};
+
+			template <typename Tuple, typename Mul, ::std::size_t I>
+			class op_mul_expand_impl<Tuple, Mul, I, 1>{
+				using tuple = ::bcl::tuple_element_t<I, Tuple>;
+
+			public:
+				using type = ::bcl::tuple<typename op_mul_expand_impl_aux<tuple, Mul>::type>;
 			};
 		}
 
@@ -274,7 +329,8 @@ namespace tlnc{
 			{
 				using index_of_add = typename detail::op_mul_expand_aux<::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)>::type;
 				using perm_add = ::bcl::tuple_transform_t<::bcl::tuple_cartesian_prod_variadic_t, index_of_add>;
-				return perm_add{};
+				using result = typename detail::op_mul_expand_impl<perm_add, op_mul<Exprs...>, 0, ::bcl::tuple_size<perm_add>::value>::type;
+				return ::bcl::tuple_transform_t<op_add, result>{};
 			}
 
 		private:
