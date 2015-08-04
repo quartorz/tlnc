@@ -110,3 +110,21 @@ namespace tlnc{
 # endif
 #endif
 
+namespace tlnc{
+	template <>
+	struct is_zero<decltype(TLNC_C(0.0)), void> : ::std::true_type{
+	};
+
+	template <>
+	struct is_zero<decltype(TLNC_I(0.0)), void> : ::std::true_type{
+	};
+
+	template <>
+	struct is_one<decltype(TLNC_C(1.0)), void> : ::std::true_type{
+	};
+
+	template <>
+	struct is_one<decltype(TLNC_I(1.0)), void> : ::std::true_type{
+	};
+}
+

@@ -18,5 +18,6 @@ int main()
 
 	std::cout << name<decltype(f)>() << std::endl;
 	std::cout << name<decltype(f.expand())>() << std::endl;
+	std::cout << name<decltype((x<0> + TLNC_C(0.0) * x<0> + TLNC_C(1.0) * x<0>).reduction())>() << std::endl;
 }
 

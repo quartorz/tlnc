@@ -17,6 +17,7 @@
 #include <tlnc/expressions/pow.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
 #include <tlnc/expressions/detail/memo_find.hpp>
+#include <tlnc/expressions/detail/reduction.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -30,30 +31,7 @@ namespace tlnc{
 		struct op_comma;
 
 		namespace detail{
-			BCL_HAS_FUNCTION(reduction)
 			BCL_HAS_FUNCTION(expand)
-
-			template <
-				typename Func,
-				::std::enable_if_t<
-					has_reduction_func<Func>{}
-				>* = nullptr
-			>
-			constexpr auto reduction()
-			{
-				return ::std::decay_t<Func>{}.reduction();
-			}
-
-			template <
-				typename Func,
-				::std::enable_if_t<
-					!has_reduction_func<Func>{}
-				>* = nullptr
-			>
-			constexpr auto reduction()
-			{
-				return ::std::decay_t<Func>{};
-			}
 
 			template <
 				typename Func,
@@ -82,6 +60,47 @@ namespace tlnc{
 
 namespace tlnc{
 	namespace expressions{
+		// for op_add::reduction
+		namespace detail{
+			template <typename Tuple, ::std::size_t I, ::std::size_t N>
+			class op_add_reduction_impl{
+				using left = op_add_reduction_impl<Tuple, I, N / 2 + N % 2>;
+				using right = op_add_reduction_impl<Tuple, I + N / 2 + N % 2, N / 2>;
+
+			public:
+				using type = ::bcl::tuple_concat_t<typename left::type, typename right::type>;
+			};
+
+			template <typename Tuple, ::std::size_t I>
+			struct op_add_reduction_impl<Tuple, I, 0>{
+				using type = ::bcl::tuple<>;
+			};
+
+			template <typename Tuple, ::std::size_t I>
+			class op_add_reduction_impl<Tuple, I, 1>{
+				using element = decltype(reduction<::bcl::tuple_element_t<I, Tuple>>());
+
+			public:
+				using type = ::std::conditional_t<
+					::tlnc::is_zero<element>{},
+					::bcl::tuple<>,
+					::bcl::tuple<element>
+				>;
+			};
+
+			template <typename Tuple>
+			struct op_add_from_tuple;
+
+			template <typename ... Exprs>
+			struct op_add_from_tuple<::bcl::tuple<Exprs...>>{
+				using type = ::std::conditional_t<
+					sizeof...(Exprs) == 0,
+					decltype(TLNC_C(0.0)),
+					::tlnc::expressions::op_add<Exprs...>
+				>;
+			};
+		}
+
 		template <typename ... Exprs>
 		struct op_add{
 			template <typename Arg>
@@ -98,7 +117,11 @@ namespace tlnc{
 
 			constexpr auto reduction() const
 			{
-				return op_add<decltype(detail::reduction<Exprs>())...>{};
+				using tuple = typename detail::op_add_reduction_impl<
+					::bcl::tuple<decltype(detail::reduction<Exprs>())...>,
+					0, sizeof...(Exprs)
+				>::type;
+				return typename detail::op_add_from_tuple<tuple>::type{};
 			}
 
 			constexpr auto expand() const
@@ -159,6 +182,57 @@ namespace tlnc{
 							::bcl::tuple<decltype(expr{}.template derivative<X>())>,
 							others
 						>
+					>
+				>;
+			};
+		}
+
+		// for op_mul::reduction
+		namespace detail{
+			// op_mul_reduction_impl<Tuple, ...>::value == 0 : Tuple may not contain zero
+			// op_mul_reduction_impl<Tuple, ...>::value == 1 : Tuple contains zero
+
+			template <int, typename, typename>
+			struct op_mul_reduction_aux{
+				using type = decltype(TLNC_C(0.0));
+			};
+
+			template <typename L, typename R>
+			struct op_mul_reduction_aux<0, L, R>{
+				using type = ::bcl::tuple_concat_t<typename L::type, typename R::type>;
+			};
+
+			template <typename Tuple, ::std::size_t I, ::std::size_t N>
+			class op_mul_reduction_impl{
+				using left = op_mul_reduction_impl<Tuple, I, N / 2 + N % 2>;
+				using right = op_mul_reduction_impl<Tuple, I + N / 2 + N % 2, N / 2>;
+
+			public:
+				static constexpr int value = (left::value == 1 || right::value == 1) ? 1 : 0;
+
+				using type = typename op_mul_reduction_aux<value, left, right>::type;
+			};
+
+			template <typename Tuple, ::std::size_t I>
+			struct op_mul_reduction_impl<Tuple, I, 0>{
+				using type = decltype(TLNC_C(0.0));
+				static constexpr int value = 0;
+			};
+
+			template <typename Tuple, ::std::size_t I>
+			class op_mul_reduction_impl<Tuple, I, 1>{
+				using element = decltype(reduction<::bcl::tuple_element_t<I, Tuple>>());
+
+			public:
+				static constexpr int value = ::tlnc::is_zero<element>{} ? 1 : 0;
+
+				using type = ::std::conditional_t<
+					value == 1,
+					decltype(TLNC_C(0.0)),
+					::std::conditional_t<
+						::tlnc::is_one<element>{},
+						::bcl::tuple<>,
+						::bcl::tuple<element>
 					>
 				>;
 			};
@@ -325,12 +399,9 @@ namespace tlnc{
 		public:
 			constexpr auto reduction()
 			{
-				using exprs = ::bcl::tuple<decltype(detail::reduction<Exprs>())...>;
-				return reduction_impl<decltype(detail::reduction<Exprs>())...>(
-					::std::integral_constant<
-						bool,
-						sizeof...(Exprs) == 0 || ::bcl::has_value_v<::bcl::tuple_find_t<decltype(TLNC_C(0.0)), exprs>>
-					>{});
+				return typename detail::op_mul_reduction_impl<
+					::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
+				>::type{};
 			}
 
 			constexpr auto expand()

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <tlnc/expressions/detail/scalar_function.hpp>
+#include <tlnc/expressions/detail/reduction.hpp>
 #include <tlnc/expressions/sin.hpp>
 
 namespace tlnc{
@@ -10,5 +11,5 @@ namespace tlnc{
 	}
 }
 
-TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>{}).reduction() * Expr{}.template derivative<X>()).reduction())
+TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>{}).reduction() * detail::reduction<decltype(Expr{}.template derivative<X>())>()).reduction())
 
