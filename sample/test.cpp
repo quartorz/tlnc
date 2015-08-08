@@ -21,6 +21,12 @@
 
 #include <cxxabi.h>
 
+template <typename T>
+const char *name(T)
+{
+	return abi::__cxa_demangle(typeid(T).name(), 0, 0, 0);
+}
+
 int main()
 {
 	using interval_t = kv::interval<double>;
@@ -47,9 +53,9 @@ int main()
 		std::cout << "h(1.0) = " << h(1.0) << std::endl;
 		std::cout << "h([1.0, 2.0]) = " << h(interval_t(1.0, 2.0)) << std::endl;
 
-		std::cout << "type of f : " << typeid(f).name() << std::endl << std::endl;
-		std::cout << "type of g : " << typeid(g).name() << std::endl << std::endl;
-		std::cout << "type of h : " << typeid(h).name() << std::endl << std::endl;
+		std::cout << "type of f : " << name(f) << std::endl << std::endl;
+		std::cout << "type of g : " << name(g) << std::endl << std::endl;
+		std::cout << "type of h : " << name(h.reduction()) << std::endl << std::endl;
 	}
 
 	{

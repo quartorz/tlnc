@@ -160,6 +160,10 @@ namespace tlnc{
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 
+		template <typename ... Exprs1, typename ... Exprs2>
+		struct op_add<op_add<Exprs1...>, Exprs2...> : op_add<Exprs1..., Exprs2...>{
+		};
+
 		// for op_mul::derivative
 		namespace detail{
 			template <typename X, typename Tuple, ::std::size_t I, ::std::size_t N>
@@ -262,7 +266,7 @@ namespace tlnc{
 
 			template <typename T, typename U, typename ... Ts>
 			struct op_mul_reduction_from_tuple<::bcl::tuple<T, U, Ts...>>{
-				using type = ::bcl::tuple<T, U, Ts...>;
+				using type = ::tlnc::expressions::op_mul<T, U, Ts...>;
 			};
 		}
 
@@ -449,6 +453,10 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+		};
+
+		template <typename ... Exprs1, typename ... Exprs2>
+		struct op_mul<op_mul<Exprs1...>, Exprs2...> : op_mul<Exprs1..., Exprs2...>{
 		};
 
 		template <typename ... Exprs>
