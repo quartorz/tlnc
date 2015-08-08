@@ -107,15 +107,6 @@ namespace tlnc{
 			struct op_add_from_tuple<::bcl::tuple<T, U, Ts...>>{
 				using type = ::tlnc::expressions::op_add<T, U, Ts...>;
 			};
-
-// 			template <typename ... Exprs>
-// 			struct op_add_from_tuple<::bcl::tuple<Exprs...>>{
-// 				using type = ::std::conditional_t<
-// 					sizeof...(Exprs) == 0,
-// 					decltype(TLNC_C(0.0)),
-// 					::tlnc::expressions::op_add<Exprs...>
-// 				>;
-// 			};
 		}
 
 		template <typename ... Exprs>
@@ -427,12 +418,6 @@ namespace tlnc{
 						::bcl::tuple<decltype(detail::reduction<Exprs>())...>, 0, sizeof...(Exprs)
 					>::type
 				>::type{};
-				/*return ::bcl::tuple_transform_t<
-					::tlnc::expressions::op_mul,
-					typename detail::op_mul_reduction_impl<
-						::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
-					>::type
-				>{};*/
 			}
 
 			constexpr auto expand()
