@@ -11,5 +11,5 @@ namespace tlnc{
 	}
 }
 
-TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>{}).reduction() * detail::reduction<decltype(Expr{}.template derivative<X>())>()).reduction())
+TLNC_SCALAR_FUNCTION(cos, ((-sin<Expr>{}) * Expr{}.template derivative<X>()).reduction())
 

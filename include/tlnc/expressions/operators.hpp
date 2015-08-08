@@ -88,17 +88,34 @@ namespace tlnc{
 				>;
 			};
 
-			template <typename Tuple>
-			struct op_add_from_tuple;
-
-			template <typename ... Exprs>
-			struct op_add_from_tuple<::bcl::tuple<Exprs...>>{
-				using type = ::std::conditional_t<
-					sizeof...(Exprs) == 0,
-					decltype(TLNC_C(0.0)),
-					::tlnc::expressions::op_add<Exprs...>
-				>;
+			template <typename T>
+			struct op_add_from_tuple{
+				using type = T;
 			};
+
+			template <>
+			struct op_add_from_tuple<::bcl::tuple<>>{
+				using type = decltype(TLNC_C(0.0));
+			};
+
+			template <typename T>
+			struct op_add_from_tuple<::bcl::tuple<T>>{
+				using type = T;
+			};
+
+			template <typename T, typename U, typename ... Ts>
+			struct op_add_from_tuple<::bcl::tuple<T, U, Ts...>>{
+				using type = ::tlnc::expressions::op_add<T, U, Ts...>;
+			};
+
+// 			template <typename ... Exprs>
+// 			struct op_add_from_tuple<::bcl::tuple<Exprs...>>{
+// 				using type = ::std::conditional_t<
+// 					sizeof...(Exprs) == 0,
+// 					decltype(TLNC_C(0.0)),
+// 					::tlnc::expressions::op_add<Exprs...>
+// 				>;
+// 			};
 		}
 
 		template <typename ... Exprs>
@@ -112,7 +129,7 @@ namespace tlnc{
 			template <typename X>
 			constexpr auto derivative() const
 			{
-				return op_add<decltype(Exprs{}.template derivative<X>())...>{};
+				return op_add<decltype(Exprs{}.template derivative<X>())...>{}.reduction();
 			}
 
 			constexpr auto reduction() const
@@ -235,6 +252,26 @@ namespace tlnc{
 						::bcl::tuple<element>
 					>
 				>;
+			};
+
+			template <typename T>
+			struct op_mul_reduction_from_tuple{
+				using type = T;
+			};
+
+			template <>
+			struct op_mul_reduction_from_tuple<::bcl::tuple<>>{
+				using type = decltype(TLNC_C(0.0));
+			};
+
+			template <typename T>
+			struct op_mul_reduction_from_tuple<::bcl::tuple<T>>{
+				using type = T;
+			};
+
+			template <typename T, typename U, typename ... Ts>
+			struct op_mul_reduction_from_tuple<::bcl::tuple<T, U, Ts...>>{
+				using type = ::bcl::tuple<T, U, Ts...>;
 			};
 		}
 
@@ -380,28 +417,22 @@ namespace tlnc{
 					X, ::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
 				>::type;
 				using result = ::bcl::tuple_transform_t<op_add, tuple>;
-				return result{};
+				return detail::reduction<result>();
 			}
 
-		private:
-			template <typename ... Ts>
-			constexpr auto reduction_impl(::std::true_type)
-			{
-				return TLNC_C(0.0);
-			}
-
-			template <typename ... Ts>
-			constexpr auto reduction_impl(::std::false_type)
-			{
-				return op_mul<Ts...>{};
-			}
-
-		public:
 			constexpr auto reduction()
 			{
-				return typename detail::op_mul_reduction_impl<
-					::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
+				return typename detail::op_mul_reduction_from_tuple<
+					typename detail::op_mul_reduction_impl<
+						::bcl::tuple<decltype(detail::reduction<Exprs>())...>, 0, sizeof...(Exprs)
+					>::type
 				>::type{};
+				/*return ::bcl::tuple_transform_t<
+					::tlnc::expressions::op_mul,
+					typename detail::op_mul_reduction_impl<
+						::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
+					>::type
+				>{};*/
 			}
 
 			constexpr auto expand()
@@ -568,11 +599,26 @@ namespace tlnc{
 			::std::enable_if_t<
 				::tlnc::is_expression_v<::std::decay_t<T>>
 				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+				&& (!::tlnc::is_constant<::std::decay_t<T>>{} || !::tlnc::is_constant<::std::decay_t<U>>{})
 			>* = nullptr
 		>
 		constexpr auto operator+(T &&, U &&)
 		{
 			return op_add<::std::decay_t<T>, ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+				&& (::tlnc::is_constant<::std::decay_t<T>>{} && ::tlnc::is_constant<::std::decay_t<U>>{})
+			>* = nullptr
+		>
+		constexpr auto operator+(T &&, U &&)
+		{
+			using type = decltype(::std::decay_t<T>::value() + ::std::decay_t<U>::value());
+			return constant<::std::decay_t<type>>{};
 		}
 
 		template <
@@ -660,11 +706,26 @@ namespace tlnc{
 			::std::enable_if_t<
 				::tlnc::is_expression_v<::std::decay_t<T>>
 				&& ::tlnc::is_expression_v<::std::decay_t<T>>
+				&& (!::tlnc::is_constant<::std::decay_t<T>>{} || !::tlnc::is_constant<::std::decay_t<U>>{})
 			>* = nullptr
 		>
 		constexpr auto operator*(T &&, U &&)
 		{
 			return op_mul<::std::decay_t<T>, ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename T, typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_expression_v<::std::decay_t<T>>
+				&& (::tlnc::is_constant<::std::decay_t<T>>{} && ::tlnc::is_constant<::std::decay_t<U>>{})
+			>* = nullptr
+		>
+		constexpr auto operator*(T &&, U &&)
+		{
+			using type = decltype(::std::decay_t<T>::value() * ::std::decay_t<U>::value());
+			return constant<::std::decay_t<type>>{};
 		}
 
 		template <

@@ -19,6 +19,13 @@ namespace tlnc{
 		struct constant{
 			//static constexpr auto value = Value::value;
 
+			using value_type = Value;
+
+			static constexpr auto value()
+			{
+				return Value{};
+			}
+
 			constexpr operator Value() const
 			{
 				return Value{};
