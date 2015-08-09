@@ -183,17 +183,16 @@ namespace tlnc{
 			template <typename X, typename ... Exprs, ::std::size_t I>
 			class op_mul_derivative_impl<X, ::bcl::tuple<Exprs...>, I, 1>{
 				using tuple = ::bcl::tuple<Exprs...>;
-				using expr = ::bcl::tuple_element_t<I, tuple>;
-				using others = ::bcl::tuple_remove_t<::bcl::value_tuple<::std::size_t, I>, tuple>;
+// 				using expr = ::bcl::tuple_element_t<I, tuple>;
+// 				using others = ::bcl::tuple_remove_t<::bcl::value_tuple<::std::size_t, I>, tuple>;
+				using derivative = decltype(::bcl::tuple_element_t<I, tuple>{}.template derivative<X>());
+				using replaced = ::bcl::tuple_replace_t<I, derivative, tuple>;
 
 			public:
 				using type = ::bcl::tuple<
 					::bcl::tuple_transform_t<
 						::tlnc::expressions::op_mul,
-						::bcl::tuple_concat_t<
-							::bcl::tuple<decltype(expr{}.template derivative<X>())>,
-							others
-						>
+						replaced
 					>
 				>;
 			};
@@ -520,6 +519,56 @@ namespace tlnc{
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
+
+		template <typename ... Commas>
+		struct op_nested_comma{
+			static constexpr auto column_size = ::bcl::tuple_size<
+				::bcl::tuple_from_t<::bcl::tuple_element_t<0, ::bcl::tuple<Commas...>>>
+			>::value;
+
+			static_assert((... && (column_size == ::bcl::tuple_size<::bcl::tuple_from_t<Commas>>::value)));
+
+			template <typename Arg>
+			using result_value_type = ::std::common_type_t<
+				typename decltype(Commas{}(::std::declval<Arg>()))::value_type...
+			>;
+
+			template <typename X>
+			constexpr auto derivative() const
+			{
+				return op_nested_comma<decltype(Commas{}.template derivative<X>())...>{};
+			}
+
+		private:
+			template <::sprout::index_t I, typename T, typename Arg, ::sprout::index_t ... Is>
+			constexpr void operator_call_impl2(T &result, Arg &&arg, ::sprout::index_tuple<Is...>) const
+			{
+				using func_tuple = ::bcl::tuple_from_t<::bcl::tuple_element_t<I, ::bcl::tuple<Commas...>>>;
+				func_tuple funcs;
+				(..., (result(I, Is) = ::bcl::get<Is>(funcs)(arg)));
+			}
+
+			template <typename T, typename Arg, ::sprout::index_t ... Is>
+			constexpr void operator_call_impl1(T &result, Arg &&arg, ::sprout::index_tuple<Is...>) const
+			{
+				(..., operator_call_impl2<Is>(result, arg, ::sprout::make_index_tuple<column_size>::make()));
+			}
+
+		public:
+			template <typename Arg>
+			constexpr auto operator()(Arg &&arg) const
+			{
+				::boost::numeric::ublas::matrix<result_value_type<Arg>> result(sizeof...(Commas), column_size);
+
+				operator_call_impl1(
+					result, ::std::forward<Arg>(arg),
+					::sprout::make_index_tuple<sizeof...(Commas)>::make());
+
+				return result;
+			}
+
+
+		};
 	}
 
 	template <typename ... Exprs>
@@ -755,6 +804,81 @@ namespace tlnc{
 		constexpr auto operator-(T &&x)
 		{
 			return TLNC_C(-1.0) * x;
+		}
+
+		template <
+			typename ... Exprs,
+			typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator,(op_comma<Exprs...>, U &&)
+		{
+			return op_comma<Exprs..., ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename ... Exprs,
+			typename U,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<U>>{}
+			>* = nullptr
+		>
+		constexpr auto operator,(op_comma<Exprs...>, U &&)
+		{
+			return op_comma<Exprs..., constant<::std::decay_t<U>>>{};
+		}
+
+		template <
+			typename T,
+			typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator,(T &&, U &&)
+		{
+			return op_comma<::std::decay_t<T>, ::std::decay_t<U>>{};
+		}
+
+		template <
+			typename T,
+			typename U,
+			::std::enable_if_t<
+				::tlnc::is_expression_v<::std::decay_t<T>>
+				&& ::tlnc::is_value<::std::decay_t<U>>{}
+			>* = nullptr
+		>
+		constexpr auto operator,(T &&, U &&)
+		{
+			return op_comma<::std::decay_t<T>, constant<::std::decay_t<U>>>{};
+		}
+
+		template <
+			typename T,
+			typename U,
+			::std::enable_if_t<
+				::tlnc::is_value<::std::decay_t<T>>{}
+				&& ::tlnc::is_expression_v<::std::decay_t<U>>
+			>* = nullptr
+		>
+		constexpr auto operator,(T &&, U &&)
+		{
+			return op_comma<constant<::std::decay_t<T>>, ::std::decay_t<U>>{};
+		}
+
+		template <typename ... Exprs1, typename ... Exprs2>
+		constexpr auto operator,(op_comma<Exprs1...>, op_comma<Exprs2...>)
+		{
+			return op_nested_comma<op_comma<Exprs1...>, op_comma<Exprs2...>>{};
+		}
+
+		template <typename ... Exprs1, typename ... Exprs2>
+		constexpr auto operator,(op_nested_comma<Exprs1...>, op_comma<Exprs2...>)
+		{
+			return op_nested_comma<Exprs1..., op_comma<Exprs2...>>{};
 		}
 	}
 }

@@ -89,7 +89,10 @@ int main()
 	}
 
 	{
-		auto f = I_(0.0, 1.0) * tlnc::x<>;
+		auto f = C_(1.0) * tlnc::x<>;
+		auto g = ((f, f), (f, f), (f, f));
+		std::cout << name(g) << std::endl;
+		std::cout << g(10) << std::endl;
 	}
 }
 
