@@ -499,7 +499,7 @@ namespace tlnc{
 			{
 				using common_t = ::std::common_type_t<decltype(Exprs{}(arg))...>;
 				::boost::numeric::ublas::vector<common_t> v(sizeof...(Exprs));
-				((v(Js) = ::bcl::get<Is>(memo).second), ...);
+				(..., (v(Js) = ::bcl::get<Is>(memo).second));
 				::bcl::get<I>(memo).second = ::std::move(v);
 			}
 
@@ -509,8 +509,8 @@ namespace tlnc{
 			{
 				update_memo_impl<I>(
 					::std::forward<Arg>(arg), memo,
-					::sprout::index_tuple<::bcl::tuple_find_t<Exprs, Memo>::value...>::make(),
-					::sprout::index_range<0, sizeof...(Exprs)>::make());
+					::sprout::index_tuple<detail::memo_find_t<Exprs, Memo>::value...>::make(),
+					::sprout::make_index_tuple<sizeof...(Exprs)>::make());
 			}
 
 			template <typename Memo, typename Arg>
@@ -567,7 +567,43 @@ namespace tlnc{
 				return result;
 			}
 
+			constexpr auto reduction() const
+			{
+				return op_nested_comma<decltype(Commas{}.reduction())...>{};
+			}
 
+		private:
+			template <
+				::sprout::index_t I,
+				typename T, typename Memo, ::sprout::index_t ... Js
+			>
+			constexpr void update_memo_impl2(T &result, Memo &memo, ::sprout::index_tuple<Js...>) const
+			{
+				using op_comma = ::bcl::tuple_element_t<I, ::bcl::tuple<Commas...>>;
+				const auto &v = ::bcl::get<detail::memo_find_t<op_comma, Memo>::value>(memo).second;
+				(..., (result(I, Js) = static_cast<typename T::value_type>(v(Js))));
+			}
+
+			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
+			constexpr void update_memo_impl1(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>) const
+			{
+				::boost::numeric::ublas::matrix<result_value_type<Arg>> result(sizeof...(Commas), column_size);
+				(..., update_memo_impl2<Is>(result, memo, ::sprout::make_index_tuple<column_size>::make()));
+				::bcl::get<I>(memo).second = ::std::move(result);
+			}
+
+		public:
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
+			{
+				update_memo_impl1<I>(arg, memo, ::sprout::make_index_tuple<sizeof...(Commas)>::make());
+			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<op_nested_comma<Commas...>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
 		};
 	}
 

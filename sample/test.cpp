@@ -91,8 +91,14 @@ int main()
 	{
 		auto f = C_(1.0) * tlnc::x<>;
 		auto g = ((f, f), (f, f), (f, f));
+
 		std::cout << name(g) << std::endl;
-		std::cout << g(10) << std::endl;
+		std::cout << g(10.0) << std::endl;
+
+		auto r = tlnc::call(g, 10.0, tlnc::memo());
+
+		std::cout << r.first << std::endl;
+		std::cout << name(r.second) << std::endl;
 	}
 }
 
