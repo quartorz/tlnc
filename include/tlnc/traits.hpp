@@ -82,11 +82,10 @@ namespace tlnc{
 	};
 
 	template <typename T, typename = void>
-	struct is_zero : ::std::false_type{
-	};
-
-	template <typename T, typename = void>
-	struct is_one : ::std::false_type{
+	struct constant_traits{
+		static constexpr bool is_constant = false;
+		static constexpr is_zero = false;
+		static constexpr is_one = false;
 	};
 }
 

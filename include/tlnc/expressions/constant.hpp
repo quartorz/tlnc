@@ -118,24 +118,34 @@ namespace tlnc{
 #endif
 
 namespace tlnc{
-	template <>
-	struct is_zero<decltype(TLNC_C(0.0)), void> : ::std::true_type{
+	template <typename T>
+	struct constant_traits<
+		expressions::constant<T>,
+		::std::enable_if_t<::bcl::is_encoded_double_v<T>>
+	>{
+		static constexpr bool is_constant = true;
+		static constexpr bool is_zero = (T::value == 0.0);
+		static constexpr bool is_one = (T::value == 1.0);
+
+		using zero_type = decltype(TLNC_C(0.0));
+		using one_type = decltype(TLNC_C(1.0));
 	};
 
-	template <>
-	struct is_zero<decltype(TLNC_C(-0.0)), void> : ::std::true_type{
-	};
+	template <typename T>
+	struct constant_traits<
+		expressions::constant<T>,
+		::std::enable_if_t<::cti::is_interval_v<T>>
+	>{
+		static constexpr bool is_constant = true;
+		static constexpr bool is_zero =
+			(T{}.lower() == static_cast<typename T::value_type>(0.0))
+			&& (T{}.upper() == static_cast<typename T::value_type>(0.0));
+		static constexpr bool is_one =
+			(T{}.lower() == static_cast<typename T::value_type>(1.0))
+			&& (T{}.upper() == static_cast<typename T::value_type>(1.0));
 
-	template <>
-	struct is_zero<decltype(TLNC_I(0.0)), void> : ::std::true_type{
-	};
-
-	template <>
-	struct is_one<decltype(TLNC_C(1.0)), void> : ::std::true_type{
-	};
-
-	template <>
-	struct is_one<decltype(TLNC_I(1.0)), void> : ::std::true_type{
+		using zero_type = ::cti::interval<BCL_DOUBLE_T(0.0), BCL_DOUBLE_T(0.0)>;
+		using one_type = ::cti::interval<BCL_DOUBLE_T(1.0), BCL_DOUBLE_T(1.0)>;
 	};
 }
 

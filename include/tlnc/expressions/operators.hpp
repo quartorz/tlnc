@@ -82,7 +82,7 @@ namespace tlnc{
 
 			public:
 				using type = ::std::conditional_t<
-					::tlnc::is_zero<element>{},
+					::tlnc::constant_traits<element>::is_zero,
 					::bcl::tuple<>,
 					::bcl::tuple<element>
 				>;
@@ -235,13 +235,13 @@ namespace tlnc{
 				using element = decltype(reduction<::bcl::tuple_element_t<I, Tuple>>());
 
 			public:
-				static constexpr int value = ::tlnc::is_zero<element>{} ? 1 : 0;
+				static constexpr int value = ::tlnc::constant_traits<element>::is_zero ? 1 : 0;
 
 				using type = ::std::conditional_t<
 					value == 1,
 					decltype(TLNC_C(0.0)),
 					::std::conditional_t<
-						::tlnc::is_one<element>{},
+						::tlnc::constant_traits<element>::is_one,
 						::bcl::tuple<>,
 						::bcl::tuple<element>
 					>
