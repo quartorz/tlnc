@@ -18,7 +18,23 @@ namespace tlnc{
 			((::bcl::get<Is>(memo).first.template update_memo<Is>(arg, memo)), ...);
 		}
 
-		template <typename MemoOld, typename MemoNew, ::sprout::index_t ... Is>
+		template <
+			typename MemoOld, typename MemoNew, ::sprout::index_t ... Is,
+			::std::enable_if_t<
+				::std::is_rvalue_reference<MemoOld>{}
+			>* = nullptr
+		>
+		constexpr void copy_memo_impl(MemoOld &&m1, MemoNew &m2, ::sprout::index_tuple<Is...>)
+		{
+			((::bcl::get<Is>(m2) = ::std::move(::bcl::get<Is>(m1))), ...);
+		}
+
+		template <
+			typename MemoOld, typename MemoNew, ::sprout::index_t ... Is,
+			::std::enable_if_t<
+				!::std::is_rvalue_reference<MemoOld>{}
+			>* = nullptr
+		>
 		constexpr void copy_memo_impl(MemoOld &&m1, MemoNew &m2, ::sprout::index_tuple<Is...>)
 		{
 			((::bcl::get<Is>(m2) = ::bcl::get<Is>(m1)), ...);
@@ -27,19 +43,18 @@ namespace tlnc{
 		template <
 			typename MemoNew, typename MemoOld,
 			::std::enable_if_t<
-				::std::is_same<MemoOld, MemoNew>{}
+				::std::is_same<::std::decay_t<MemoOld>, ::std::decay_t<MemoNew>>{}
 			>* = nullptr
 		>
 		constexpr auto copy_memo(MemoOld &&m1)
 		{
-			MemoNew m2 = m1;
-			return m2;
+			return MemoNew(m1);
 		}
 
 		template <
 			typename MemoNew, typename MemoOld,
 			::std::enable_if_t<
-				!::std::is_same<MemoOld, MemoNew>{}
+				!::std::is_same<::std::decay_t<MemoOld>, ::std::decay_t<MemoNew>>{}
 			>* = nullptr
 		>
 		constexpr auto copy_memo(MemoOld &&m1)
