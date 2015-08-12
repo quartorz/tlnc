@@ -102,7 +102,12 @@ int main()
 		auto r = tlnc::call(h, 10.0, tlnc::memo());
 
 		std::cout << r.first << std::endl;
-		std::cout << name(r.second) << std::endl;
+		std::cout << name(r.second) << std::endl << std::endl;
+
+		auto r2 = tlnc::call(h, interval_t(9.0, 11.0), tlnc::memo());
+
+		std::cout << r2.first << std::endl;
+		std::cout << name(r2.second) << std::endl;
 	}
 }
 
