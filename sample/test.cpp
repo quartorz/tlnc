@@ -55,7 +55,8 @@ int main()
 
 		std::cout << "type of f : " << name(f) << std::endl << std::endl;
 		std::cout << "type of g : " << name(g) << std::endl << std::endl;
-		std::cout << "type of h : " << name(h.reduction()) << std::endl << std::endl;
+		std::cout << "type of h : " << name(h) << std::endl << std::endl;
+		std::cout << name(h.reduction()) << std::endl << std::endl;
 	}
 
 	{
@@ -83,19 +84,22 @@ int main()
 		std::cout << "g(1.0, 2.0) = " << g(x) << std::endl;
 		std::cout << "h(1.0, 2.0) = " << h(x) << std::endl;
 		std::cout << "g([1.0, 2.0], [3.0, 4.0]) = " << g(y) << std::endl;
-		std::cout << "type of f : " << typeid(f).name() << std::endl << std::endl;
-		std::cout << "type of g : " << abi::__cxa_demangle(typeid(g).name(), 0, 0, nullptr) << std::endl << std::endl;
-		std::cout << "type of h : " << typeid(h).name() << std::endl << std::endl;
+		std::cout << "type of f : " << name(f) << std::endl << std::endl;
+		std::cout << "type of g : " << name(g) << std::endl << std::endl;
+		std::cout << "type of h : " << name(h) << std::endl << std::endl;
 	}
 
 	{
-		auto f = C_(1.0) * tlnc::x<>;
-		auto g = ((f, f), (f, f), (f, f));
+		using tlnc::x;
 
-		std::cout << name(g) << std::endl;
-		std::cout << g(10.0) << std::endl;
+		auto f = C_(2.0) * x<>;
+		auto g = x<> * x<>;
+		auto h = ((f, g), (f, g), (f, g));
 
-		auto r = tlnc::call(g, 10.0, tlnc::memo());
+		std::cout << name(h) << std::endl;
+		std::cout << h(10.0) << std::endl;
+
+		auto r = tlnc::call(h, 10.0, tlnc::memo());
 
 		std::cout << r.first << std::endl;
 		std::cout << name(r.second) << std::endl;

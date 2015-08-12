@@ -84,8 +84,8 @@ namespace tlnc{
 	template <typename T, typename = void>
 	struct constant_traits{
 		static constexpr bool is_constant = false;
-		static constexpr is_zero = false;
-		static constexpr is_one = false;
+		static constexpr bool is_zero = false;
+		static constexpr bool is_one = false;
 	};
 }
 

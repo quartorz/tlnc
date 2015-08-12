@@ -1,0 +1,34 @@
+f(x) = cos(sin(x))
+g(x) = f'(x)
+h(x) = g'(x)
+
+f(1.0) = 0.666367
+g(1.0) = -0.402862
+h(1.0) = 0.432891
+h([1.0, 2.0]) = [0.43289,0.991301]
+type of f : tlnc::expressions::cos<tlnc::expressions::sin<tlnc::expressions::arg> >
+
+type of g : tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::sin<tlnc::expressions::sin<tlnc::expressions::arg> >, tlnc::expressions::cos<tlnc::expressions::arg> >
+
+type of h : tlnc::expressions::op_add<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::op_mul<tlnc::expressions::cos<tlnc::expressions::sin<tlnc::expressions::arg> >, tlnc::expressions::cos<tlnc::expressions::arg> >, tlnc::expressions::cos<tlnc::expressions::arg> >, tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::sin<tlnc::expressions::sin<tlnc::expressions::arg> >, tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::sin<tlnc::expressions::arg> > > >
+
+tlnc::expressions::op_add<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::op_mul<tlnc::expressions::cos<tlnc::expressions::sin<tlnc::expressions::arg> >, tlnc::expressions::cos<tlnc::expressions::arg> >, tlnc::expressions::cos<tlnc::expressions::arg> >, tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::sin<tlnc::expressions::sin<tlnc::expressions::arg> >, tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<true, 9007199254740992ull, -53> >, tlnc::expressions::sin<tlnc::expressions::arg> > > >
+
+f(x1, x2) = x1 * x2 + sin(x1)
+g(x1, x2) = x2 + cos(x1)
+h(x1, x2) = x1
+
+f(1.0, 2.0) = 2.84147
+g(1.0, 2.0) = 2.5403
+h(1.0, 2.0) = 1
+g([1.0, 2.0], [3.0, 4.0]) = [2.58385,4.54031]
+type of f : tlnc::expressions::op_add<tlnc::expressions::op_mul<tlnc::expressions::vector_arg<0ull>, tlnc::expressions::vector_arg<1ull> >, tlnc::expressions::sin<tlnc::expressions::vector_arg<0ull> > >
+
+type of g : tlnc::expressions::op_add<tlnc::expressions::vector_arg<1ull>, tlnc::expressions::cos<tlnc::expressions::vector_arg<0ull> > >
+
+type of h : tlnc::expressions::vector_arg<0ull>
+
+tlnc::expressions::op_nested_comma<tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> >, tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> >, tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> > >
+[3,2]((20,100),(20,100),(20,100))
+[3,2]((20,100),(20,100),(20,100))
+bcl::tuple<std::pair<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, double>, std::pair<tlnc::expressions::arg, double>, std::pair<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, double>, std::pair<tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg>, double>, std::pair<tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> >, boost::numeric::ublas::vector<double, boost::numeric::ublas::unbounded_array<double, std::allocator<double> > > >, std::pair<tlnc::expressions::op_nested_comma<tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> >, tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> >, tlnc::expressions::op_comma<tlnc::expressions::op_mul<tlnc::expressions::constant<bcl::detail::double_<false, 9007199254740992ull, -52> >, tlnc::expressions::arg>, tlnc::expressions::op_mul<tlnc::expressions::arg, tlnc::expressions::arg> > >, boost::numeric::ublas::matrix<double, boost::numeric::ublas::basic_row_major<unsigned long long, long long>, boost::numeric::ublas::unbounded_array<double, std::allocator<double> > > > >
