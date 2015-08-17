@@ -15,6 +15,8 @@
 #include <tlnc/traits.hpp>
 #include <tlnc/expressions/constant.hpp>
 #include <tlnc/expressions/pow.hpp>
+#include <tlnc/expressions/vector.hpp>
+#include <tlnc/expressions/matrix.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
 #include <tlnc/expressions/detail/memo_find.hpp>
 #include <tlnc/expressions/detail/reduction.hpp>
@@ -26,9 +28,6 @@ namespace tlnc{
 
 		template <typename ... Exprs>
 		struct op_mul;
-
-		template <typename ... Exprs>
-		struct op_comma;
 
 		namespace detail{
 			BCL_HAS_FUNCTION(expand)
@@ -457,154 +456,6 @@ namespace tlnc{
 		template <typename ... Exprs1, typename ... Exprs2>
 		struct op_mul<op_mul<Exprs1...>, Exprs2...> : op_mul<Exprs1..., Exprs2...>{
 		};
-
-		template <typename ... Exprs>
-		struct op_comma{
-			template <typename Arg>
-			constexpr auto operator()(Arg &&x) const
-			{
-				using common_t = ::std::common_type_t<decltype(Exprs{}(x))...>;
-
-				::boost::numeric::ublas::vector<common_t> result(sizeof...(Exprs));
-
-				::std::size_t i = 0;
-
-				for(auto &&v : {static_cast<common_t>(Exprs{}(x))...}){
-					result[i] = ::std::move(v);
-				}
-
-				return result;
-			}
-
-			template <typename X>
-			constexpr auto derivative() const
-			{
-				return op_comma<decltype(Exprs{}.derivative())...>{};
-			}
-
-			constexpr auto reduction() const
-			{
-				return op_comma<decltype(detail::reduction<Exprs>())...>{};
-			}
-
-		private:
-			template <
-				::std::size_t I, typename Arg, typename Memo,
-				::sprout::index_t ... Is, ::sprout::index_t ... Js
-			>
-			constexpr void update_memo_impl(
-				Arg &&arg, Memo &memo,
-				::sprout::index_tuple<Is...>, ::sprout::index_tuple<Js...>
-			) const
-			{
-				using common_t = ::std::common_type_t<decltype(Exprs{}(arg))...>;
-				::boost::numeric::ublas::vector<common_t> v(sizeof...(Exprs));
-				(..., (v(Js) = ::bcl::get<Is>(memo).second));
-				::bcl::get<I>(memo).second = ::std::move(v);
-			}
-
-		public:
-			template <::std::size_t I, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo) const
-			{
-				update_memo_impl<I>(
-					::std::forward<Arg>(arg), memo,
-					::sprout::index_tuple<detail::memo_find_t<Exprs, Memo>::value...>::make(),
-					::sprout::make_index_tuple<sizeof...(Exprs)>::make());
-			}
-
-			template <typename Memo, typename Arg>
-			using make_memo = detail::make_memo<op_comma<Exprs...>, Memo, Arg>;
-
-			template <typename Memo, typename Arg>
-			using make_memo_t = typename make_memo<Memo, Arg>::type;
-		};
-
-		template <typename ... Commas>
-		struct op_nested_comma{
-			static constexpr auto column_size = ::bcl::tuple_size<
-				::bcl::tuple_from_t<::bcl::tuple_element_t<0, ::bcl::tuple<Commas...>>>
-			>::value;
-
-			static_assert((... && (column_size == ::bcl::tuple_size<::bcl::tuple_from_t<Commas>>::value)));
-
-			template <typename Arg>
-			using result_value_type = ::std::common_type_t<
-				typename decltype(Commas{}(::std::declval<Arg>()))::value_type...
-			>;
-
-			template <typename X>
-			constexpr auto derivative() const
-			{
-				return op_nested_comma<decltype(Commas{}.template derivative<X>())...>{};
-			}
-
-		private:
-			template <::sprout::index_t I, typename T, typename Arg, ::sprout::index_t ... Is>
-			constexpr void operator_call_impl2(T &result, Arg &&arg, ::sprout::index_tuple<Is...>) const
-			{
-				using func_tuple = ::bcl::tuple_from_t<::bcl::tuple_element_t<I, ::bcl::tuple<Commas...>>>;
-				func_tuple funcs;
-				(..., (result(I, Is) = ::bcl::get<Is>(funcs)(arg)));
-			}
-
-			template <typename T, typename Arg, ::sprout::index_t ... Is>
-			constexpr void operator_call_impl1(T &result, Arg &&arg, ::sprout::index_tuple<Is...>) const
-			{
-				(..., operator_call_impl2<Is>(result, arg, ::sprout::make_index_tuple<column_size>::make()));
-			}
-
-		public:
-			template <typename Arg>
-			constexpr auto operator()(Arg &&arg) const
-			{
-				::boost::numeric::ublas::matrix<result_value_type<Arg>> result(sizeof...(Commas), column_size);
-
-				operator_call_impl1(
-					result, ::std::forward<Arg>(arg),
-					::sprout::make_index_tuple<sizeof...(Commas)>::make());
-
-				return result;
-			}
-
-			constexpr auto reduction() const
-			{
-				return op_nested_comma<decltype(Commas{}.reduction())...>{};
-			}
-
-		private:
-			template <
-				::sprout::index_t I,
-				typename T, typename Memo, ::sprout::index_t ... Js
-			>
-			constexpr void update_memo_impl2(T &result, Memo &memo, ::sprout::index_tuple<Js...>) const
-			{
-				using op_comma = ::bcl::tuple_element_t<I, ::bcl::tuple<Commas...>>;
-				const auto &v = ::bcl::get<detail::memo_find_t<op_comma, Memo>::value>(memo).second;
-				(..., (result(I, Js) = static_cast<typename T::value_type>(v(Js))));
-			}
-
-			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
-			constexpr void update_memo_impl1(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>) const
-			{
-				::boost::numeric::ublas::matrix<result_value_type<Arg>> result(sizeof...(Commas), column_size);
-				(..., update_memo_impl2<Is>(result, memo, ::sprout::make_index_tuple<column_size>::make()));
-				::bcl::get<I>(memo).second = ::std::move(result);
-			}
-
-		public:
-			template <::std::size_t I, typename Arg, typename Memo>
-			constexpr void update_memo(Arg &&arg, Memo &memo) const
-			{
-				update_memo_impl1<I>(arg, memo, ::sprout::make_index_tuple<sizeof...(Commas)>::make());
-			}
-
-			template <typename Memo, typename Arg>
-			using make_memo = detail::make_memo<op_nested_comma<Commas...>, Memo, Arg>;
-
-			template <typename Memo, typename Arg>
-			using make_memo_t = typename make_memo<Memo, Arg>::type;
-		};
 	}
 
 	template <typename ... Exprs>
@@ -613,10 +464,6 @@ namespace tlnc{
 
 	template <typename ... Exprs>
 	struct is_expression<expressions::op_mul<Exprs...>> : ::std::true_type{
-	};
-
-	template <typename ... Exprs>
-	struct is_expression<expressions::op_comma<Exprs...>> : ::std::true_type{
 	};
 }
 
@@ -849,9 +696,9 @@ namespace tlnc{
 				::tlnc::is_expression_v<::std::decay_t<U>>
 			>* = nullptr
 		>
-		constexpr auto operator,(op_comma<Exprs...>, U &&)
+		constexpr auto operator,(vector<Exprs...>, U &&)
 		{
-			return op_comma<Exprs..., ::std::decay_t<U>>{};
+			return vector<Exprs..., ::std::decay_t<U>>{};
 		}
 
 		template <
@@ -861,9 +708,9 @@ namespace tlnc{
 				::tlnc::is_value<::std::decay_t<U>>{}
 			>* = nullptr
 		>
-		constexpr auto operator,(op_comma<Exprs...>, U &&)
+		constexpr auto operator,(vector<Exprs...>, U &&)
 		{
-			return op_comma<Exprs..., constant<::std::decay_t<U>>>{};
+			return vector<Exprs..., constant<::std::decay_t<U>>>{};
 		}
 
 		template <
@@ -876,7 +723,7 @@ namespace tlnc{
 		>
 		constexpr auto operator,(T &&, U &&)
 		{
-			return op_comma<::std::decay_t<T>, ::std::decay_t<U>>{};
+			return vector<::std::decay_t<T>, ::std::decay_t<U>>{};
 		}
 
 		template <
@@ -889,7 +736,7 @@ namespace tlnc{
 		>
 		constexpr auto operator,(T &&, U &&)
 		{
-			return op_comma<::std::decay_t<T>, constant<::std::decay_t<U>>>{};
+			return vector<::std::decay_t<T>, constant<::std::decay_t<U>>>{};
 		}
 
 		template <
@@ -902,19 +749,19 @@ namespace tlnc{
 		>
 		constexpr auto operator,(T &&, U &&)
 		{
-			return op_comma<constant<::std::decay_t<T>>, ::std::decay_t<U>>{};
+			return vector<constant<::std::decay_t<T>>, ::std::decay_t<U>>{};
 		}
 
 		template <typename ... Exprs1, typename ... Exprs2>
-		constexpr auto operator,(op_comma<Exprs1...>, op_comma<Exprs2...>)
+		constexpr auto operator,(vector<Exprs1...>, vector<Exprs2...>)
 		{
-			return op_nested_comma<op_comma<Exprs1...>, op_comma<Exprs2...>>{};
+			return matrix<vector<Exprs1...>, vector<Exprs2...>>{};
 		}
 
 		template <typename ... Exprs1, typename ... Exprs2>
-		constexpr auto operator,(op_nested_comma<Exprs1...>, op_comma<Exprs2...>)
+		constexpr auto operator,(matrix<Exprs1...>, vector<Exprs2...>)
 		{
-			return op_nested_comma<Exprs1..., op_comma<Exprs2...>>{};
+			return matrix<Exprs1..., vector<Exprs2...>>{};
 		}
 	}
 }
