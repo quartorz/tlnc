@@ -49,6 +49,7 @@ namespace tlnc{
 				::bcl::get<I>(memo).second = operator()(arg);
 			}
 
+		private:
 			template <typename Arg>
 			using result_type = ::std::result_of_t<constant<Value>(Arg)>;
 
@@ -62,6 +63,7 @@ namespace tlnc{
 				using type = ::bcl::tuple_concat_t<Memo, ::bcl::tuple<Pair>>;
 			};
 
+		public:
 			template <typename Memo, typename Arg>
 			using make_memo = make_memo_impl<
 				::bcl::has_value_v<
