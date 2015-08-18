@@ -9,6 +9,10 @@
 
 #include <typeinfo>
 
+#include <bcl/literals.hpp>
+#include <cti/literals.hpp>
+#include <cti/operators.hpp>
+
 #include <tlnc/expressions.hpp>
 #include <tlnc/derivative.hpp>
 #include <tlnc/call.hpp>
@@ -124,10 +128,12 @@ int main()
 	}
 
 	{
+		using namespace bcl::literals;
+
 		using tlnc::x;
 
-		auto f = C_(2.0) * x<0>;
-		auto g = C_(3.0) * x<1>;
+		auto f = 2.0_dc * x<0>;
+		auto g = 3.0_dc * x<1>;
 		auto h = (f, g);
 
 		std::cout << name(tlnc::jacobian<2>(f, g)) << std::endl << std::endl;
@@ -137,14 +143,29 @@ int main()
 	}
 
 	{
+		using namespace bcl::literals;
+		using namespace cti::literals;
+
 		using tlnc::x;
 
-		auto f = C_(1.0) * x<0>;
-		auto g = C_(2.0) * x<1>;
-		auto h = C_(3.0) * x<2>;
+		auto f = 1.0_dc * x<0>;
+		auto g = 2.0_di * x<1>;
+		auto h = 3.0_dc * x<2>;
 
 		std::cout << name(tlnc::jacobian<1, 2>(f, g, h)) << std::endl << std::endl;
 		std::cout << name(tlnc::jacobian((f, g, h), (x<1>, x<2>))) << std::endl << std::endl;
+	}
+
+	{
+		using namespace bcl::literals;
+		using namespace cti::literals;
+		using namespace cti::operators;
+
+		using tlnc::x;
+
+		auto f = (1.0_dc, 2.0_dc) * x<0>;
+
+		std::cout << name(f) << std::endl << std::endl;
 	}
 }
 

@@ -7,6 +7,8 @@
 
 #include <bcl/double.hpp>
 
+#include <cti/interval.hpp>
+
 namespace tlnc{
 	namespace ub = ::boost::numeric::ublas;
 
@@ -74,6 +76,10 @@ namespace tlnc{
 	// and the value can do arithmetics.
 	template <typename T>
 	struct is_value : ::bcl::is_encoded_double<T>{
+	};
+
+	template <typename Inf, typename Sup>
+	struct is_value<::cti::interval<Inf, Sup>> : ::std::true_type{
 	};
 
 	// true if T is tlnc::expressoins::constant<T>
