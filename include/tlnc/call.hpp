@@ -63,15 +63,40 @@ namespace tlnc{
 			copy_memo_impl(m1, m2, ::sprout::index_range<0, ::bcl::tuple_size<MemoOld>::value>::make());
 			return m2;
 		}
+
+		template <typename T>
+		struct is_tuple : ::std::false_type{
+		};
+
+		template <typename ... Ts>
+		struct is_tuple<::bcl::tuple<Ts...>> : ::std::true_type{
+		};
 	}
 
-	template <typename Func, typename Arg>
+	template <
+		typename Func, typename Arg,
+		::std::enable_if_t<detail::is_tuple<::std::decay_t<Arg>>{}>* = nullptr
+	>
 	constexpr auto call(Func &&f, Arg &&arg)
 	{
 		return f(arg);
 	}
 
-	template <typename Func, typename Arg, typename Memo>
+	template <
+		typename Func, typename Arg,
+		::std::enable_if_t<!detail::is_tuple<::std::decay_t<Arg>>{}>* = nullptr
+	>
+	constexpr auto call(Func &&f, Arg &&arg)
+	{
+		return call(
+			::std::forward<Func>(f),
+			::bcl::tuple<::std::add_const_t<Arg>&>(::std::forward<Arg>(arg)));
+	}
+
+	template <
+		typename Func, typename Arg, typename Memo,
+		::std::enable_if_t<detail::is_tuple<::std::decay_t<Arg>>{}>* = nullptr
+	>
 	constexpr auto call(Func &&f, Arg &&arg, Memo &&memo)
 	{
 		using func_t = ::std::decay_t<Func>;
@@ -95,6 +120,18 @@ namespace tlnc{
 		return ::std::make_pair(
 			::bcl::get<index>(memo_new).second,
 			::std::move(memo_new));
+	}
+
+	template <
+		typename Func, typename Arg, typename Memo,
+		::std::enable_if_t<!detail::is_tuple<::std::decay_t<Arg>>{}>* = nullptr
+	>
+	constexpr auto call(Func &&f, Arg &&arg, Memo &&memo)
+	{
+		return call(
+			::std::forward<Func>(f),
+			::bcl::tuple<::std::add_const_t<Arg>&>(::std::forward<Arg>(arg)),
+			::std::forward<Memo>(memo));
 	}
 
 	constexpr ::bcl::tuple<> memo()

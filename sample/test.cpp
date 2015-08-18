@@ -53,10 +53,10 @@ int main()
 		std::cout << "g(x) = f'(x)" << std::endl;
 		std::cout << "h(x) = g'(x)" << std::endl << std::endl;
 
-		std::cout << "f(1.0) = " << f(1.0) << std::endl;
-		std::cout << "g(1.0) = " << g(1.0) << std::endl;
-		std::cout << "h(1.0) = " << h(1.0) << std::endl;
-		std::cout << "h([1.0, 2.0]) = " << h(interval_t(1.0, 2.0)) << std::endl;
+		std::cout << "f(1.0) = " << tlnc::call(f, 1.0) << std::endl;
+		std::cout << "g(1.0) = " << tlnc::call(g, 1.0) << std::endl;
+		std::cout << "h(1.0) = " << tlnc::call(h, 1.0) << std::endl;
+		std::cout << "h([1.0, 2.0]) = " << tlnc::call(h, interval_t(1.0, 2.0)) << std::endl;
 
 		std::cout << "type of f : " << name(f) << std::endl << std::endl;
 		std::cout << "type of g : " << name(g) << std::endl << std::endl;
@@ -85,10 +85,10 @@ int main()
 		std::cout << "g(x1, x2) = x2 + cos(x1)" << std::endl;
 		std::cout << "h(x1, x2) = x1" << std::endl << std::endl;
 
-		std::cout << "f(1.0, 2.0) = " << f(x) << std::endl;
-		std::cout << "g(1.0, 2.0) = " << g(x) << std::endl;
-		std::cout << "h(1.0, 2.0) = " << h(x) << std::endl;
-		std::cout << "g([1.0, 2.0], [3.0, 4.0]) = " << g(y) << std::endl;
+		std::cout << "f(1.0, 2.0) = " << tlnc::call(f, x) << std::endl;
+		std::cout << "g(1.0, 2.0) = " << tlnc::call(g, x) << std::endl;
+		std::cout << "h(1.0, 2.0) = " << tlnc::call(h, x) << std::endl;
+		std::cout << "g([1.0, 2.0], [3.0, 4.0]) = " << tlnc::call(g, y) << std::endl;
 		std::cout << "type of f : " << name(f) << std::endl << std::endl;
 		std::cout << "type of g : " << name(g) << std::endl << std::endl;
 		std::cout << "type of h : " << name(h) << std::endl << std::endl;
@@ -102,7 +102,7 @@ int main()
 		auto h = ((f, g), (f, g), (f, g));
 
 		std::cout << name(h) << std::endl;
-		std::cout << h(10.0) << std::endl;
+		std::cout << tlnc::call(h, 10.0) << std::endl;
 
 		auto r = tlnc::call(h, 10.0, tlnc::memo());
 
@@ -169,6 +169,15 @@ int main()
 
 		std::cout << name(f) << std::endl << std::endl;
 		std::cout << name(g) << std::endl << std::endl;
+	}
+
+	{
+		using namespace tlnc;
+		using tlnc::x;
+
+		auto f = _1 * x<>;
+
+		std::cout << call(f, ::bcl::make_tuple(10.0, 2.0)) << std::endl;
 	}
 }
 

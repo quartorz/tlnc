@@ -34,7 +34,8 @@ namespace tlnc{
 			template <typename Arg>
 			constexpr auto operator()(Arg &&) const
 			{
-				return ::tlnc::value_type_t<Arg>(Value{});
+				using arg_type = ::bcl::tuple_element_t<0, ::std::decay_t<Arg>>;
+				return ::tlnc::value_type_t<arg_type>(Value{});
 			}
 
 			template <typename X>

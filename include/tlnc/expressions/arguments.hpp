@@ -18,7 +18,7 @@ namespace tlnc{
 			template <typename T>
 			constexpr auto operator()(T &&x) const
 			{
-				return x(I);
+				return ::bcl::get<0>(x)(I);
 			}
 
 			template <
@@ -46,7 +46,7 @@ namespace tlnc{
 			template <::std::size_t Idx, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
-				::bcl::get<Idx>(memo).second = arg(I);
+				::bcl::get<Idx>(memo).second = ::bcl::get<0>(arg)(I);
 			}
 
 			template <typename Memo, typename Arg>
@@ -61,7 +61,7 @@ namespace tlnc{
 			template <typename T>
 			constexpr auto operator()(T &&x) const
 			{
-				return x(I, J);
+				return ::bcl::get<0>(x)(I, J);
 			}
 
 			template <
@@ -89,7 +89,7 @@ namespace tlnc{
 			template <::std::size_t Idx, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
-				::bcl::get<Idx>(memo).second = arg(I, J);
+				::bcl::get<Idx>(memo).second = ::bcl::get<0>(arg)(I, J);
 			}
 
 			template <typename Memo, typename Arg>
@@ -103,7 +103,7 @@ namespace tlnc{
 			template <typename T>
 			constexpr auto operator()(T &&x) const
 			{
-				return x;
+				return ::bcl::get<0>(x);
 			}
 
 			template <
@@ -131,7 +131,7 @@ namespace tlnc{
 			template <::std::size_t I, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
-				::bcl::get<I>(memo).second = arg;
+				::bcl::get<I>(memo).second = ::bcl::get<0>(arg);
 			}
 
 			template <typename Memo, typename Arg>

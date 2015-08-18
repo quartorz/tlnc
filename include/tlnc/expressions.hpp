@@ -7,6 +7,7 @@
 #include <tlnc/expressions/log.hpp>
 #include <tlnc/expressions/operators.hpp>
 #include <tlnc/expressions/arguments.hpp>
+#include <tlnc/expressions/placeholders.hpp>
 #include <tlnc/expressions/vector.hpp>
 #include <tlnc/expressions/matrix.hpp>
 #include <tlnc/expressions/element_prod.hpp>
