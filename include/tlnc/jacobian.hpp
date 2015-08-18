@@ -59,10 +59,16 @@ namespace tlnc{
 		return jacobian<I, N>(expressions::vector<Exprs...>{});
 	}
 
-	template <typename ... Exprs, typename ... Args>
-	constexpr auto jacobian(expressions::vector<Exprs...> v, expressions::vector<Args...>)
+	template <typename ... Exprs, typename ... Xs>
+	constexpr auto jacobian(expressions::vector<Exprs...> v, expressions::vector<Xs...>)
 	{
-		return detail::jacobian_impl(v, ::sprout::index_tuple<Args::index...>::make());
+		return detail::jacobian_impl(v, ::sprout::index_tuple<Xs::index...>::make());
+	}
+
+	template <typename ... Exprs, typename X>
+	constexpr auto jacobian(expressions::vector<Exprs...> v, X)
+	{
+		return detail::jacobian_impl(v, ::sprout::index_tuple<X::index>::make());
 	}
 }
 
