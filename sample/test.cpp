@@ -12,6 +12,7 @@
 #include <tlnc/expressions.hpp>
 #include <tlnc/derivative.hpp>
 #include <tlnc/call.hpp>
+#include <tlnc/jacobian.hpp>
 
 #include <kv/interval.hpp>
 #include <kv/rdouble.hpp>
@@ -107,7 +108,30 @@ int main()
 		auto r2 = tlnc::call(h, interval_t(9.0, 11.0), tlnc::memo());
 
 		std::cout << r2.first << std::endl;
-		std::cout << name(r2.second) << std::endl;
+		std::cout << name(r2.second) << std::endl << std::endl;
+	}
+
+	{
+		using tlnc::x;
+		using tlnc::sin;
+		using tlnc::cos;
+
+		auto f = sin(x<>);
+		auto g = cos(x<>);
+		auto h = ((f, g), (f, g), (f, g));
+
+		std::cout << name(tlnc::prod(h, (C_(2.0), C_(3.0)))) << std::endl;
+	}
+
+	{
+		using tlnc::x;
+
+		auto f = C_(2.0) * x<0>;
+		auto g = C_(3.0) * x<1>;
+		auto h = (f, g);
+
+		std::cout << name(tlnc::jacobian<2>(f, g)) << std::endl;
+		std::cout << name(tlnc::jacobian<2>(h)) << std::endl;
 	}
 }
 
