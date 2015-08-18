@@ -20,6 +20,8 @@ namespace tlnc{
 		struct vector{
 			static constexpr auto row_size = sizeof...(Exprs);
 
+			using tuple_type = ::bcl::tuple<Exprs...>;
+
 			template <typename Arg>
 			constexpr auto operator()(Arg &&x) const
 			{

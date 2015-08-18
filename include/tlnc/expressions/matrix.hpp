@@ -6,6 +6,8 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
 
+#include <sprout/index_tuple.hpp>
+
 #include <bcl/tuple.hpp>
 
 #include <tlnc/traits.hpp>
@@ -27,6 +29,14 @@ namespace tlnc{
 			using result_value_type = ::std::common_type_t<
 				typename decltype(Vectors{}(::std::declval<Arg>()))::value_type...
 			>;
+
+			using tuple_type = ::bcl::tuple<Vectors...>;
+
+			template <::std::size_t I>
+			using row_vector = ::bcl::tuple_element_t<I, tuple_type>;
+
+			template <::std::size_t I>
+			using column_vector = vector<::bcl::tuple_element_t<I, typename Vectors::tuple_type>...>;
 
 			template <typename X>
 			constexpr auto derivative() const
@@ -105,5 +115,11 @@ namespace tlnc{
 	template <typename ... Vectors>
 	struct is_expression<expressions::matrix<Vectors...>> : ::std::true_type{
 	};
+
+	template <typename ... Exprs>
+	constexpr auto matrix(Exprs ...)
+	{
+		return expressions::matrix<expressions::vector<Exprs...>>{};
+	}
 }
 
