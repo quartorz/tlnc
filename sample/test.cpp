@@ -162,10 +162,13 @@ int main()
 		using namespace cti::operators;
 
 		using tlnc::x;
+		using tlnc::c;
 
 		auto f = (1.0_dc, 2.0_dc) * x<0>;
+		auto g = c((1.0_dc, 2.0_dc)) * x<0>;
 
 		std::cout << name(f) << std::endl << std::endl;
+		std::cout << name(g) << std::endl << std::endl;
 	}
 }
 

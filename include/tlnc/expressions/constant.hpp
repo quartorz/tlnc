@@ -88,6 +88,12 @@ namespace tlnc{
 	template <typename Value>
 	struct is_expression<expressions::constant<Value>> : ::std::true_type{
 	};
+
+	template <typename T>
+	constexpr auto c(T &&)
+	{
+		return expressions::constant<::std::decay_t<T>>{};
+	}
 }
 
 // make double constant
