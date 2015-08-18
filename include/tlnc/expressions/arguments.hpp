@@ -13,6 +13,8 @@ namespace tlnc{
 	namespace expressions{
 		template <::std::size_t I>
 		struct vector_arg{
+			static constexpr auto index = I;
+
 			template <typename T>
 			constexpr auto operator()(T &&x) const
 			{

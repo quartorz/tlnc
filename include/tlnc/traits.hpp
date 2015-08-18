@@ -87,5 +87,9 @@ namespace tlnc{
 		static constexpr bool is_zero = false;
 		static constexpr bool is_one = false;
 	};
+
+	template <typename T>
+	struct is_scalar : ::std::true_type{
+	};
 }
 

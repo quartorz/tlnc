@@ -112,8 +112,12 @@ namespace tlnc{
 		};
 	}
 
+// 	template <typename ... Vectors>
+// 	struct is_expression<expressions::matrix<Vectors...>> : ::std::true_type{
+// 	};
+
 	template <typename ... Vectors>
-	struct is_expression<expressions::matrix<Vectors...>> : ::std::true_type{
+	struct is_scalar<expressions::matrix<Vectors...>> : ::std::false_type{
 	};
 
 	template <typename ... Exprs>

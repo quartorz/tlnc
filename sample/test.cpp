@@ -120,7 +120,7 @@ int main()
 		auto g = cos(x<>);
 		auto h = ((f, g), (f, g), (f, g));
 
-		std::cout << name(tlnc::prod(h, (C_(2.0), C_(3.0)))) << std::endl;
+		std::cout << name(tlnc::prod(h, (C_(2.0), C_(3.0)))) << std::endl << std::endl;
 	}
 
 	{
@@ -130,8 +130,21 @@ int main()
 		auto g = C_(3.0) * x<1>;
 		auto h = (f, g);
 
-		std::cout << name(tlnc::jacobian<2>(f, g)) << std::endl;
-		std::cout << name(tlnc::jacobian<2>(h)) << std::endl;
+		std::cout << name(tlnc::jacobian<2>(f, g)) << std::endl << std::endl;
+		std::cout << name(tlnc::jacobian<2>(h)) << std::endl << std::endl;
+
+		std::cout << name(tlnc::jacobian<2>(h) + tlnc::jacobian<2>(h)) << std::endl << std::endl;
+	}
+
+	{
+		using tlnc::x;
+
+		auto f = C_(1.0) * x<0>;
+		auto g = C_(2.0) * x<1>;
+		auto h = C_(3.0) * x<2>;
+
+		std::cout << name(tlnc::jacobian<1, 2>(f, g, h)) << std::endl << std::endl;
+		std::cout << name(tlnc::jacobian((f, g, h), (x<1>, x<2>))) << std::endl << std::endl;
 	}
 }
 

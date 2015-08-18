@@ -763,6 +763,20 @@ namespace tlnc{
 		{
 			return matrix<Exprs1..., vector<Exprs2...>>{};
 		}
+
+		template <typename ... Exprs1, typename ... Exprs2>
+		constexpr auto operator+(vector<Exprs1...>, vector<Exprs2...>)
+		{
+			static_assert(sizeof...(Exprs1) == sizeof...(Exprs2));
+			return vector<decltype(Exprs1{} + Exprs2{})...>{};
+		}
+
+		template <typename ... Vectors1, typename ... Vectors2>
+		constexpr auto operator+(matrix<Vectors1...>, matrix<Vectors2...>)
+		{
+			static_assert(sizeof...(Vectors1) == sizeof...(Vectors2));
+			return matrix<decltype(Vectors1{} + Vectors2{})...>{};
+		}
 	}
 }
 

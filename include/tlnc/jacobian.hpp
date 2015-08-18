@@ -39,9 +39,30 @@ namespace tlnc{
 		::std::size_t N, typename ... Exprs,
 		::std::enable_if_t<(sizeof...(Exprs) > 1)>* = nullptr
 	>
-	constexpr auto jacobian(Exprs ... exprs)
+	constexpr auto jacobian(Exprs ...)
 	{
 		return jacobian<N>(expressions::vector<Exprs...>{});
+	}
+
+	template <::std::size_t I, ::std::size_t N, typename ... Exprs>
+	constexpr auto jacobian(expressions::vector<Exprs...> v)
+	{
+		return detail::jacobian_impl(v, ::sprout::index_range<I, I + N>::make());
+	}
+
+	template <
+		::std::size_t I, ::std::size_t N, typename ... Exprs,
+		::std::enable_if_t<(sizeof...(Exprs) > 1)>* = nullptr
+	>
+	constexpr auto jacobian(Exprs ...)
+	{
+		return jacobian<I, N>(expressions::vector<Exprs...>{});
+	}
+
+	template <typename ... Exprs, typename ... Args>
+	constexpr auto jacobian(expressions::vector<Exprs...> v, expressions::vector<Args...>)
+	{
+		return detail::jacobian_impl(v, ::sprout::index_tuple<Args::index...>::make());
 	}
 }
 
