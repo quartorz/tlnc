@@ -1,11 +1,66 @@
 #pragma once
 
+#include <cstdint>
+
+#include <boost/numeric/ublas/matrix.hpp>
+
 #include <sprout/index_tuple.hpp>
+
+#include <bcl/tuple.hpp>
 
 #include <tlnc/expressions/vector.hpp>
 #include <tlnc/expressions/matrix.hpp>
+#include <tlnc/expressions/detail/reduction.hpp>
+#include <tlnc/expressions/detail/make_memo.hpp>
+#include <tlnc/expressions/detail/memo_find.hpp>
 
 namespace tlnc{
+	namespace expressions{
+		template <typename Expr1, typename Expr2>
+		struct element_prod{
+			template <typename Arg>
+			constexpr auto operator()(Arg &&arg) const
+			{
+				return ::boost::numeric::ublas::element_prod(
+					Expr1{}(arg), Expr2{}(arg)
+				);
+			}
+
+			template <typename X>
+			constexpr auto derivative() const
+			{
+				return element_prod<
+					decltype(Expr1{}.template derivative<X>()),
+					decltype(Expr2{}.template derivative<X>())
+				>{}.reduction();
+			}
+
+			constexpr auto reduction() const
+			{
+				return element_prod<
+					decltype(detail::reduction<Expr1>()),
+					decltype(detail::reduction<Expr2>())
+				>{};
+			}
+
+			template <::std::size_t I, typename Arg, typename Memo>
+			constexpr void update_memo(Arg &&arg, Memo &memo) const
+			{
+				constexpr auto index1 = detail::memo_find_t<Expr1, Memo>::value;
+				constexpr auto index2 = detail::memo_find_t<Expr2, Memo>::value;
+				::bcl::get<I>(memo).second = ::boost::numeric::ublas::element_prod(
+					::bcl::get<index1>(memo).second, ::bcl::get<index2>(memo).second
+				);
+			}
+
+			template <typename Memo, typename Arg>
+			using make_memo = detail::make_memo<element_prod<Expr1, Expr2>, Memo, Arg>;
+
+			template <typename Memo, typename Arg>
+			using make_memo_t = typename make_memo<Memo, Arg>::type;
+		};
+	}
+
 	namespace detail{
 		template <typename, typename>
 		struct element_prod_impl;
@@ -56,6 +111,12 @@ namespace tlnc{
 		static_assert(lhs_type::column_size == rhs_type::column_size);
 
 		return typename detail::element_prod_impl<lhs_type, rhs_type>::type{};
+	}
+
+	template <typename Expr1, typename Expr2>
+	constexpr auto element_prod(Expr1 &&, Expr2 &&)
+	{
+		return expressions::element_prod<::std::decay_t<Expr1>, ::std::decay_t<Expr2>>{};
 	}
 }
 
