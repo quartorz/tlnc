@@ -51,5 +51,8 @@ namespace tlnc{
 	constexpr expressions::placeholder<8> _8{};
 	constexpr expressions::placeholder<9> _9{};
 	constexpr expressions::placeholder<10> _10{};
+
+	template <::std::size_t I>
+	constexpr expressions::placeholder<I> holder{};
 }
 
