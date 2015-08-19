@@ -95,7 +95,11 @@ namespace tlnc{
 	};
 
 	template <typename T>
-	struct is_scalar : ::std::true_type{
+	struct is_vector : ::std::false_type{
+	};
+
+	template <typename T>
+	struct is_matrix : ::std::false_type{
 	};
 }
 

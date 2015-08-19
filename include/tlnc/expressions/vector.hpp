@@ -83,12 +83,12 @@ namespace tlnc{
 		};
 	}
 
-// 	template <typename ... Exprs>
-// 	struct is_expression<expressions::vector<Exprs...>> : ::std::true_type{
-// 	};
+	template <typename ... Exprs>
+	struct is_expression<expressions::vector<Exprs...>> : ::std::true_type{
+	};
 
 	template <typename ... Exprs>
-	struct is_scalar<expressions::vector<Exprs...>> : ::std::false_type{
+	struct is_vector<expressions::vector<Exprs...>> : ::std::true_type{
 	};
 }
 

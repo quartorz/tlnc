@@ -525,6 +525,8 @@ namespace tlnc{
 				::tlnc::is_expression_v<::std::decay_t<T>>
 				&& ::tlnc::is_expression_v<::std::decay_t<U>>
 				&& (!::tlnc::is_constant<::std::decay_t<T>>{} || !::tlnc::is_constant<::std::decay_t<U>>{})
+				&& !(::tlnc::is_vector<T>{} && ::tlnc::is_vector<U>{})
+				&& !(::tlnc::is_matrix<T>{} && ::tlnc::is_matrix<U>{})
 			>* = nullptr
 		>
 		constexpr auto operator+(T &&, U &&)
@@ -553,7 +555,7 @@ namespace tlnc{
 				&& ::tlnc::is_value<::std::decay_t<U>>{}
 			>* = nullptr
 		>
-		constexpr auto operator+(T &&, T &&)
+		constexpr auto operator+(T &&, U &&)
 		{
 			return op_add<::std::decay_t<T>, constant<::std::decay_t<U>>>{};
 		}
