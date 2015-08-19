@@ -118,5 +118,29 @@ namespace tlnc{
 	{
 		return expressions::element_prod<::std::decay_t<Expr1>, ::std::decay_t<Expr2>>{};
 	}
+
+	template <typename ... Exprs, typename Expr>
+	constexpr auto element_prod(expressions::vector<Exprs...>, Expr &&)
+	{
+		return expressions::element_prod<expressions::vector<Exprs...>, ::std::decay_t<Expr>>{};
+	}
+
+	template <typename ... Exprs, typename Expr>
+	constexpr auto element_prod(Expr &&, expressions::vector<Exprs...>)
+	{
+		return expressions::element_prod<::std::decay_t<Expr>, expressions::vector<Exprs...>>{};
+	}
+
+	template <typename ... Exprs, typename Expr>
+	constexpr auto element_prod(expressions::matrix<Exprs...>, Expr &&)
+	{
+		return expressions::element_prod<expressions::matrix<Exprs...>, ::std::decay_t<Expr>>{};
+	}
+
+	template <typename ... Exprs, typename Expr>
+	constexpr auto element_prod(Expr &&, expressions::matrix<Exprs...>)
+	{
+		return expressions::element_prod<::std::decay_t<Expr>, expressions::matrix<Exprs...>>{};
+	}
 }
 
