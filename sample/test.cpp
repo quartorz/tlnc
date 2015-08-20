@@ -182,7 +182,7 @@ int main()
 		std::cout << call(f, ::bcl::make_tuple(10.0, 1.0, 2.0)) << std::endl;
 		std::cout << call(g, 10.0) << std::endl << std::endl;
 
-		std::cout << name(call(f, ::bcl::make_tuple(10.0, 1.0, 2.0), memo()).second) << std::endl;
+		std::cout << name(call(f, ::bcl::make_tuple(10.0, 1.0, 2.0), memo()).second) << std::endl << std::endl;
 	}
 
 	{
@@ -191,6 +191,17 @@ int main()
 		using tlnc::pow;
 
 		auto f = sin(_1) * x<> + pow(_2, _3) + _1;
+	}
+
+	{
+		using namespace bcl::literals;
+
+		using tlnc::x;
+		using tlnc::pow;
+
+		auto f = pow(x<>, 2.0_dc) * pow(x<0>, 3.0_dc) * pow(x<>, 2.0_dc) * x<> * pow(x<1>, 3.0_dc);
+
+		std::cout << name(f) << std::endl << std::endl;
 	}
 }
 

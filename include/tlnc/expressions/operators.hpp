@@ -28,6 +28,9 @@ namespace tlnc{
 		template <typename ... Exprs>
 		struct op_mul;
 
+		template <typename Base, typename Exponent>
+		struct pow;
+
 		namespace detail{
 			BCL_HAS_FUNCTION(expand)
 
@@ -265,9 +268,171 @@ namespace tlnc{
 			struct op_mul_reduction_from_tuple<::bcl::tuple<T, U, Ts...>>{
 				using type = ::tlnc::expressions::op_mul<T, U, Ts...>;
 			};
+
+			template <typename T>
+			struct op_mul_reduction_is_pow{
+				static constexpr bool value = false;
+			};
+
+			template <typename Base, typename Exponent>
+			struct op_mul_reduction_is_pow<pow<Base, Exponent>>{
+				static constexpr bool value = true;
+			};
+
+			template <typename T, typename Pows, typename Others, ::std::size_t I, ::std::size_t N>
+			class op_mul_reduction_find_pow{
+				using left = op_mul_reduction_find_pow<T, Pows, Others, I, N / 2 + N % 2>;
+				using right = op_mul_reduction_find_pow<
+					T,
+					typename left::pows, typename left::others,
+					I + N / 2 + N % 2, N / 2
+				>;
+
+			public:
+				using pows = typename right::pows;
+				using others = typename right::others;
+			};
+
+			template <typename T, typename Pows, typename Others, ::std::size_t I>
+			struct op_mul_reduction_find_pow<T, Pows, Others, I, 0>{
+				using pows = Pows;
+				using others = Others;
+			};
+
+			template <typename T, typename Pows, typename Others, ::std::size_t I>
+			class op_mul_reduction_find_pow<T, Pows, Others, I, 1>{
+				using element = ::bcl::tuple_element_t<I, T>;
+				static constexpr bool is_pow = op_mul_reduction_is_pow<element>::value;
+
+			public:
+				using pows = ::bcl::tuple_concat_t<
+					Pows,
+					::std::conditional_t<
+						is_pow,
+						::bcl::tuple<element>,
+						::bcl::tuple<>
+					>
+				>;
+				using others = ::bcl::tuple_concat_t<
+					Others,
+					::std::conditional_t<
+						is_pow,
+						::bcl::tuple<>,
+						::bcl::tuple<element>
+					>
+				>;
+			};
+
+			template <typename Base, typename Tuple, ::std::size_t I, ::std::size_t N>
+			class op_mul_reduction_extract_pow{
+				using left = op_mul_reduction_extract_pow<Base, Tuple, I, N / 2 + N % 2>;
+				using right = op_mul_reduction_extract_pow<Base, Tuple, I + N / 2 + N % 2, N / 2>;
+
+			public:
+				using type = ::bcl::tuple_concat_t<typename left::type, typename right::type>;
+			};
+
+			template <typename Base, typename Tuple, ::std::size_t I>
+			struct op_mul_reduction_extract_pow<Base, Tuple, I, 0>{
+				using type = ::bcl::value_tuple<::std::size_t>;
+			};
+
+			template <typename Base, typename Tuple, ::std::size_t I>
+			class op_mul_reduction_extract_pow<Base, Tuple, I, 1>{
+				using element = ::bcl::tuple_element_t<I, Tuple>;
+
+			public:
+				using type = ::std::conditional_t<
+					::std::is_same<typename element::base_type, Base>{},
+					::bcl::value_tuple<::std::size_t, I>,
+					::bcl::value_tuple<::std::size_t>
+				>;
+			};
+
+			template <typename T>
+			struct op_mul_reduction_pow_3;
+
+			template <typename Pow, typename ... Pows>
+			struct op_mul_reduction_pow_3<::bcl::tuple<Pow, Pows...>>{
+				using type = pow<
+					typename Pow::base_type,
+					decltype((typename Pow::exponent_type{} + ... + typename Pows::exponent_type{}).reduction())
+				>;
+			};
+
+			template <typename T, ::std::size_t I, ::std::size_t N, typename = void>
+			class op_mul_reduction_pow_2{
+				using left = op_mul_reduction_pow_2<T, I, N / 2 + N % 2>;
+				using right = op_mul_reduction_pow_2<typename left::next, I + N / 2 + N % 2, N / 2>;
+
+			public:
+				using next = typename right::next;
+				using type = ::bcl::tuple_concat_t<typename left::type, typename right::type>;
+			};
+
+			template <typename T, ::std::size_t I>
+			struct op_mul_reduction_pow_2<T, I, 0, void>{
+				using next = T;
+				using type = ::bcl::tuple<>;
+			};
+
+			template <typename T, ::std::size_t I>
+			struct op_mul_reduction_pow_2<
+				T, I, 1,
+				::std::enable_if_t<(0 == ::bcl::tuple_size<T>::value)>
+			>{
+				using next = T;
+				using type = ::bcl::tuple<>;
+			};
+
+			template <typename T, ::std::size_t I>
+			class op_mul_reduction_pow_2<
+				T, I, 1,
+				::std::enable_if_t<(0 != ::bcl::tuple_size<T>::value)>
+			>{
+				using element = ::bcl::tuple_element_t<0, T>;
+				using index = typename op_mul_reduction_extract_pow<
+					typename element::base_type, T,
+					0, ::bcl::tuple_size<T>::value
+				>::type;
+				using extracted = ::bcl::tuple_extract_t<index, T>;
+				using removed = ::bcl::tuple_remove_t<index, T>;
+
+			public:
+				using next = removed;
+				using type = ::bcl::tuple<typename op_mul_reduction_pow_3<extracted>::type>;
+			};
+
+			template <typename T>
+			struct op_mul_reduction_pow_1{
+				using type = T;
+			};
+
+			template <typename ... Exprs>
+			class op_mul_reduction_pow_1<op_mul<Exprs...>>{
+				using find_pow = op_mul_reduction_find_pow<
+					::bcl::tuple<Exprs...>,
+					::bcl::tuple<>,
+					::bcl::tuple<>,
+					0, sizeof...(Exprs)
+				>;
+				using pow_tuple = typename find_pow::pows;
+				using others = typename find_pow::others;
+				using pow_processed = op_mul_reduction_pow_2<
+					pow_tuple, 0, ::bcl::tuple_size<pow_tuple>::value
+				>;
+
+			public:
+				using type = ::bcl::tuple_transform_t<
+					::tlnc::expressions::op_mul,
+					::bcl::tuple_concat_t<
+						typename pow_processed::type, others
+					>
+				>;
+			};
 		}
 
-		// fpr op_mul::expand
+		// for op_mul::expand
 		namespace detail{
 			template <typename T>
 			struct op_add_trait{
@@ -414,19 +579,26 @@ namespace tlnc{
 
 			constexpr auto reduction()
 			{
-				using t = typename detail::op_mul_reduction_from_tuple<
+				using type1 = typename detail::op_mul_reduction_from_tuple<
 					typename detail::op_mul_reduction_impl<
 						::bcl::tuple<decltype(Exprs{}.reduction())...>, 0, sizeof...(Exprs)
 					>::type
 				>::type;
-				return t{};
+
+				using type2 = typename detail::op_mul_reduction_pow_1<type1>::type;
+
+				return type2{};
 			}
 
 			constexpr auto expand()
 			{
-				using index_of_add = typename detail::op_mul_expand_aux<::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)>::type;
+				using index_of_add = typename detail::op_mul_expand_aux<
+					::bcl::tuple<Exprs...>, 0, sizeof...(Exprs)
+				>::type;
 				using perm_add = ::bcl::tuple_transform_t<::bcl::tuple_cartesian_prod_variadic_t, index_of_add>;
-				using result = typename detail::op_mul_expand_impl<perm_add, op_mul<Exprs...>, 0, ::bcl::tuple_size<perm_add>::value>::type;
+				using result = typename detail::op_mul_expand_impl<
+					perm_add, op_mul<Exprs...>, 0, ::bcl::tuple_size<perm_add>::value
+				>::type;
 				return ::bcl::tuple_transform_t<op_add, result>{};
 			}
 
