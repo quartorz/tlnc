@@ -4,7 +4,6 @@
 #include <type_traits>
 
 #include <tlnc/traits.hpp>
-#include <tlnc/expressions/detail/reduction.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
 #include <tlnc/expressions/detail/memo_find.hpp>
 
@@ -26,7 +25,7 @@ namespace tlnc{
 
 			constexpr auto reduction() const
 			{
-				return at<decltype(detail::reduction<Expr>()), Is...>{};
+				return at<decltype(Expr{}.reduction()), Is...>{};
 			}
 
 			template <::std::size_t I, typename Arg, typename Memo>

@@ -11,7 +11,6 @@
 #include <tlnc/expressions/element_prod.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
 #include <tlnc/expressions/detail/memo_find.hpp>
-#include <tlnc/expressions/detail/reduction.hpp>
 
 namespace tlnc{
 	namespace expressions{
@@ -38,8 +37,8 @@ namespace tlnc{
 			constexpr auto reduction() const
 			{
 				return prod<
-					decltype(detail::reduction<Expr1>()),
-					decltype(detail::reduction<Expr2>())
+					decltype(Expr1{}.reduction()),
+					decltype(Expr2{}.reduction())
 				>{};
 			}
 

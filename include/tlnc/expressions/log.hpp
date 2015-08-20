@@ -29,6 +29,11 @@ namespace tlnc{
 				return (pow<Expr, decltype(TLNC_C(-1.0))>{} * Expr{}.template derivative<X>()).reduction();
 			}
 
+			constexpr auto reduction() const
+			{
+				return log<decltype(Expr{}.reduction())>{};
+			}
+
 			template <::std::size_t I, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{

@@ -44,6 +44,11 @@ namespace tlnc{
 				return constant<decltype(Value{} * BCL_DOUBLE_V(0.0))>{};
 			}
 
+			constexpr auto reduction() const
+			{
+				return *this;
+			}
+
 			template <::std::size_t I, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{

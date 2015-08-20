@@ -10,7 +10,6 @@
 
 #include <tlnc/expressions/vector.hpp>
 #include <tlnc/expressions/matrix.hpp>
-#include <tlnc/expressions/detail/reduction.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
 #include <tlnc/expressions/detail/memo_find.hpp>
 
@@ -38,8 +37,8 @@ namespace tlnc{
 			constexpr auto reduction() const
 			{
 				return element_prod<
-					decltype(detail::reduction<Expr1>()),
-					decltype(detail::reduction<Expr2>())
+					decltype(Expr1{}.reduction()),
+					decltype(Expr2{}.reduction())
 				>{};
 			}
 

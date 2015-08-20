@@ -12,4 +12,5 @@
 #include <tlnc/expressions/matrix.hpp>
 #include <tlnc/expressions/element_prod.hpp>
 #include <tlnc/expressions/prod.hpp>
+#include <tlnc/expressions/at.hpp>
 

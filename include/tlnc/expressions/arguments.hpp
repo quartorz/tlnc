@@ -43,6 +43,11 @@ namespace tlnc{
 				return TLNC_C(0.0);
 			}
 
+			constexpr auto reduction() const
+			{
+				return *this;
+			}
+
 			template <::std::size_t Idx, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
@@ -86,6 +91,11 @@ namespace tlnc{
 				return TLNC_C(0.0);
 			}
 
+			constexpr auto reduction() const
+			{
+				return *this;
+			}
+
 			template <::std::size_t Idx, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{
@@ -126,6 +136,11 @@ namespace tlnc{
 			constexpr auto derivative() const
 			{
 				return TLNC_C(0.0);
+			}
+
+			constexpr auto reduction() const
+			{
+				return *this;
 			}
 
 			template <::std::size_t I, typename Arg, typename Memo>

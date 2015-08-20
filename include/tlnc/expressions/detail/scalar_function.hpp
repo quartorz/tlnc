@@ -25,6 +25,10 @@
 				{\
 					return __VA_ARGS__;\
 				}\
+				constexpr auto reduction() const\
+				{\
+					return name<decltype(Expr{}.reduction())>{};\
+				}\
 				template <::std::size_t I, typename Arg, typename Memo>\
 				constexpr void update_memo(Arg &&arg, Memo &memo) const\
 				{\

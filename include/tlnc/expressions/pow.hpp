@@ -29,6 +29,11 @@ namespace tlnc{
 				).reduction();
 			}
 
+			constexpr auto reduction() const
+			{
+				return pow<decltype(Base{}.reduction()), decltype(Exponent{}.reduction())>{};
+			}
+
 			template <::std::size_t I, typename Arg, typename Memo>
 			constexpr void update_memo(Arg &&arg, Memo &memo) const
 			{

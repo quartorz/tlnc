@@ -1,7 +1,6 @@
 #pragma once
 
 #include <tlnc/expressions/detail/scalar_function.hpp>
-#include <tlnc/expressions/detail/reduction.hpp>
 #include <tlnc/expressions/sin.hpp>
 
 namespace tlnc{

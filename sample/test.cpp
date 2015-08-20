@@ -172,12 +172,25 @@ int main()
 	}
 
 	{
+		using namespace bcl::literals;
+
 		using namespace tlnc;
-		using tlnc::x;
 
-		auto f = _1 * x<>;
+		auto f = _1 * x<> + _2 * x<>;
+		auto g = 1.0_dc * x<> + 2.0_dc * x<>;
 
-		std::cout << call(f, ::bcl::make_tuple(10.0, 2.0)) << std::endl;
+		std::cout << call(f, ::bcl::make_tuple(10.0, 1.0, 2.0)) << std::endl;
+		std::cout << call(g, 10.0) << std::endl << std::endl;
+
+		std::cout << name(call(f, ::bcl::make_tuple(10.0, 1.0, 2.0), memo()).second) << std::endl;
+	}
+
+	{
+		using namespace tlnc;
+		using tlnc::sin;
+		using tlnc::pow;
+
+		auto f = sin(_1) * x<> + pow(_2, _3) + _1;
 	}
 }
 
