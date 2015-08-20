@@ -4,6 +4,7 @@
 
 #include <tlnc/traits.hpp>
 #include <tlnc/generic.hpp>
+#include <tlnc/expressions/constant.hpp>
 #include <tlnc/expressions/detail/make_memo.hpp>
 #include <tlnc/expressions/detail/memo_find.hpp>
 
@@ -14,6 +15,9 @@ namespace tlnc{
 
 		template <typename Base, typename Exponent>
 		struct pow{
+			using base_type = Base;
+			using exponent_type = Exponent;
+
 			template <typename Arg>
 			constexpr auto operator()(Arg &&x) const
 			{
@@ -65,6 +69,36 @@ namespace tlnc{
 			constexpr auto operator()(T &&, U &&) const
 			{
 				return ::tlnc::expressions::pow<::std::decay_t<T>, ::std::decay_t<U>>{};
+			}
+
+			template <
+				typename T, typename U,
+				::std::enable_if_t<
+					::tlnc::is_expression_v<::std::decay_t<T>>
+					&& !tlnc::is_expression_v<::std::decay_t<U>>
+					&& ::tlnc::constant_traits<::tlnc::expressions::constant<::std::decay_t<U>>>::is_constant
+				>* = nullptr
+			>
+			constexpr auto operator()(T &&, U &&) const
+			{
+				return ::tlnc::expressions::pow<
+					::std::decay_t<T>, ::tlnc::expressions::constant<::std::decay_t<U>>
+				>{};
+			}
+
+			template <
+				typename T, typename U,
+				::std::enable_if_t<
+					!::tlnc::is_expression_v<::std::decay_t<T>>
+					&& ::tlnc::is_expression_v<::std::decay_t<U>>
+					&& ::tlnc::constant_traits<::tlnc::expressions::constant<::std::decay_t<T>>>::is_constant
+				>* = nullptr
+			>
+			constexpr auto operator()(T &&, U &&) const
+			{
+				return ::tlnc::expressions::pow<
+					::tlnc::expressions::constant<::std::decay_t<T>>, ::std::decay_t<U>
+				>{};
 			}
 
 			template <
