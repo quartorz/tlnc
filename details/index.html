@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>実装の詳細 &mdash; tlnc: Template Library for Numerical Computation beta ドキュメント</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tlnc: Template Library for Numerical Computation beta ドキュメント" href="../index.html"/>
+        <link rel="next" title="Expressions" href="../expressions/index.html"/>
+        <link rel="prev" title="tlnc: Template Library for Numerical Computation" href="../index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> tlnc: Template Library for Numerical Computation
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">実装の詳細</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">数式の記述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3">演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#details-expr-constant">定数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">プレースホルダ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id1">概要</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id2">ヘッダ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id3">使い方</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id4">多項式</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id5">クラス一覧</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id3">ヘッダ</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id4">型特性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#is">is_*系</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id5">その他</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">tlnc: Template Library for Numerical Computation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>実装の詳細</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/details/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="details">
+<span id="id1"></span><h1>実装の詳細<a class="headerlink" href="#details" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>数式の記述<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>関数<span class="math">\(f(x_0, x_1) = 2x_0 x_1 + \cos(\sin(x_0))\)</span>は、ライブラリを用いると以下のように書くことができる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">sin</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">cos</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="mi">2</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>この関数を<span class="math">\(f(1, 2)\)</span>のように呼び出すにはヘッダ<code class="docutils literal"><span class="pre">tlnc/call.hpp</span></code>をincludeして以下のように書く。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="n">boost</span><span class="o">::</span><span class="n">numeric</span><span class="o">::</span><span class="n">ublas</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span> <span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="n">args</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+<span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>この関数を用いて数式の記述に関する実装の詳細を述べる。</p>
+<div class="section" id="id3">
+<h3>演算子<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>加算の演算子<code class="docutils literal"><span class="pre">+</span></code>や乗算の演算子<code class="docutils literal"><span class="pre">*</span></code>などは<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間でオーバーロードされている。
+引数を表す<code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>や関数<code class="docutils literal"><span class="pre">cos</span></code>などを呼び出した結果のオブジェクトの型は
+同じ<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内で定義されたクラスなので、
+<code class="docutils literal"><span class="pre">2_dc</span> <span class="pre">*</span> <span class="pre">x&lt;0&gt;</span></code>などと書くと
+<a class="reference external" href="https://ezoeryou.github.io/cpp-book/C++11-Syntax-and-Feature.xhtml#basic.lookup.argdep">ADL</a>
+によって<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間でオーバーロードされた演算子が呼び出されることになる。
+よって、オーバーロードした演算子が<code class="docutils literal"><span class="pre">op_mul&lt;Ts...&gt;</span></code>のようなクラステンプレートを型に持つオブジェクトを返すようにすれば、
+式テンプレートによって数式の構造を保持することができることになる。</p>
+</div>
+<div class="section" id="id4">
+<h3>関数<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>上の例での<code class="docutils literal"><span class="pre">tlnc::cos</span></code>や<code class="docutils literal"><span class="pre">tlnc::sin</span></code>のような1変数関数に対する呼び出しは、引数の型が</p>
+<ol class="arabic simple">
+<li><code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラス</li>
+<li>定数になることができるクラス</li>
+<li>それ以外</li>
+</ol>
+<p>のどのパターンに当てはまるかによって結果が変わる。
+どのパターンに当てはまるかはSFINAEによって判定している。
+定数になることができるクラスについては<a class="reference internal" href="#details-expr-constant">定数</a>で説明する。
+各パターンでの動作は以下の通り。</p>
+<dl class="docutils">
+<dt>パターン1</dt>
+<dd><code class="docutils literal"><span class="pre">tlnc::expressions::cos&lt;T&gt;</span></code>のような<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラステンプレートに、テンプレートパラメータとして引数の型を渡したものを型とするオブジェクトを返す。</dd>
+<dt>パターン2</dt>
+<dd>コンパイル時に関数の値を評価し、その結果を数式内で扱える定数に変換する。</dd>
+<dt>パターン3</dt>
+<dd><a class="reference internal" href="../generic/index.html#generic"><span>Generic</span></a>の関数を呼び出したときと同じ動作をする</dd>
+</dl>
+<p>冪関数<code class="docutils literal"><span class="pre">pow</span></code>のような2変数関数の場合は、引数の型が</p>
+<ol class="arabic simple">
+<li>両方とも<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラス</li>
+<li>片方が<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラスで片方が定数になることができるクラス</li>
+<li>両方が定数になることができるクラス</li>
+<li>それ以外</li>
+</ol>
+<p>のように場合分けし、1変数の場合と同様に結果を返す。</p>
+</div>
+<div class="section" id="details-expr-constant">
+<span id="id5"></span><h3>定数<a class="headerlink" href="#details-expr-constant" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>クラステンプレートによって表現する。</p>
+</div>
+<div class="section" id="id6">
+<h3>引数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+</div>
+<div class="section" id="id7">
+<h3>プレースホルダ<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../expressions/index.html" class="btn btn-neutral float-right" title="Expressions" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../index.html" class="btn btn-neutral" title="tlnc: Template Library for Numerical Computation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, quarter.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'beta',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

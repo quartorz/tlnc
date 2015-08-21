@@ -1,0 +1,42 @@
+.. tlnc: Template Library for Numerical Computation documentation master file, created by
+   sphinx-quickstart on Fri Aug 21 05:05:03 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+tlnc: Template Library for Numerical Computation
+================================================
+
+概要
+----
+
+Boost.uBLASと\ `bcl <https://github.com/quartorz/bcl/>`_\ と\ `cti <https://github.com/quartorz/cti/>`_\ に依存した数値計算用のテンプレートライブラリ。
+Clang 3.6.2で\ ``-std=c++1z``\ オプションを付けてコンパイルが通ることは確認してある。
+
+インストール
+------------
+
+`リポジトリ <https://github.com/quartorz/tlnc/>`_\ の\ ``include``\ ディレクトリにパスを通す。
+GCCやClangを使う場合は環境変数\ ``CPLUS_INCLUDE_PATH``\ にディレクトリを追加するか、
+``-I``\ オプションでディレクトリを指定すればよい。
+`bcl <https://github.com/quartorz/bcl>`_\ と\ `cti <https://github.com/quartorz/cti/>`_\ も同様にインストールできる。
+どのライブラリもヘッダのみで動作する。
+Boost.uBLASのインストール方法は環境によるので各自で調べる。
+
+コンテンツ
+----------
+
+.. toctree::
+   :maxdepth: 2
+
+   expressions/index
+   generic/index
+   traits/index
+   details/index
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

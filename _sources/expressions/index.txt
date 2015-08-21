@@ -1,0 +1,29 @@
+.. expressoins:
+Expressions
+===========
+
+概要
+----
+
+式テンプレートを用いて数式を記述することができる。
+
+ヘッダ
+^^^^^^
+
+.. code-block:: cpp
+
+   #include <tlnc/expressions.hpp>
+
+使い方
+------
+
+多項式
+^^^^^^
+
+:math:`f(x)`
+
+
+クラス一覧
+----------
+
+.. cpp:class:: constant<typename T>

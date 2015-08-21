@@ -1,0 +1,92 @@
+.. _traits:
+
+Traits
+======
+
+概要
+----
+
+型特性(type traits)を提供する。
+
+ヘッダ
+^^^^^^
+
+.. code-block:: cpp
+
+   #include <tlnc/traits.hpp>
+
+型特性
+------
+
+is_*系
+^^^^^^
+
+``is_``\ で始まるクラステンプレートは、ある条件を満たす時に\ ``std::true_type``\ を継承し、
+条件を満たさない時は\ ``std::false_type``\ を継承する。
+
+.. cpp:class:: is_ublas_vector<typename T>
+
+   ``T``\ が\ ``boost::numeric::ublas::vector<T, A>``\ かどうかを判定する。
+
+.. cpp:class:: is_ublas_matrix<typename T>
+
+   ``T``\ が\ ``boost::numeric::ublas::matrix<T, F, A>``\ かどうかを判定する。
+
+.. cpp:class:: is_expression<typename T>
+
+   ``T``\ が\ ``tlnc::expressions``\ 名前空間内で定義され、数式内に記述できる型かどうかを判定する。
+
+.. cpp:class:: is_callable<typename T, typename ... U>
+
+   関数または関数オブジェクトを表す型\ ``T``\ のインスタンスに対して、
+   ``U...``\ 型とするオブジェクトを引数として与えて呼び出しが行えるかどうかを判定する。
+
+.. cpp:class:: is_value<typename T>
+
+   ``T``\ が\ :cpp:class:`constant`\ のテンプレートパラメータとなることができるかどうかを判定する。
+   詳細は\ :cpp:class:`constant`\ に記載する。
+
+その他
+^^^^^^
+
+.. cpp:class:: value_type<typename T>
+
+   .. cpp:type:: type
+
+      ``T``\ が\ ``boost::numeric:ublas::vector<T, A>``\ や
+      ``boost::numeric::ublas::matrix<T, F, A>``\ であれば\ ``T::value_type``\ 、
+      そうでなければ\ ``T``\ となる。
+      エイリアス\ ``value_type_t<T>``\ が存在する。
+
+.. cpp:class:: constant_traits<typename T, typename = void>
+
+   .. cpp:member:: static constexpr bool is_constant
+
+      ``T``\ が\ :cpp:class:`constant`\ で、
+      渡されているテンプレートパラメータが\ :cpp:class:`is_value`\ を満たす時に\ ``true``\ 、
+      それ以外の時に\ ``false``\ となる。
+
+   .. cpp:member:: static constexpr bool is_zero
+
+      ``is_constant``\ が\ ``false``\ の時は常に\ ``false``\ となる。
+      ``is_constant``\ が\ ``true``\ で、かつ\ :cpp:class:`constant`\ に渡されているテンプレートパラメータが
+      ちょうど\ ``0.0``\ を表す場合に\ ``true``\ となる。
+
+   .. cpp:member:: static constexpr bool is_one
+
+      ``is_constant``\ が\ ``false``\ の時は常に\ ``false``\ となる。
+      ``is_constant``\ が\ ``true``\ で、かつ\ :cpp:class:`constant`\ に渡されているテンプレートパラメータが
+      ちょうど\ ``1.0``\ を表す場合に\ ``true``\ となる。
+
+   .. cpp:type:: zero_type
+
+      ``is_constant``\ が\ ``false``\ の時は定義されない。
+      ``is_constant``\ が\ ``true``\ の時は、
+      :cpp:class:`constant`\ が保持する値の型のコンストラクタに\ ``0.0``\ を渡した時の値を表現する型を保持する。
+
+   .. cpp:type:: one_type
+
+      ``is_constant``\ が\ ``false``\ の時は定義されない。
+      ``is_constant``\ が\ ``true``\ の時は、
+      :cpp:class:`constant`\ が保持する値の型のコンストラクタに\ ``1.0``\ を渡した時の値を表現する型を保持する。
+
