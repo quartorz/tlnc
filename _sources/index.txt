@@ -15,7 +15,7 @@ Clang 3.6.2で\ ``-std=c++1z``\ オプションを付けてコンパイルが通
 インストール
 ------------
 
-`リポジトリ <https://github.com/quartorz/tlnc/>`_\ の\ ``include``\ ディレクトリにパスを通す。
+`リポジトリ <https://github.com/quartorz/tlnc/>`_\ の\ ``include``\ ディレクトリにパスを通せば使うことができる。
 GCCやClangを使う場合は環境変数\ ``CPLUS_INCLUDE_PATH``\ にディレクトリを追加するか、
 ``-I``\ オプションでディレクトリを指定すればよい。
 `bcl <https://github.com/quartorz/bcl>`_\ と\ `cti <https://github.com/quartorz/cti/>`_\ も同様にインストールできる。
