@@ -15,7 +15,7 @@ Traits
 
    #include <tlnc/traits.hpp>
 
-型特性
+一覧
 ------
 
 is_*系
