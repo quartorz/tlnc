@@ -76,7 +76,7 @@ namespace tlnc{
 				::std::enable_if_t<
 					::tlnc::is_expression_v<::std::decay_t<T>>
 					&& !tlnc::is_expression_v<::std::decay_t<U>>
-					&& ::tlnc::constant_traits<::tlnc::expressions::constant<::std::decay_t<U>>>::is_constant
+					&& ::tlnc::is_value<::std::decay_t<U>>{}
 				>* = nullptr
 			>
 			constexpr auto operator()(T &&, U &&) const
@@ -91,7 +91,7 @@ namespace tlnc{
 				::std::enable_if_t<
 					!::tlnc::is_expression_v<::std::decay_t<T>>
 					&& ::tlnc::is_expression_v<::std::decay_t<U>>
-					&& ::tlnc::constant_traits<::tlnc::expressions::constant<::std::decay_t<T>>>::is_constant
+					&& ::tlnc::is_value<::std::decay_t<T>>{}
 				>* = nullptr
 			>
 			constexpr auto operator()(T &&, U &&) const
