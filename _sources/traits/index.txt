@@ -58,7 +58,18 @@ is_*系
       そうでなければ\ ``T``\ となる。
       エイリアス\ ``value_type_t<T>``\ が存在する。
 
-.. cpp:class:: constant_traits<typename T, typename = void>
+.. _constant_traits:
+
+.. cpp:class:: constant_traits<typename T>
+
+   * 宣言
+
+   .. code-block:: cpp
+
+      template <typename T, typename = void>
+      struct constant_traits;
+
+   2番目の引数は特殊化を定義する際に使われるものなので無視してよい。
 
    .. cpp:member:: static constexpr bool is_constant
 

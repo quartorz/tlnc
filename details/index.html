@@ -72,15 +72,15 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id1">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id2">ヘッダ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id2">概要</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id3">ヘッダ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id3">使い方</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id4">多項式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">使い方</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id5">多項式</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id5">クラス一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id6">クラス一覧</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
@@ -89,7 +89,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id3">ヘッダ</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id4">型特性</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id4">一覧</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../traits/index.html#is">is_*系</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id5">その他</a></li>
 </ul>
@@ -98,11 +98,16 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">実装の詳細</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">数式の記述</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">演算子</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id4">関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#details-expr-operators">演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">1変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#details-expr-func-twovars">2変数関数</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#details-expr-constant">定数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id6">引数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">プレースホルダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">プレースホルダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#details-expr-eval">評価</a></li>
 </ul>
 </li>
 </ul>
@@ -166,55 +171,80 @@
 </pre></div>
 </div>
 <p>この関数を用いて数式の記述に関する実装の詳細を述べる。</p>
-<div class="section" id="id3">
-<h3>演算子<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>加算の演算子<code class="docutils literal"><span class="pre">+</span></code>や乗算の演算子<code class="docutils literal"><span class="pre">*</span></code>などは<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間でオーバーロードされている。
-引数を表す<code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>や関数<code class="docutils literal"><span class="pre">cos</span></code>などを呼び出した結果のオブジェクトの型は
+<div class="section" id="details-expr-operators">
+<span id="id3"></span><h3>演算子<a class="headerlink" href="#details-expr-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>演算子のオーバーロードはパターン4以外の動作をする
+<a class="reference internal" href="#details-expr-func-twovars"><span>2変数関数</span></a>と同じように定義されている。
+しかし、2変数関数と違って名前空間は<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>に属している。
+引数を表す<code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>や関数<code class="docutils literal"><span class="pre">cos</span></code>などを呼び出した結果のオブジェクトの型も
 同じ<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内で定義されたクラスなので、
-<code class="docutils literal"><span class="pre">2_dc</span> <span class="pre">*</span> <span class="pre">x&lt;0&gt;</span></code>などと書くと
+<code class="docutils literal"><span class="pre">2_dc</span> <span class="pre">*</span> <span class="pre">x&lt;0&gt;</span></code>や<code class="docutils literal"><span class="pre">x&lt;0&gt;</span> <span class="pre">+</span> <span class="pre">cos(x&lt;0&gt;)</span></code>などと書くと
 <a class="reference external" href="https://ezoeryou.github.io/cpp-book/C++11-Syntax-and-Feature.xhtml#basic.lookup.argdep">ADL</a>
 によって<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間でオーバーロードされた演算子が呼び出されることになる。
-よって、オーバーロードした演算子が<code class="docutils literal"><span class="pre">op_mul&lt;Ts...&gt;</span></code>のようなクラステンプレートを型に持つオブジェクトを返すようにすれば、
-式テンプレートによって数式の構造を保持することができることになる。</p>
+よって、オーバーロードした演算子が<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内で定義されて
+<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たす<code class="docutils literal"><span class="pre">op_mul&lt;Ts...&gt;</span></code>のようなクラステンプレートを
+型に持つオブジェクトを返すようにすれば、
+式テンプレートによって数式の構造を保持することができることになり、
+演算子を適用した結果を更に式の一部として利用できることになる。</p>
 </div>
 <div class="section" id="id4">
 <h3>関数<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>どのような関数があるかは<a class="reference internal" href="../expressions/index.html#expressions"><span>Expressions</span></a>を参照。</p>
+<div class="section" id="id5">
+<h4>1変数関数<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>上の例での<code class="docutils literal"><span class="pre">tlnc::cos</span></code>や<code class="docutils literal"><span class="pre">tlnc::sin</span></code>のような1変数関数に対する呼び出しは、引数の型が</p>
 <ol class="arabic simple">
-<li><code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラス</li>
-<li>定数になることができるクラス</li>
+<li><a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラス</li>
+<li><a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たすクラス</li>
 <li>それ以外</li>
 </ol>
 <p>のどのパターンに当てはまるかによって結果が変わる。
 どのパターンに当てはまるかはSFINAEによって判定している。
-定数になることができるクラスについては<a class="reference internal" href="#details-expr-constant">定数</a>で説明する。
 各パターンでの動作は以下の通り。</p>
 <dl class="docutils">
 <dt>パターン1</dt>
-<dd><code class="docutils literal"><span class="pre">tlnc::expressions::cos&lt;T&gt;</span></code>のような<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラステンプレートに、テンプレートパラメータとして引数の型を渡したものを型とするオブジェクトを返す。</dd>
+<dd><code class="docutils literal"><span class="pre">tlnc::expressions::cos&lt;T&gt;</span></code>のような<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内の
+<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラステンプレートに、
+テンプレートパラメータとして引数の型を渡したものを型とするオブジェクトを返す。</dd>
 <dt>パターン2</dt>
 <dd>コンパイル時に関数の値を評価し、その結果を数式内で扱える定数に変換する。</dd>
 <dt>パターン3</dt>
 <dd><a class="reference internal" href="../generic/index.html#generic"><span>Generic</span></a>の関数を呼び出したときと同じ動作をする</dd>
 </dl>
+</div>
+<div class="section" id="details-expr-func-twovars">
+<span id="id6"></span><h4>2変数関数<a class="headerlink" href="#details-expr-func-twovars" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>冪関数<code class="docutils literal"><span class="pre">pow</span></code>のような2変数関数の場合は、引数の型が</p>
 <ol class="arabic simple">
-<li>両方とも<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラス</li>
-<li>片方が<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>名前空間内のクラスで片方が定数になることができるクラス</li>
-<li>両方が定数になることができるクラス</li>
+<li>両方とも<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラス</li>
+<li>片方が<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラスで片方が<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たすクラス</li>
+<li>両方とも<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たすクラス</li>
 <li>それ以外</li>
 </ol>
-<p>のように場合分けし、1変数の場合と同様に結果を返す。</p>
+<p>のように場合分けし、1変数の場合と同様に結果を返す。
+ただし、パターン2の場合は<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たす方の引数を<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>の
+テンプレートパラメータに渡したものと同一視し、パターン1と同様の処理をする。
+<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラスと、
+<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>も<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>も満たさないクラスを混在させた場合は、
+コンパイルエラーになる。</p>
+</div>
 </div>
 <div class="section" id="details-expr-constant">
-<span id="id5"></span><h3>定数<a class="headerlink" href="#details-expr-constant" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>クラステンプレートによって表現する。</p>
+<span id="id7"></span><h3>定数<a class="headerlink" href="#details-expr-constant" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>使い方は<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>を参照。</p>
+<p><a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>クラステンプレートによって表現する。
+<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>のテンプレートパラメータに要求される要件については<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>を参照。</p>
 </div>
-<div class="section" id="id6">
-<h3>引数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id8">
+<h3>引数<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>使い方は を参照。</p>
+<p>可変引数の変数テンプレートを特殊化して実現している。</p>
 </div>
-<div class="section" id="id7">
-<h3>プレースホルダ<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id9">
+<h3>プレースホルダ<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+</div>
+<div class="section" id="details-expr-eval">
+<span id="id10"></span><h3>評価<a class="headerlink" href="#details-expr-eval" title="このヘッドラインへのパーマリンク">¶</a></h3>
 </div>
 </div>
 </div>

@@ -212,44 +212,52 @@
 
 </dd></dl>
 
-<dl class="class">
-<dt id="_CPPv215constant_traitsI1TXtypename = voidEE">
-<span id="constant_traits:T.typename-=-void:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">constant_traits</code>&lt;<em class="property">typename</em> T, typename = void&gt;<a class="headerlink" href="#_CPPv215constant_traitsI1TXtypename = voidEE" title="この定義へのパーマリンク">¶</a></dt>
-<dd><dl class="member">
-<dt id="_CPPv2N15constant_traitsI1TXtypename = voidEE11is_constantE">
-<span id="constant_traits:T.typename-=-void:::is_constant__b"></span><em class="property">static</em> <em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_constant</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TXtypename = voidEE11is_constantE" title="この定義へのパーマリンク">¶</a></dt>
+<span class="target" id="constant-traits"></span><dl class="class">
+<dt id="_CPPv215constant_traitsI1TE">
+<span id="constant_traits:T:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">constant_traits</code>&lt;<em class="property">typename</em> T&gt;<a class="headerlink" href="#_CPPv215constant_traitsI1TE" title="この定義へのパーマリンク">¶</a></dt>
+<dd><ul class="simple">
+<li>宣言</li>
+</ul>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="n">T</span><span class="p">,</span> <span class="k">typename</span> <span class="o">=</span> <span class="kt">void</span><span class="o">&gt;</span>
+<span class="k">struct</span> <span class="n">constant_traits</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>2番目の引数は特殊化を定義する際に使われるものなので無視してよい。</p>
+<dl class="member">
+<dt id="_CPPv2N15constant_traitsI1TE11is_constantE">
+<span id="constant_traits:T:::is_constant__b"></span><em class="property">static</em> <em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_constant</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TE11is_constantE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><code class="docutils literal"><span class="pre">T</span></code>が<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>で、
 渡されているテンプレートパラメータが<a class="reference internal" href="#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たす時に<code class="docutils literal"><span class="pre">true</span></code>、
 それ以外の時に<code class="docutils literal"><span class="pre">false</span></code>となる。</p>
 </dd></dl>
 
 <dl class="member">
-<dt id="_CPPv2N15constant_traitsI1TXtypename = voidEE7is_zeroE">
-<span id="constant_traits:T.typename-=-void:::is_zero__b"></span><em class="property">static</em> <em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_zero</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TXtypename = voidEE7is_zeroE" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N15constant_traitsI1TE7is_zeroE">
+<span id="constant_traits:T:::is_zero__b"></span><em class="property">static</em> <em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_zero</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TE7is_zeroE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">false</span></code>の時は常に<code class="docutils literal"><span class="pre">false</span></code>となる。
 <code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">true</span></code>で、かつ<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>に渡されているテンプレートパラメータが
 ちょうど<code class="docutils literal"><span class="pre">0.0</span></code>を表す場合に<code class="docutils literal"><span class="pre">true</span></code>となる。</p>
 </dd></dl>
 
 <dl class="member">
-<dt id="_CPPv2N15constant_traitsI1TXtypename = voidEE6is_oneE">
-<span id="constant_traits:T.typename-=-void:::is_one__b"></span><em class="property">static</em> <em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_one</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TXtypename = voidEE6is_oneE" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N15constant_traitsI1TE6is_oneE">
+<span id="constant_traits:T:::is_one__b"></span><em class="property">static</em> <em class="property">constexpr</em> bool <code class="descclassname"></code><code class="descname">is_one</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TE6is_oneE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">false</span></code>の時は常に<code class="docutils literal"><span class="pre">false</span></code>となる。
 <code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">true</span></code>で、かつ<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>に渡されているテンプレートパラメータが
 ちょうど<code class="docutils literal"><span class="pre">1.0</span></code>を表す場合に<code class="docutils literal"><span class="pre">true</span></code>となる。</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="_CPPv2N15constant_traitsI1TXtypename = voidEE9zero_typeE">
-<span id="constant_traits:T.typename-=-void:::zero_type"></span><em class="property">type </em><code class="descclassname"></code><code class="descname">zero_type</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TXtypename = voidEE9zero_typeE" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N15constant_traitsI1TE9zero_typeE">
+<span id="constant_traits:T:::zero_type"></span><em class="property">type </em><code class="descclassname"></code><code class="descname">zero_type</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TE9zero_typeE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">false</span></code>の時は定義されない。
 <code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">true</span></code>の時は、
 <a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>が保持する値の型のコンストラクタに<code class="docutils literal"><span class="pre">0.0</span></code>を渡した時の値を表現する型を保持する。</p>
 </dd></dl>
 
 <dl class="type">
-<dt id="_CPPv2N15constant_traitsI1TXtypename = voidEE8one_typeE">
-<span id="constant_traits:T.typename-=-void:::one_type"></span><em class="property">type </em><code class="descclassname"></code><code class="descname">one_type</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TXtypename = voidEE8one_typeE" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv2N15constant_traitsI1TE8one_typeE">
+<span id="constant_traits:T:::one_type"></span><em class="property">type </em><code class="descclassname"></code><code class="descname">one_type</code><a class="headerlink" href="#_CPPv2N15constant_traitsI1TE8one_typeE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">false</span></code>の時は定義されない。
 <code class="docutils literal"><span class="pre">is_constant</span></code>が<code class="docutils literal"><span class="pre">true</span></code>の時は、
 <a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>が保持する値の型のコンストラクタに<code class="docutils literal"><span class="pre">1.0</span></code>を渡した時の値を表現する型を保持する。</p>
