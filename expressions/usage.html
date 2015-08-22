@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>使い方 &mdash; tlnc: Template Library for Numerical Computation beta ドキュメント</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tlnc: Template Library for Numerical Computation beta ドキュメント" href="../index.html"/>
+        <link rel="up" title="Expressions" href="index.html"/>
+        <link rel="next" title="Call" href="../call/index.html"/>
+        <link rel="prev" title="Expressions" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+        
+
+        
+          <a href="../index.html" class="icon icon-home"> tlnc: Template Library for Numerical Computation
+        
+
+        
+        </a>
+
+        
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        
+          
+          
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Expressions</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#id2">概要</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="">使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">定数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">関数を含む式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">多変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">ベクトルや行列を返す関数</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#id4">変数一覧</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#is">is_*系</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id4">その他</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式の記述</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-operators">演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id4">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id5">1変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#details-expr-func-twovars">2変数関数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id9">プレースホルダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-eval">評価</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          
+        
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">tlnc: Template Library for Numerical Computation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="index.html">Expressions</a> &raquo;</li>
+      
+    <li>使い方</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/expressions/usage.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document">
+            
+  <div class="section" id="expr-usage">
+<span id="id1"></span><h1>使い方<a class="headerlink" href="#expr-usage" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<p>呼び出し方については<a class="reference internal" href="../call/index.html#call"><span>Call</span></a>を、
+微分については<a class="reference internal" href="../derivative/index.html#derivative"><span>Derivative</span></a>を参照。</p>
+<div class="section" id="id2">
+<h2>定数関数<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><span class="math">\(2x\)</span>の係数<span class="math">\(2\)</span>のようなものも含めて、式内の全ての定数は定数関数とみなす。
+つまり<span class="math">\(f(x) = 2x\)</span>という関数は、</p>
+<div class="math">
+\[\begin{split}&amp;f_1(x) = 2\\
+&amp;f_2(x) = x\\
+&amp;f(x) = f_1(x) \cdot f_2(x)\end{split}\]</div>
+<p>のような関数の積だと考える。</p>
+<p>定数関数はマクロかユーザー定義リテラルと関数の組み合わせによって記述する。
+<code class="docutils literal"><span class="pre">double</span></code>型の定数か<code class="docutils literal"><span class="pre">double</span></code>型を要素とする区間を記述することができる。</p>
+<div class="section" id="id3">
+<h3>マクロ<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;tlnc/constant.hpp&gt;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">TLNC_C</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">TLNC_I</span><span class="p">(</span><span class="mf">1.0</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">h</span> <span class="o">=</span> <span class="n">TLNC_I</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">f</span></code>は<code class="docutils literal"><span class="pre">double</span></code>型の定数<code class="docutils literal"><span class="pre">1.0</span></code>を返す関数、
+<code class="docutils literal"><span class="pre">g</span></code>は<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>型の点区間<span class="math">\([1.0, 1.0]\)</span>を返す関数、
+<code class="docutils literal"><span class="pre">h</span></code>は<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>型の区間<span class="math">\([1.0, 2.0]\)</span>を返す関数を表す。
+<code class="docutils literal"><span class="pre">TLNC_C</span></code>マクロに対して<code class="docutils literal"><span class="pre">C_</span></code>、<code class="docutils literal"><span class="pre">TLNC_I</span></code>マクロに対して<code class="docutils literal"><span class="pre">I_</span></code>という別名も定義される。</p>
+</div>
+<div class="section" id="id4">
+<h3>ユーザー定義リテラルと関数<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>ユーザー定義リテラルを用いると、(定数関数ではなく)定数を表す特殊なオブジェクトを作ることができる。
+そのオブジェクトを<code class="docutils literal"><span class="pre">tlnc::c</span></code>関数に渡すと定数関数を生成することができるが、
+実際には純粋な定数関数を生成する場合以外は<code class="docutils literal"><span class="pre">tlnc::c</span></code>を使わなくても期待した動作をする。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;bcl/literals.hpp&gt;  </span><span class="c1">// double型の定数を生成する</span>
+<span class="cp">#include &lt;cti/literals.hpp&gt;  </span><span class="c1">// double型の点区間を生成する</span>
+<span class="cp">#include &lt;cti/operators.hpp&gt; </span><span class="c1">// double型の区間を生成する</span>
+
+<span class="k">using</span> <span class="n">bcl</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>  <span class="c1">// _dcリテラルを使えるようにする</span>
+<span class="k">using</span> <span class="n">cti</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>  <span class="c1">// _diリテラルを使えるようにする</span>
+<span class="k">using</span> <span class="n">cti</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span> <span class="c1">// _dcリテラルに対するoperator,を使えるようにする</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_dc</span><span class="p">;</span>                 <span class="c1">// 1.0を表すオブジェクト</span>
+<span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">c</span><span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">);</span>        <span class="c1">// 1.0を返す定数関数</span>
+<span class="k">auto</span> <span class="n">h</span> <span class="o">=</span> <span class="mf">2.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>           <span class="c1">// h(x) = 2x</span>
+<span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mf">2.0</span><span class="n">_dc</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>        <span class="c1">// h(x)と同じ意味</span>
+<span class="k">auto</span> <span class="n">j</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_di</span><span class="p">;</span>                 <span class="c1">// 点区間[1.0, 1.0]を表すオブジェクト</span>
+<span class="k">auto</span> <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">);</span>       <span class="c1">// 区間[1.0, 2.0]を表すオブジェクト</span>
+<span class="k">auto</span> <span class="n">l</span> <span class="o">=</span> <span class="n">c</span><span class="p">((</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">));</span>    <span class="c1">// 区間[1.0, 2.0]を返す定数関数</span>
+<span class="k">auto</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span> <span class="c1">// m(x) = [1.0, 2.0] * x</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">l</span></code>は区間を生成する式<code class="docutils literal"><span class="pre">(1.0_dc,</span> <span class="pre">2.0_dc)</span></code>を関数<code class="docutils literal"><span class="pre">tlnc::c</span></code>に渡しているためカッコが2重になっている。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>関数を含む式<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>多項式<span class="math">\(f(x) = x^2 + 2x + 1\)</span>は、関数<code class="docutils literal"><span class="pre">pow</span></code>を用いて以下のように書ける。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">pow</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">,</span> <span class="mi">2</span><span class="n">_dc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span> <span class="o">+</span> <span class="mi">1</span><span class="n">_dc</span><span class="p">;</span>
+</pre></div>
+</div>
+<p><span class="math">\(g(x) = \cos(\sin(x))\)</span>のように、式を入れ子にすることもできる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">cos</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">sin</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">cos</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>多変数関数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>多変数関数は、ベクトルを受け取る関数として定義する。
+例えば、<span class="math">\(f(x_0, x_1) = x_0 x_1 + \cos(\sin(x_0))\)</span>は次のように定義する。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">cos</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">sin</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>は「引数として渡されたベクトルの0番目の要素を取り出す」という意味である。
+<a class="reference internal" href="index.html#_CPPv212element_prodRR5Expr1RR5Expr2" title="element_prod"><code class="xref cpp cpp-func docutils literal"><span class="pre">element_prod()</span></code></a>のようなベクトルを受け取る関数に引数をそのまま渡す時は、
+<code class="docutils literal"><span class="pre">element_prod(x&lt;&gt;,</span> <span class="pre">x&lt;&gt;)</span></code>のようにすればよい。
+<code class="docutils literal"><span class="pre">x&lt;0,</span> <span class="pre">0&gt;</span></code>のように書けば行列を受け取る関数も記述できる。</p>
+</div>
+<div class="section" id="id7">
+<h2>ベクトルや行列を返す関数<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>関数を<code class="docutils literal"><span class="pre">,</span></code>でつなぐとベクトルを返す関数を記述でき、
+ベクトルを返す関数を<code class="docutils literal"><span class="pre">,</span></code>でつなぐと行列を返す関数を記述できる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">bcl</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">);</span>
+<span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="mf">3.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">,</span> <span class="mf">4.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../call/index.html" class="btn btn-neutral float-right" title="Call" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Expressions" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, quarter.
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'beta',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

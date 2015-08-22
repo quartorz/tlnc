@@ -8,15 +8,14 @@ Traits
 
 型特性(type traits)を提供する。
 
-ヘッダ
-^^^^^^
+* ヘッダ
 
 .. code-block:: cpp
 
    #include <tlnc/traits.hpp>
 
-一覧
-------
+クラス一覧
+----------
 
 is_*系
 ^^^^^^

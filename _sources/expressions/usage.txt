@@ -1,0 +1,125 @@
+.. _expr-usage:
+
+使い方
+======
+
+呼び出し方については\ :ref:`call`\ を、
+微分については\ :ref:`derivative`\ を参照。
+
+定数関数
+--------
+
+:math:`2x`\ の係数\ :math:`2`\ のようなものも含めて、式内の全ての定数は定数関数とみなす。
+つまり\ :math:`f(x) = 2x`\ という関数は、
+
+.. math::
+
+   &f_1(x) = 2\\
+   &f_2(x) = x\\
+   &f(x) = f_1(x) \cdot f_2(x)
+
+のような関数の積だと考える。
+
+定数関数はマクロかユーザー定義リテラルと関数の組み合わせによって記述する。
+``double``\ 型の定数か\ ``double``\ 型を要素とする区間を記述することができる。
+
+マクロ
+^^^^^^
+
+.. code-block:: cpp
+
+   #include <tlnc/constant.hpp>
+
+   auto f = TLNC_C(1.0);
+   auto g = TLNC_I(1.0);
+   auto h = TLNC_I(1.0, 2.0);
+
+``f``\ は\ ``double``\ 型の定数\ ``1.0``\ を返す関数、
+``g``\ は\ ``kv::interval<double>``\ 型の点区間\ :math:`[1.0, 1.0]`\ を返す関数、
+``h``\ は\ ``kv::interval<double>``\ 型の区間\ :math:`[1.0, 2.0]`\ を返す関数を表す。
+``TLNC_C``\ マクロに対して\ ``C_``\ 、\ ``TLNC_I``\ マクロに対して\ ``I_``\ という別名も定義される。
+
+ユーザー定義リテラルと関数
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+ユーザー定義リテラルを用いると、(定数関数ではなく)定数を表す特殊なオブジェクトを作ることができる。
+そのオブジェクトを\ ``tlnc::c``\ 関数に渡すと定数関数を生成することができるが、
+実際には純粋な定数関数を生成する場合以外は\ ``tlnc::c``\ を使わなくても期待した動作をする。
+
+.. code-block:: cpp
+
+   #include <bcl/literals.hpp>  // double型の定数を生成する
+   #include <cti/literals.hpp>  // double型の点区間を生成する
+   #include <cti/operators.hpp> // double型の区間を生成する
+
+   using bcl::literals;  // _dcリテラルを使えるようにする
+   using cti::literals;  // _diリテラルを使えるようにする
+   using cti::operators; // _dcリテラルに対するoperator,を使えるようにする
+
+   auto f = 1.0_dc;                 // 1.0を表すオブジェクト
+   auto g = tlnc::c(1.0_dc);        // 1.0を返す定数関数
+   auto h = 2.0_dc * x<>;           // h(x) = 2x
+   auto i = c(2.0_dc) * x<>;        // h(x)と同じ意味
+   auto j = 1.0_di;                 // 点区間[1.0, 1.0]を表すオブジェクト
+   auto k = (1.0_dc, 2.0_dc);       // 区間[1.0, 2.0]を表すオブジェクト
+   auto l = c((1.0_dc, 2.0_dc));    // 区間[1.0, 2.0]を返す定数関数
+   auto m = (1.0_dc, 2.0_dc) * x<>; // m(x) = [1.0, 2.0] * x
+
+``l``\ は区間を生成する式\ ``(1.0_dc, 2.0_dc)``\ を関数\ ``tlnc::c``\ に渡しているためカッコが2重になっている。
+
+関数を含む式
+------------
+
+多項式\ :math:`f(x) = x^2 + 2x + 1`\ は、関数\ ``pow``\ を用いて以下のように書ける。
+
+.. code-block:: cpp
+
+   using tlnc::x;
+   using tlnc::pow;
+
+   auto f = pow(x<>, 2_dc) + 2_dc * x<> + 1_dc;
+
+:math:`g(x) = \cos(\sin(x))`\ のように、式を入れ子にすることもできる。
+
+.. code-block:: cpp
+
+   using tlnc::x;
+   using tlnc::cos;
+   using tlnc::sin;
+
+   auto g = cos(sin(x<>));
+
+多変数関数
+----------
+
+多変数関数は、ベクトルを受け取る関数として定義する。
+例えば、\ :math:`f(x_0, x_1) = x_0 x_1 + \cos(\sin(x_0))`\ は次のように定義する。
+
+.. code-block:: cpp
+
+   using tlnc::x;
+   using tlnc::cos;
+   using tlnc::sin;
+
+   auto f = x<0> * x<1> + cos(sin(x<0>));
+
+``x<0>``\ は「引数として渡されたベクトルの0番目の要素を取り出す」という意味である。
+:cpp:func:`element_prod`\ のようなベクトルを受け取る関数に引数をそのまま渡す時は、
+``element_prod(x<>, x<>)``\ のようにすればよい。
+``x<0, 0>``\ のように書けば行列を受け取る関数も記述できる。
+
+ベクトルや行列を返す関数
+------------------------
+
+関数を\ ``,``\ でつなぐとベクトルを返す関数を記述でき、
+ベクトルを返す関数を\ ``,``\ でつなぐと行列を返す関数を記述できる。
+
+.. code-block:: cpp
+
+   using bcl::literals;
+   using tlnc::x;
+
+   auto f = (x<>, 2.0_dc * x<>);
+   auto g = (f, (3.0_dc * x<>, 4.0_dc * x<>));
+
+

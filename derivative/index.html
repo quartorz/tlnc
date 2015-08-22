@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>constantクラス &mdash; tlnc: Template Library for Numerical Computation beta ドキュメント</title>
+  <title>Derivative &mdash; tlnc: Template Library for Numerical Computation beta ドキュメント</title>
   
 
   
@@ -30,7 +30,9 @@
   
 
   
-    <link rel="top" title="tlnc: Template Library for Numerical Computation beta ドキュメント" href="../index.html"/> 
+    <link rel="top" title="tlnc: Template Library for Numerical Computation beta ドキュメント" href="../index.html"/>
+        <link rel="next" title="Generic" href="../generic/index.html"/>
+        <link rel="prev" title="Call" href="../call/index.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -69,39 +71,46 @@
         
           
           
-              <ul>
-<li class="toctree-l1"><a class="reference internal" href="index.html">Expressions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id1">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="index.html#id2">ヘッダ</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id2">概要</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/usage.html">使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id2">定数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id5">関数を含む式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id6">多変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id7">ベクトルや行列を返す関数</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id3">使い方</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="index.html#id4">多項式</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="index.html#id5">クラス一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">変数一覧</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id3">ヘッダ</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id4">型特性</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../traits/index.html#is">is_*系</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id5">その他</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id4">その他</a></li>
 </ul>
 </li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式の記述</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id3">演算子</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id4">関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-operators">演算子</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id4">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id5">1変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#details-expr-func-twovars">2変数関数</a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id6">引数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id7">プレースホルダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id9">プレースホルダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-eval">評価</a></li>
 </ul>
 </li>
 </ul>
@@ -130,11 +139,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="../index.html">Docs</a> &raquo;</li>
       
-    <li>constantクラス</li>
+    <li>Derivative</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/expressions/constant.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/derivative/index.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -143,13 +152,22 @@
 </div>
           <div role="main" class="document">
             
-  <div class="section" id="constant">
-<span id="expressions-constant"></span><h1>constantクラス<a class="headerlink" href="#constant" title="このヘッドラインへのパーマリンク">¶</a></h1>
+  <div class="section" id="derivative">
+<span id="id1"></span><h1>Derivative<a class="headerlink" href="#derivative" title="このヘッドラインへのパーマリンク">¶</a></h1>
 </div>
 
 
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../generic/index.html" class="btn btn-neutral float-right" title="Generic" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../call/index.html" class="btn btn-neutral" title="Call" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

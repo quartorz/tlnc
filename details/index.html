@@ -73,25 +73,27 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id3">ヘッダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/usage.html">使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id2">定数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id5">関数を含む式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id6">多変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id7">ベクトルや行列を返す関数</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">使い方</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id5">多項式</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id6">クラス一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">変数一覧</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id3">ヘッダ</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id4">一覧</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../traits/index.html#is">is_*系</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id5">その他</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id4">その他</a></li>
 </ul>
 </li>
 </ul>
@@ -222,7 +224,7 @@
 <li>それ以外</li>
 </ol>
 <p>のように場合分けし、1変数の場合と同様に結果を返す。
-ただし、パターン2の場合は<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たす方の引数を<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>の
+ただし、パターン2の場合は<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>を満たす方の引数を<code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code>の
 テンプレートパラメータに渡したものと同一視し、パターン1と同様の処理をする。
 <a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラスと、
 <a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>も<a class="reference internal" href="../traits/index.html#_CPPv28is_valueI1TE" title="is_value"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_value</span></code></a>も満たさないクラスを混在させた場合は、
@@ -231,9 +233,9 @@
 </div>
 <div class="section" id="details-expr-constant">
 <span id="id7"></span><h3>定数<a class="headerlink" href="#details-expr-constant" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>使い方は<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>を参照。</p>
-<p><a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>クラステンプレートによって表現する。
-<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>のテンプレートパラメータに要求される要件については<a class="reference internal" href="../expressions/index.html#_CPPv28constantI1TE" title="constant"><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code></a>を参照。</p>
+<p>使い方は<code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code>を参照。</p>
+<p><code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code>クラステンプレートによって表現する。
+<code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code>のテンプレートパラメータに要求される要件については<code class="xref cpp cpp-class docutils literal"><span class="pre">constant</span></code>を参照。</p>
 </div>
 <div class="section" id="id8">
 <h3>引数<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>

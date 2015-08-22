@@ -31,7 +31,7 @@
 
   
     <link rel="top" title="tlnc: Template Library for Numerical Computation beta ドキュメント" href="../index.html"/>
-        <link rel="next" title="Generic" href="../generic/index.html"/>
+        <link rel="next" title="使い方" href="usage.html"/>
         <link rel="prev" title="tlnc: Template Library for Numerical Computation" href="../index.html"/> 
 
   
@@ -74,25 +74,27 @@
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Expressions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id3">ヘッダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="usage.html">使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#id2">定数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#id5">関数を含む式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#id6">多変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="usage.html#id7">ベクトルや行列を返す関数</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">使い方</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id5">多項式</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#id6">クラス一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">変数一覧</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id3">ヘッダ</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id4">一覧</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../traits/index.html#is">is_*系</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id5">その他</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../traits/index.html#id4">その他</a></li>
 </ul>
 </li>
 </ul>
@@ -154,27 +156,102 @@
 <span id="id1"></span><h1>Expressions<a class="headerlink" href="#expressions" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="id2">
 <h2>概要<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>式テンプレートを用いて数式を記述することができる。</p>
-<div class="section" id="id3">
-<h3>ヘッダ<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>数式を記述するための機能を提供する。</p>
+<ul class="simple">
+<li>ヘッダ</li>
+</ul>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;tlnc/expressions.hpp&gt;</span>
 </pre></div>
 </div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">使い方</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#id2">定数関数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#id5">関数を含む式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#id6">多変数関数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usage.html#id7">ベクトルや行列を返す関数</a></li>
+</ul>
+</li>
+</ul>
 </div>
+</div>
+<div class="section" id="id3">
+<h2>関数一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>関数はいずれも<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に属する。
+詳しい使い方は<a class="reference internal" href="usage.html#expr-usage"><span>使い方</span></a>を参照。</p>
+<p>各関数の引数として<code class="docutils literal"><span class="pre">double</span></code>型や<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>等の、通常の値型を渡すと、
+スカラー値を受け取る:ref:<cite>generic</cite>の関数と同様の動作をし、
+ベクトルや行列を受け取る関数はBoost.uBLASの関数と同様の動作をする。
+式を渡すと数式となる。
+特に説明のない関数は標準ライブラリの同名の関数と同様な動作をすると考えればよい。</p>
+<dl class="function">
+<dt id="_CPPv23cosRR4Expr">
+<span id="cos__ExprRR"></span><code class="descclassname"></code><code class="descname">cos</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23cosRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv23sinRR4Expr">
+<span id="sin__ExprRR"></span><code class="descclassname"></code><code class="descname">sin</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23sinRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv23tanRR4Expr">
+<span id="tan__ExprRR"></span><code class="descclassname"></code><code class="descname">tan</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23tanRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv23logRR4Expr">
+<span id="log__ExprRR"></span><code class="descclassname"></code><code class="descname">log</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23logRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv23powRR4BaseRR8Exponent">
+<span id="pow__BaseRR.ExponentRR"></span><code class="descclassname"></code><code class="descname">pow</code><span class="sig-paren">(</span>Base&amp;&amp;, Exponent&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23powRR4BaseRR8Exponent" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv24prodRR5Expr1RR5Expr2">
+<span id="prod__Expr1RR.Expr2RR"></span><code class="descclassname"></code><code class="descname">prod</code><span class="sig-paren">(</span>Expr1&amp;&amp;, Expr2&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24prodRR5Expr1RR5Expr2" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Boost.uBLASの<code class="docutils literal"><span class="pre">prod</span></code>と同様な動作をする。
+ベクトルや行列の積を計算する。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv212element_prodRR5Expr1RR5Expr2">
+<span id="element_prod__Expr1RR.Expr2RR"></span><code class="descclassname"></code><code class="descname">element_prod</code><span class="sig-paren">(</span>Expr1&amp;&amp;, Expr2&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv212element_prodRR5Expr1RR5Expr2" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Boost.uBLASの<code class="docutils literal"><span class="pre">element_prod</span></code>と同様な動作をする。
+同じ大きさのベクトルや行列を渡すと要素ごとの積を計算する。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv22atIDp2IsERR4Expr">
+<span id="at:IsDp:__ExprRR"></span>expressions::at&lt;Expr, Is...&gt; <code class="descclassname"></code><code class="descname">at</code>&lt;Is...&gt;<span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv22atIDp2IsERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>ベクトルや行列を返す式を受け取り、
+式の評価結果から<code class="docutils literal"><span class="pre">Is...</span></code>要素を取り出す式を返す。
+<code class="docutils literal"><span class="pre">Is...</span></code>が1個の時はベクトルを返す式を、
+<code class="docutils literal"><span class="pre">Is...</span></code>が2個の時は行列を返す式を渡さなければならない。</p>
+</dd></dl>
+
 </div>
 <div class="section" id="id4">
-<h2>使い方<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="id5">
-<h3>多項式<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p><span class="math">\(f(x)\)</span></p>
-</div>
-</div>
-<div class="section" id="id6">
-<h2>クラス一覧<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<dl class="class">
-<dt id="_CPPv28constantI1TE">
-<span id="constant:T:"></span><em class="property">class </em><code class="descclassname"></code><code class="descname">constant</code>&lt;<em class="property">typename</em> T&gt;<a class="headerlink" href="#_CPPv28constantI1TE" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<h2>変数一覧<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>いずれも<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に属する。
+詳しい使い方は<a class="reference internal" href="usage.html#expr-usage"><span>使い方</span></a>を参照。</p>
+<dl class="var">
+<dt id="_CPPv21xIDp2IsE">
+<span id="x:IsDp:__unspecified"></span>unspecified <code class="descclassname"></code><code class="descname">x</code>&lt;Is...&gt;<a class="headerlink" href="#_CPPv21xIDp2IsE" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">std::size_t</span></code>型の非型テンプレートパラメータ<code class="docutils literal"><span class="pre">Is...</span></code>を受け取る変数テンプレート。
+<code class="docutils literal"><span class="pre">Is...</span></code>が空の時は引数そのものを表し、
+<code class="docutils literal"><span class="pre">Is...</span></code>が1個の時は引数として渡されるベクトルのある要素を表し、
+<code class="docutils literal"><span class="pre">Is...</span></code>が2個の時は引数として渡される行列のある要素を指す。
+<code class="docutils literal"><span class="pre">Is...</span></code>が3個以上の時はコンパイルエラーとなる。</p>
+</dd></dl>
+
+<dl class="var">
+<dt id="_CPPv22_1">
+<span id="_1__expressions::holder:1:"></span>expressions::holder&lt;1&gt; <code class="descclassname"></code><code class="descname">_1</code><a class="headerlink" href="#_CPPv22_1" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>プレースホルダーを表す。同様の変数が<code class="docutils literal"><span class="pre">_10</span></code>まで定義されている。</p>
+</dd></dl>
 
 </div>
 </div>
@@ -185,7 +262,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../generic/index.html" class="btn btn-neutral float-right" title="Generic" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="usage.html" class="btn btn-neutral float-right" title="使い方" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral" title="tlnc: Template Library for Numerical Computation" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

@@ -73,25 +73,27 @@
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="expressions/index.html">Expressions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="expressions/index.html#id3">ヘッダ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expressions/usage.html">使い方</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="expressions/usage.html#id2">定数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="expressions/usage.html#id5">関数を含む式</a></li>
+<li class="toctree-l4"><a class="reference internal" href="expressions/usage.html#id6">多変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="expressions/usage.html#id7">ベクトルや行列を返す関数</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id4">使い方</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="expressions/index.html#id5">多項式</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id6">クラス一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id4">変数一覧</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="traits/index.html">Traits</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="traits/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="traits/index.html#id3">ヘッダ</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="traits/index.html#id4">一覧</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="traits/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traits/index.html#id3">クラス一覧</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="traits/index.html#is">is_*系</a></li>
-<li class="toctree-l3"><a class="reference internal" href="traits/index.html#id5">その他</a></li>
+<li class="toctree-l3"><a class="reference internal" href="traits/index.html#id4">その他</a></li>
 </ul>
 </li>
 </ul>
@@ -153,32 +155,37 @@
 <h1>tlnc: Template Library for Numerical Computation<a class="headerlink" href="#tlnc-template-library-for-numerical-computation" title="このヘッドラインへのパーマリンク">¶</a></h1>
 <div class="section" id="id1">
 <h2>概要<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Boost.uBLASと<a class="reference external" href="https://github.com/quartorz/bcl/">bcl</a>と<a class="reference external" href="https://github.com/quartorz/cti/">cti</a>に依存した数値計算用のテンプレートライブラリ。
-Clang 3.6.2で<code class="docutils literal"><span class="pre">-std=c++1z</span></code>オプションを付けてコンパイルが通ることは確認してある。</p>
+<p>Boost.uBLASとと<a class="reference external" href="http://verifiedby.me/kv/">kv</a>と
+<a class="reference external" href="https://github.com/quartorz/bcl/">bcl</a>と
+<a class="reference external" href="https://github.com/quartorz/cti/">cti</a>に依存した数値計算用のテンプレートライブラリ。
+Clang 3.6.2で<code class="docutils literal"><span class="pre">-std=c++1z</span></code>オプションを付けてコンパイルが通ることは確認済み。</p>
 </div>
 <div class="section" id="id2">
 <h2>インストール<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p><a class="reference external" href="https://github.com/quartorz/tlnc/">リポジトリ</a>の<code class="docutils literal"><span class="pre">include</span></code>ディレクトリにパスを通せば使うことができる。
 GCCやClangを使う場合は環境変数<code class="docutils literal"><span class="pre">CPLUS_INCLUDE_PATH</span></code>にディレクトリを追加するか、
 <code class="docutils literal"><span class="pre">-I</span></code>オプションでディレクトリを指定すればよい。
-<a class="reference external" href="https://github.com/quartorz/bcl">bcl</a>と<a class="reference external" href="https://github.com/quartorz/cti/">cti</a>も同様にインストールできる。
+<a class="reference external" href="https://github.com/quartorz/bcl/">bcl</a>と<a class="reference external" href="https://github.com/quartorz/cti/">cti</a>も同様にインストールできる。
 どのライブラリもヘッダのみで動作する。
-Boost.uBLASのインストール方法は環境によるので各自で調べる。</p>
+Boost.uBLASのインストール方法は環境によるので各自で調べる。
+kvのインストールは<a class="reference external" href="http://verifiedby.me/kv/">kvのドキュメント</a>を参照。</p>
 </div>
-<div class="section" id="id6">
-<h2>コンテンツ<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id5">
+<h2>コンテンツ<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="expressions/index.html">Expressions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id2">概要</a></li>
-<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id4">使い方</a></li>
-<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id6">クラス一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expressions/index.html#id4">変数一覧</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="traits/index.html#id2">概要</a></li>
-<li class="toctree-l2"><a class="reference internal" href="traits/index.html#id4">一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="traits/index.html#id3">クラス一覧</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="details/index.html">実装の詳細</a><ul>

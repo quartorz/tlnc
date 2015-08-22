@@ -9,8 +9,10 @@ tlnc: Template Library for Numerical Computation
 概要
 ----
 
-Boost.uBLASと\ `bcl <https://github.com/quartorz/bcl/>`_\ と\ `cti <https://github.com/quartorz/cti/>`_\ に依存した数値計算用のテンプレートライブラリ。
-Clang 3.6.2で\ ``-std=c++1z``\ オプションを付けてコンパイルが通ることは確認してある。
+Boost.uBLASとと\ `kv <http://verifiedby.me/kv/>`_\ と
+`bcl`_\ と
+`cti`_\ に依存した数値計算用のテンプレートライブラリ。
+Clang 3.6.2で\ ``-std=c++1z``\ オプションを付けてコンパイルが通ることは確認済み。
 
 インストール
 ------------
@@ -18,9 +20,13 @@ Clang 3.6.2で\ ``-std=c++1z``\ オプションを付けてコンパイルが通
 `リポジトリ <https://github.com/quartorz/tlnc/>`_\ の\ ``include``\ ディレクトリにパスを通せば使うことができる。
 GCCやClangを使う場合は環境変数\ ``CPLUS_INCLUDE_PATH``\ にディレクトリを追加するか、
 ``-I``\ オプションでディレクトリを指定すればよい。
-`bcl <https://github.com/quartorz/bcl>`_\ と\ `cti <https://github.com/quartorz/cti/>`_\ も同様にインストールできる。
+`bcl`_\ と\ `cti`_\ も同様にインストールできる。
 どのライブラリもヘッダのみで動作する。
 Boost.uBLASのインストール方法は環境によるので各自で調べる。
+kvのインストールは\ `kvのドキュメント <http://verifiedby.me/kv/>`_\ を参照。
+
+.. _bcl: https://github.com/quartorz/bcl/
+.. _cti: https://github.com/quartorz/cti/
 
 コンテンツ
 ----------
@@ -29,6 +35,8 @@ Boost.uBLASのインストール方法は環境によるので各自で調べる
    :maxdepth: 2
 
    expressions/index
+   call/index
+   derivative/index
    generic/index
    traits/index
    details/index
