@@ -79,6 +79,7 @@
 <li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id5">関数を含む式</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id6">多変数関数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id7">ベクトルや行列を返す関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders">プレースホルダー</a></li>
 </ul>
 </li>
 </ul>
@@ -87,7 +88,21 @@
 <li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">変数一覧</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">Call</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Call</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#call-usage">使い方</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#call-usage-no-placeholders">プレースホルダーのない関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">1変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">2変数関数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#call-usage-placeholders">プレースホルダーの含まれる関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#call-usage-memoize">メモ化</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
@@ -100,17 +115,18 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式の記述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-operators">演算子</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id4">関数</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id5">1変数関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id5">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id6">1変数関数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../details/index.html#details-expr-func-twovars">2変数関数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">引数</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#id9">プレースホルダ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-eval">評価</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id11">メモ化</a></li>
 </ul>
 </li>
 </ul>
@@ -154,6 +170,161 @@
             
   <div class="section" id="call">
 <span id="id1"></span><h1>Call<a class="headerlink" href="#call" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>概要<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference internal" href="../expressions/index.html#expressions"><span>Expressions</span></a>で定義した関数を呼び出すための機能を提供する。</p>
+<ul class="simple">
+<li>ヘッダ</li>
+</ul>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;tlnc/call.hpp&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>関数一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<dl class="function">
+<dt id="_CPPv2N4tlnc4callERR4FuncRR3Arg">
+<span id="tlnc::call__FuncRR.ArgRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Arg&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR3Arg" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N4tlnc4callERR4FuncRR5Tuple">
+<span id="tlnc::call__FuncRR.TupleRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Tuple&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR5Tuple" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N4tlnc4callERR4FuncRR3ArgRR4Memo">
+<span id="tlnc::call__FuncRR.ArgRR.MemoRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Arg&amp;&amp;, Memo&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR3ArgRR4Memo" title="この定義へのパーマリンク">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N4tlnc4callERR4FuncRR5TupleRR4Memo">
+<span id="tlnc::call__FuncRR.TupleRR.MemoRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Tuple&amp;&amp;, Memo&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR5TupleRR4Memo" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders"><span>プレースホルダー</span></a>が含まれる関数を呼ぶときは2番目の引数にタプルを渡す。
+詳細は<a class="reference internal" href="#call-usage"><span>使い方</span></a>を参照。
+引数に<code class="docutils literal"><span class="pre">Memo</span></code>が含まれている関数については<a class="reference internal" href="#call-usage-memoize"><span>メモ化</span></a>を参照。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="_CPPv2N4tlnc4memoEv">
+<span id="tlnc::memo"></span><code class="descclassname">tlnc::</code><code class="descname">memo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4memoEv" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>空のメモを作成する。詳細は<a class="reference internal" href="#call-usage-memoize"><span>メモ化</span></a>を参照。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="call-usage">
+<span id="id4"></span><h2>使い方<a class="headerlink" href="#call-usage" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;bcl/literals.hpp&gt;</span>
+
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">bcl</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>
+
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">cos</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">sin</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">_1</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">2.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>
+<span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="mf">2.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">));</span>
+<span class="k">auto</span> <span class="n">h</span> <span class="o">=</span> <span class="n">_1</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>このような定義の関数<code class="docutils literal"><span class="pre">f</span></code>、<code class="docutils literal"><span class="pre">g</span></code>、<code class="docutils literal"><span class="pre">h</span></code>を使って呼び出しの方法について説明する。
+<code class="docutils literal"><span class="pre">f</span></code>は1変数関数、<code class="docutils literal"><span class="pre">g</span></code>は2変数関数である。
+<code class="docutils literal"><span class="pre">h</span></code>は<a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders"><span>プレースホルダー</span></a>が含まれる2変数関数である。</p>
+<div class="section" id="call-usage-no-placeholders">
+<span id="id5"></span><h3>プレースホルダーのない関数<a class="headerlink" href="#call-usage-no-placeholders" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal"><span class="pre">f</span></code>や<code class="docutils literal"><span class="pre">g</span></code>には<a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders"><span>プレースホルダー</span></a>が含まれていない。
+このような関数は単純に<a class="reference internal" href="#_CPPv2N4tlnc4callERR4FuncRR3Arg" title="tlnc::call"><code class="xref cpp cpp-func docutils literal"><span class="pre">tlnc::call()</span></code></a>に関数と引数を渡すだけで呼び出すことができる。</p>
+<div class="section" id="id6">
+<h4>1変数関数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">f</span></code>はプレースホルダーのない1変数関数なので単純に値を渡すだけで呼び出すことができる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;kv/interval.hpp&gt;</span>
+
+<span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">);</span>
+<span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">kv</span><span class="o">::</span><span class="n">interval</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;</span><span class="p">(</span><span class="mf">1.0</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h4>2変数関数<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><code class="docutils literal"><span class="pre">g</span></code>のような多変数関数の場合はBoost.uBLASのベクトルを引数に渡さなければならない。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;boost/numeric/ublas/vector.hpp&gt;</span>
+
+<span class="n">boost</span><span class="o">::</span><span class="n">numeric</span><span class="o">::</span><span class="n">ublas</span><span class="o">::</span><span class="n">bounded_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+<span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">g</span></code>にはプレースホルダーが0個含まれているとみなして、
+<a class="reference internal" href="#call-usage-placeholders"><span>プレースホルダーの含まれる関数</span></a>と同じように呼び出すこともできる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;boost/numeric/ublas/vector.hpp&gt;</span>
+<span class="cp">#include &lt;bcl/tuple.hpp&gt;</span>
+
+<span class="n">boost</span><span class="o">::</span><span class="n">numeric</span><span class="o">::</span><span class="n">ublas</span><span class="o">::</span><span class="n">bounded_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+<span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">bcl</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">v</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="call-usage-placeholders">
+<span id="id8"></span><h3>プレースホルダーの含まれる関数<a class="headerlink" href="#call-usage-placeholders" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>プレースホルダーの含まれる関数はタプルを渡すことで呼び出すことができる。
+<code class="docutils literal"><span class="pre">tlnc::_1</span></code>はタプルの1番目(<code class="docutils literal"><span class="pre">bcl::get&lt;1&gt;(tuple)</span></code>)に置き換えられる。
+タプルの要素数はプレースホルダーの番号の最大値より大きくなければならない。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;boost/numeric/ublas/vector.hpp&gt;</span>
+<span class="cp">#include &lt;bcl/tuple.hpp&gt;</span>
+
+<span class="n">boost</span><span class="o">::</span><span class="n">numeric</span><span class="o">::</span><span class="n">ublas</span><span class="o">::</span><span class="n">bounded_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+<span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">bcl</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="call-usage-memoize">
+<span id="id9"></span><h3>メモ化<a class="headerlink" href="#call-usage-memoize" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>メモ化をすると関数の呼び出しを高速化することができる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;boost/numeric/ublas/vector.hpp&gt;</span>
+<span class="cp">#include &lt;bcl/tuple.hpp&gt;</span>
+
+<span class="n">boost</span><span class="o">::</span><span class="n">numeric</span><span class="o">::</span><span class="n">ublas</span><span class="o">::</span><span class="n">bounded_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">result1</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">memo</span><span class="p">());</span>
+<span class="k">auto</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">bcl</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">memo</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>メモを渡したときは呼び出し結果と新しいメモのペア(<code class="docutils literal"><span class="pre">std::pair</span></code>)が返る。
+引数が一定の時はメモを使いまわすことができ、
+そうすることで前に呼び出した関数と重複する部分の評価を省略することができる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;boost/numeric/ublas/vector.hpp&gt;</span>
+
+<span class="n">boost</span><span class="o">::</span><span class="n">numeric</span><span class="o">::</span><span class="n">ublas</span><span class="o">::</span><span class="n">bounded_vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="p">,</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+
+<span class="n">v</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+<span class="n">v</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">g2</span> <span class="o">=</span> <span class="mf">2.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span> <span class="o">+</span> <span class="n">tan</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;</span><span class="mi">0</span><span class="o">&gt;</span><span class="p">);</span>
+
+<span class="k">auto</span> <span class="n">result1</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">memo</span><span class="p">());</span>
+
+<span class="c1">// gと重複する部分(2.0_dc * x&lt;0&gt; * x&lt;1&gt;)の評価を省略できる</span>
+<span class="k">auto</span> <span class="n">result2</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">g2</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">result1</span><span class="p">.</span><span class="n">second</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 

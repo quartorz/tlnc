@@ -87,7 +87,13 @@
 <li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">変数一覧</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../call/index.html#id2">概要</a><ul class="simple">
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../call/index.html#id3">関数一覧</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
@@ -257,7 +263,7 @@
 <div class="section" id="details-expr-eval">
 <span id="id10"></span><h3>評価<a class="headerlink" href="#details-expr-eval" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>上の例のように式を書くとテンプレートが入れ子になったものが<code class="docutils literal"><span class="pre">f</span></code>の型になる。
-これを木構造のようなもので表すと以下のようになる:</p>
+その構造を木で表すと次のようになる:</p>
 <div class="highlight-python"><div class="highlight"><pre>        add
        /   \
    mul      cos
@@ -267,6 +273,14 @@
             x&lt;0&gt;
 </pre></div>
 </div>
+<p><code class="docutils literal"><span class="pre">f</span></code>はこの木の根の<code class="docutils literal"><span class="pre">add</span></code>を指していると考える。
+関数を評価するための値が渡されたときに、</p>
+<ul class="simple">
+<li>演算子や関数は子に値を伝播させて子の評価結果に何か操作をしたものを返す</li>
+<li>定数は渡された値に関係なく同じ値を返す</li>
+<li>引数(<code class="docutils literal"><span class="pre">x&lt;0&gt;など</span></code>)は渡された値をそのまま返す</li>
+</ul>
+<p>というようにすれば関数の値が評価できることになる。</p>
 </div>
 <div class="section" id="id11">
 <h3>メモ化<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>

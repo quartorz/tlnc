@@ -3,3 +3,166 @@
 Call
 ====
 
+概要
+----
+
+:ref:`expressions`\ で定義した関数を呼び出すための機能を提供する。
+
+* ヘッダ
+
+.. code-block:: cpp
+
+   #include <tlnc/call.hpp>
+
+関数一覧
+--------
+
+.. cpp:function:: tlnc::call(Func &&, Arg &&)
+.. cpp:function:: tlnc::call(Func &&, Tuple &&)
+.. cpp:function:: tlnc::call(Func &&, Arg &&, Memo &&)
+.. cpp:function:: tlnc::call(Func &&, Tuple &&, Memo &&)
+
+   :ref:`expr-usage-placeholders`\ が含まれる関数を呼ぶときは2番目の引数にタプルを渡す。
+   詳細は\ :ref:`call-usage`\ を参照。
+   引数に\ ``Memo``\ が含まれている関数については\ :ref:`call-usage-memoize`\ を参照。
+
+.. cpp:function:: tlnc::memo()
+
+   空のメモを作成する。詳細は\ :ref:`call-usage-memoize`\ を参照。
+
+.. _call-usage:
+
+使い方
+------
+
+.. code-block:: cpp
+
+   #include <bcl/literals.hpp>
+
+   using namespace bcl::literals;
+
+   using tlnc::x;
+   using tlnc::cos;
+   using tlnc::sin;
+   using tlnc::_1;
+
+   auto f = 2.0_dc * x<>;
+   auto g = 2.0_dc * x<0> * x<1> + cos(sin(x<0>));
+   auto h = _1 * x<0> * x<1> + cos(sin(x<0>));
+
+このような定義の関数\ ``f``\ 、\ ``g``\ 、\ ``h``\ を使って呼び出しの方法について説明する。
+``f``\ は1変数関数、\ ``g``\ は2変数関数である。
+``h``\ は\ :ref:`expr-usage-placeholders`\ が含まれる2変数関数である。
+
+.. _call-usage-no-placeholders:
+
+プレースホルダーのない関数
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+``f``\ や\ ``g``\ には\ :ref:`expr-usage-placeholders`\ が含まれていない。
+このような関数は単純に\ :cpp:func:`tlnc::call`\ に関数と引数を渡すだけで呼び出すことができる。
+
+1変数関数
+"""""""""
+
+``f``\ はプレースホルダーのない1変数関数なので単純に値を渡すだけで呼び出すことができる。
+
+.. code-block:: cpp
+
+   #include <kv/interval.hpp>
+
+   tlnc::call(f, 1.0);
+   tlnc::call(f, kv::interval<double>(1.0));
+
+2変数関数
+"""""""""
+
+``g``\ のような多変数関数の場合はBoost.uBLASのベクトルを引数に渡さなければならない。
+
+.. code-block:: cpp
+
+   #include <boost/numeric/ublas/vector.hpp>
+
+   boost::numeric::ublas::bounded_vector<double, 2> v(2);
+
+   v(0) = 1.0;
+   v(1) = 2.0;
+
+   tlnc::call(g, v);
+
+``g``\ にはプレースホルダーが0個含まれているとみなして、
+:ref:`call-usage-placeholders`\ と同じように呼び出すこともできる。
+
+.. code-block:: cpp
+
+   #include <boost/numeric/ublas/vector.hpp>
+   #include <bcl/tuple.hpp>
+
+   boost::numeric::ublas::bounded_vector<double, 2> v(2);
+
+   v(0) = 1.0;
+   v(1) = 2.0;
+
+   tlnc::call(g, bcl::make_tuple(v));
+
+
+.. _call-usage-placeholders:
+
+プレースホルダーの含まれる関数
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+プレースホルダーの含まれる関数はタプルを渡すことで呼び出すことができる。
+``tlnc::_1``\ はタプルの1番目(\ ``bcl::get<1>(tuple)``\ )に置き換えられる。
+タプルの要素数はプレースホルダーの番号の最大値より大きくなければならない。
+
+.. code-block:: cpp
+
+   #include <boost/numeric/ublas/vector.hpp>
+   #include <bcl/tuple.hpp>
+
+   boost::numeric::ublas::bounded_vector<double, 2> v(2);
+
+   v(0) = 1.0;
+   v(1) = 2.0;
+
+   tlnc::call(h, bcl::make_tuple(v, 2.0));
+
+.. _call-usage-memoize:
+
+メモ化
+^^^^^^
+
+メモ化をすると関数の呼び出しを高速化することができる。
+
+.. code-block:: cpp
+
+   #include <boost/numeric/ublas/vector.hpp>
+   #include <bcl/tuple.hpp>
+
+   boost::numeric::ublas::bounded_vector<double, 2> v(2);
+
+   v(0) = 1.0;
+   v(1) = 2.0;
+
+   auto result1 = tlnc::call(g, v, tlnc::memo());
+   auto result2 = tlnc::call(h, bcl::make_tuple(v, 1.0), tlnc::memo());
+
+メモを渡したときは呼び出し結果と新しいメモのペア(\ ``std::pair``\ )が返る。
+引数が一定の時はメモを使いまわすことができ、
+そうすることで前に呼び出した関数と重複する部分の評価を省略することができる。
+
+.. code-block:: cpp
+
+   #include <boost/numeric/ublas/vector.hpp>
+
+   boost::numeric::ublas::bounded_vector<double, 2> v(2);
+
+   v(0) = 1.0;
+   v(1) = 2.0;
+
+   auto g2 = 2.0_dc * x<0> * x<1> + tan(x<0>);
+
+   auto result1 = tlnc::call(g, v, tlnc::memo());
+
+   // gと重複する部分(2.0_dc * x<0> * x<1>)の評価を省略できる
+   auto result2 = tlnc::call(g2, v, result1.second);

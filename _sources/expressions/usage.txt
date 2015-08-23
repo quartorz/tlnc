@@ -56,16 +56,27 @@
    using cti::literals;  // _diリテラルを使えるようにする
    using cti::operators; // _dcリテラルに対するoperator,を使えるようにする
 
-   auto f = 1.0_dc;                 // 1.0を表すオブジェクト
-   auto g = tlnc::c(1.0_dc);        // 1.0を返す定数関数
-   auto h = 2.0_dc * x<>;           // h(x) = 2x
-   auto i = c(2.0_dc) * x<>;        // h(x)と同じ意味
-   auto j = 1.0_di;                 // 点区間[1.0, 1.0]を表すオブジェクト
-   auto k = (1.0_dc, 2.0_dc);       // 区間[1.0, 2.0]を表すオブジェクト
-   auto l = c((1.0_dc, 2.0_dc));    // 区間[1.0, 2.0]を返す定数関数
-   auto m = (1.0_dc, 2.0_dc) * x<>; // m(x) = [1.0, 2.0] * x
+   {
+       // (定数関数ではない)定数
+       auto f = 1.0_dc;           // 定数1.0
+       auto g = 1.0_di;           // 点区間[1.0, 1.0]
+       auto h = (1.0_dc, 2.0_dc); // 区間[1.0, 2.0]
+   }
 
-``l``\ は区間を生成する式\ ``(1.0_dc, 2.0_dc)``\ を関数\ ``tlnc::c``\ に渡しているためカッコが2重になっている。
+   {
+       // 定数関数
+       auto f = tlnc::c(1.0_dc);
+       auto g = tlnc::c(1.0_di);
+       auto h = tlnc::c((1.0_dc, 2.0_dc));
+   }
+
+   {
+       // 関数
+       using tlnc::x;
+
+       auto f = 1.0_dc * x<>;
+       auto g = tlnc::c(1.0_dc) * x<>;
+   }
 
 関数を含む式
 ------------
@@ -79,7 +90,7 @@
 
    auto f = pow(x<>, 2_dc) + 2_dc * x<> + 1_dc;
 
-:math:`g(x) = \cos(\sin(x))`\ のように、式を入れ子にすることもできる。
+:math:`g(x) = \cos(\sin(x))`\ のように入れ子にすることもできる。
 
 .. code-block:: cpp
 
@@ -122,5 +133,29 @@
    auto f = (x<>, 2.0_dc * x<>);
    auto g = (f, (3.0_dc * x<>, 4.0_dc * x<>));
 
+.. _expr-usage-placeholders:
+
 プレースホルダー
 ----------------
+
+プレースホルダーを使うと式の一部に仮の値のようなものを置いておき、
+評価時に具体的な値に置き換えるということができる。
+プレースホルダーはあらかじめ\ ``tlnc::_1``\ から\ ``tlnc::_10``\ までが用意されていて、
+それ以上必要な場合は\ ``tlnc::holder<I>``\ を使うことができる。
+
+.. code-block:: cpp
+
+   #include <tlnc/call.hpp>
+   #include <bcl/tuple.hpp>
+
+   using tlnc::_1;
+   using tlnc::x;
+
+   auto f = _1 * x<>;
+
+   auto v = tlnc::call(f, bcl::make_tuple(1.0, 2.0));
+
+関数\ ``f``\ の定義の中にある\ ``_1``\ がプレースホルダーである。
+上のように呼び出すと評価時に\ ``_1``\ が\ ``2.0``\ に置き換えられる。
+呼び出しの詳細については\ :ref:`call`\ を参照。
+

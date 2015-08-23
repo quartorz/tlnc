@@ -23,7 +23,6 @@ Expressions
 関数一覧
 --------
 
-関数はいずれも\ ``tlnc``\ 名前空間に属する。
 詳しい使い方は\ :ref:`expr-usage`\ を参照。
 
 各関数の引数として\ ``double``\ 型や\ ``kv::interval<double>``\ 等の、通常の値型を渡すと、
@@ -32,27 +31,27 @@ Expressions
 式を渡すと数式となる。
 特に説明のない関数は標準ライブラリの同名の関数と同様な動作をすると考えればよい。
 
-.. cpp:function:: cos(Expr &&)
+.. cpp:function:: tlnc::cos(Expr &&)
 
-.. cpp:function:: sin(Expr &&)
+.. cpp:function:: tlnc::sin(Expr &&)
 
-.. cpp:function:: tan(Expr &&)
+.. cpp:function:: tlnc::tan(Expr &&)
 
-.. cpp:function:: log(Expr &&)
+.. cpp:function:: tlnc::log(Expr &&)
 
-.. cpp:function:: pow(Base &&, Exponent &&)
+.. cpp:function:: tlnc::pow(Base &&, Exponent &&)
 
-.. cpp:function:: prod(Expr1 &&, Expr2 &&)
+.. cpp:function:: tlnc::prod(Expr1 &&, Expr2 &&)
 
    Boost.uBLASの\ ``prod``\ と同様な動作をする。
    ベクトルや行列の積を計算する。
 
-.. cpp:function:: element_prod(Expr1 &&, Expr2 &&)
+.. cpp:function:: tlnc::element_prod(Expr1 &&, Expr2 &&)
 
    Boost.uBLASの\ ``element_prod``\ と同様な動作をする。
    同じ大きさのベクトルや行列を渡すと要素ごとの積を計算する。
 
-.. cpp:function:: expressions::at<Expr, Is...> at<Is...>(Expr &&)
+.. cpp:function:: tlnc::at<Is...>(Expr &&)
 
    ベクトルや行列を返す式を受け取り、
    式の評価結果から\ ``Is...``\ 要素を取り出す式を返す。
@@ -65,7 +64,7 @@ Expressions
 いずれも\ ``tlnc``\ 名前空間に属する。
 詳しい使い方は\ :ref:`expr-usage`\ を参照。
 
-.. cpp:var:: unspecified x<Is...>
+.. cpp:var:: unspecified tlnc::x<Is...>
 
    ``std::size_t``\ 型の非型テンプレートパラメータ\ ``Is...``\ を受け取る変数テンプレート。
    ``Is...``\ が空の時は引数そのものを表し、
@@ -73,7 +72,11 @@ Expressions
    ``Is...``\ が2個の時は引数として渡される行列のある要素を指す。
    ``Is...``\ が3個以上の時はコンパイルエラーとなる。
 
-.. cpp:var:: expressions::holder<1> _1
+.. cpp:var:: tlnc::expressions::placeholder<1> tlnc::_1
 
    プレースホルダーを表す。同様の変数が\ ``_10``\ まで定義されている。
+   使い方は\ :ref:`expr-usage-placeholders`\ を参照。
 
+.. cpp:var:: tlnc::holder<I>
+
+   プレースホルダーが10個で足りないときに使う。

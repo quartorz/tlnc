@@ -80,7 +80,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#id5">関数を含む式</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id6">多変数関数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#id7">ベクトルや行列を返す関数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id8">プレースホルダー</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#expr-usage-placeholders">プレースホルダー</a></li>
 </ul>
 </li>
 </ul>
@@ -89,7 +89,20 @@
 <li class="toctree-l2"><a class="reference internal" href="index.html#id4">変数一覧</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../call/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../call/index.html#id3">関数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../call/index.html#call-usage">使い方</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../call/index.html#call-usage-no-placeholders">プレースホルダーのない関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../call/index.html#id6">1変数関数</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../call/index.html#id7">2変数関数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../call/index.html#call-usage-placeholders">プレースホルダーの含まれる関数</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
@@ -102,7 +115,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式の記述</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-operators">演算子</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数関数</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#id5">関数</a><ul>
@@ -113,6 +126,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">引数</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#id9">プレースホルダ</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-eval">評価</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id11">メモ化</a></li>
 </ul>
 </li>
 </ul>
@@ -198,17 +212,29 @@
 <span class="k">using</span> <span class="n">cti</span><span class="o">::</span><span class="n">literals</span><span class="p">;</span>  <span class="c1">// _diリテラルを使えるようにする</span>
 <span class="k">using</span> <span class="n">cti</span><span class="o">::</span><span class="n">operators</span><span class="p">;</span> <span class="c1">// _dcリテラルに対するoperator,を使えるようにする</span>
 
-<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_dc</span><span class="p">;</span>                 <span class="c1">// 1.0を表すオブジェクト</span>
-<span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">c</span><span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">);</span>        <span class="c1">// 1.0を返す定数関数</span>
-<span class="k">auto</span> <span class="n">h</span> <span class="o">=</span> <span class="mf">2.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>           <span class="c1">// h(x) = 2x</span>
-<span class="k">auto</span> <span class="n">i</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mf">2.0</span><span class="n">_dc</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>        <span class="c1">// h(x)と同じ意味</span>
-<span class="k">auto</span> <span class="n">j</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_di</span><span class="p">;</span>                 <span class="c1">// 点区間[1.0, 1.0]を表すオブジェクト</span>
-<span class="k">auto</span> <span class="n">k</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">);</span>       <span class="c1">// 区間[1.0, 2.0]を表すオブジェクト</span>
-<span class="k">auto</span> <span class="n">l</span> <span class="o">=</span> <span class="n">c</span><span class="p">((</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">));</span>    <span class="c1">// 区間[1.0, 2.0]を返す定数関数</span>
-<span class="k">auto</span> <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span> <span class="c1">// m(x) = [1.0, 2.0] * x</span>
+<span class="p">{</span>
+    <span class="c1">// (定数関数ではない)定数</span>
+    <span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_dc</span><span class="p">;</span>           <span class="c1">// 定数1.0</span>
+    <span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_di</span><span class="p">;</span>           <span class="c1">// 点区間[1.0, 1.0]</span>
+    <span class="k">auto</span> <span class="n">h</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">);</span> <span class="c1">// 区間[1.0, 2.0]</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+    <span class="c1">// 定数関数</span>
+    <span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">c</span><span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">c</span><span class="p">(</span><span class="mf">1.0</span><span class="n">_di</span><span class="p">);</span>
+    <span class="k">auto</span> <span class="n">h</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">c</span><span class="p">((</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">,</span> <span class="mf">2.0</span><span class="n">_dc</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="p">{</span>
+    <span class="c1">// 関数</span>
+    <span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+
+    <span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="mf">1.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>
+    <span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">c</span><span class="p">(</span><span class="mf">1.0</span><span class="n">_dc</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-<p><code class="docutils literal"><span class="pre">l</span></code>は区間を生成する式<code class="docutils literal"><span class="pre">(1.0_dc,</span> <span class="pre">2.0_dc)</span></code>を関数<code class="docutils literal"><span class="pre">tlnc::c</span></code>に渡しているためカッコが2重になっている。</p>
 </div>
 </div>
 <div class="section" id="id5">
@@ -220,7 +246,7 @@
 <span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">pow</span><span class="p">(</span><span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">,</span> <span class="mi">2</span><span class="n">_dc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span> <span class="o">+</span> <span class="mi">1</span><span class="n">_dc</span><span class="p">;</span>
 </pre></div>
 </div>
-<p><span class="math">\(g(x) = \cos(\sin(x))\)</span>のように、式を入れ子にすることもできる。</p>
+<p><span class="math">\(g(x) = \cos(\sin(x))\)</span>のように入れ子にすることもできる。</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
 <span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">cos</span><span class="p">;</span>
 <span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">sin</span><span class="p">;</span>
@@ -241,7 +267,7 @@
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>は「引数として渡されたベクトルの0番目の要素を取り出す」という意味である。
-<a class="reference internal" href="index.html#_CPPv212element_prodRR5Expr1RR5Expr2" title="element_prod"><code class="xref cpp cpp-func docutils literal"><span class="pre">element_prod()</span></code></a>のようなベクトルを受け取る関数に引数をそのまま渡す時は、
+<code class="xref cpp cpp-func docutils literal"><span class="pre">element_prod()</span></code>のようなベクトルを受け取る関数に引数をそのまま渡す時は、
 <code class="docutils literal"><span class="pre">element_prod(x&lt;&gt;,</span> <span class="pre">x&lt;&gt;)</span></code>のようにすればよい。
 <code class="docutils literal"><span class="pre">x&lt;0,</span> <span class="pre">0&gt;</span></code>のように書けば行列を受け取る関数も記述できる。</p>
 </div>
@@ -257,8 +283,26 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id8">
-<h2>プレースホルダー<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="expr-usage-placeholders">
+<span id="id8"></span><h2>プレースホルダー<a class="headerlink" href="#expr-usage-placeholders" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>プレースホルダーを使うと式の一部に仮の値のようなものを置いておき、
+評価時に具体的な値に置き換えるということができる。
+プレースホルダーはあらかじめ<code class="docutils literal"><span class="pre">tlnc::_1</span></code>から<code class="docutils literal"><span class="pre">tlnc::_10</span></code>までが用意されていて、
+それ以上必要な場合は<code class="docutils literal"><span class="pre">tlnc::holder&lt;I&gt;</span></code>を使うことができる。</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="cp">#include &lt;tlnc/call.hpp&gt;</span>
+<span class="cp">#include &lt;bcl/tuple.hpp&gt;</span>
+
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">_1</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="n">_1</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">;</span>
+
+<span class="k">auto</span> <span class="n">v</span> <span class="o">=</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">call</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">bcl</span><span class="o">::</span><span class="n">make_tuple</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>関数<code class="docutils literal"><span class="pre">f</span></code>の定義の中にある<code class="docutils literal"><span class="pre">_1</span></code>がプレースホルダーである。
+上のように呼び出すと評価時に<code class="docutils literal"><span class="pre">_1</span></code>が<code class="docutils literal"><span class="pre">2.0</span></code>に置き換えられる。
+呼び出しの詳細については<a class="reference internal" href="../call/index.html#call"><span>Call</span></a>を参照。</p>
 </div>
 </div>
 
