@@ -9,7 +9,7 @@ tlnc: Template Library for Numerical Computation
 概要
 ----
 
-Boost.uBLASとと\ `kv <http://verifiedby.me/kv/>`_\ と
+Boost.uBLASと\ `kv <http://verifiedby.me/kv/>`_\ と
 `bcl`_\ と
 `cti`_\ に依存した数値計算用のテンプレートライブラリ。
 Clang 3.6.2で\ ``-std=c++1z``\ オプションを付けてコンパイルが通ることは確認済み。
@@ -45,6 +45,5 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 
