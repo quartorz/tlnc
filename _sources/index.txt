@@ -23,7 +23,7 @@ GCCやClangを使う場合は環境変数\ ``CPLUS_INCLUDE_PATH``\ にディレ�
 `bcl`_\ と\ `cti`_\ も同様にインストールできる。
 どのライブラリもヘッダのみで動作する。
 Boost.uBLASのインストール方法は環境によるので各自で調べる。
-kvのインストールは\ `kvのドキュメント <http://verifiedby.me/kv/>`_\ を参照。
+kvのインストールについては\ `kvのドキュメント <http://verifiedby.me/kv/>`_\ を参照。
 
 .. _bcl: https://github.com/quartorz/bcl/
 .. _cti: https://github.com/quartorz/cti/
