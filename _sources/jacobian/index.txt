@@ -1,0 +1,65 @@
+.. _jacobian-:
+
+Jacobian
+========
+
+概要
+----
+
+ヤコビ行列を計算する。
+
+* ヘッダ
+
+.. code-block:: cpp
+
+   #include <tlnc/jacobian.hpp>
+
+関数
+----
+
+関数はいずれも\ ``tlnc``\ 名前空間に属する。
+引数の\ ``vector<Exprs...>``\ は\ :ref:`ベクトルを返す関数 <expr-usage-vector-matrix>`\ を表していて、
+いずれも\ :ref:`行列を返す関数 <expr-usage-vector-matrix>`\ を返す。
+偏微分には\ :ref:`derivative-`\ を使っている。
+
+.. cpp:function:: jacobian<N>(vector<Exprs...>)
+.. cpp:function:: jacobian<N>(Exprs && ...)
+
+   ``x<0>``\ から\ ``x<N - 1>``\ のN個の変数を使ってヤコビ行列を生成する。
+
+.. cpp:function:: jacobian<I, N>(vector<Exprs...>)
+.. cpp:function:: jacobian<I, N>(Exprs && ...)
+
+   ``x<I>``\ から\ ``x<I + N - 1>``\ のN個の変数を使ってヤコビ行列を生成する。
+
+.. cpp:function:: jacobian(vector<Exprs...>, vector<Xs...>)
+.. cpp:function:: jacobian(vector<Exprs...>, X &&)
+
+   2つ目の引数には変数(\ ``x<0>``\ など)を\ :ref:`コンマで並べたもの <expr-usage-vector-matrix>`\ を渡す。
+   2つ目の引数に並べられている変数を使ってヤコビ行列を生成する。
+
+使い方
+------
+
+.. code-block:: cpp
+
+   using tlnc::x;
+
+   auto f = x<0>;
+   auto g = x<1>;
+   auto h = x<2>;
+
+   // ベクトルを返す関数
+   auto a = (f, g, h);
+
+   // x<0>, x<1>, x<2>を使ってヤコビ行列を作る
+   tlnc::jacobian<3>(a);
+   tlnc::jacobian<3>(f, g, h);
+
+   // x<1>, x<2>を使ってヤコビ行列を作る
+   tlnc::jacobian<1, 2>(a);
+   tlnc::jacobian<1, 2>(f, g, h);
+
+   // x<0>, x<2>を使ってヤコビ行列を作る
+   tlnc::jacobian(a, (x<0>, x<2>));
+   tlnc::jacobian((f, g, h), (x<0>, x<2>));

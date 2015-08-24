@@ -37,6 +37,7 @@ kvのインストールについては\ `kvのドキュメント <http://verifie
    expressions/index
    call/index
    derivative/index
+   jacobian/index
    generic/index
    traits/index
 
