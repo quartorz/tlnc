@@ -115,7 +115,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../jacobian/index.html#id4">使い方</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../generic/index.html#id2">概要</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
@@ -215,8 +218,8 @@
 <code class="docutils literal"><span class="pre">h</span></code>は<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>型の区間<span class="math">\([1.0, 2.0]\)</span>を返す関数を表す。
 <code class="docutils literal"><span class="pre">TLNC_C</span></code>マクロに対して<code class="docutils literal"><span class="pre">C_</span></code>、<code class="docutils literal"><span class="pre">TLNC_I</span></code>マクロに対して<code class="docutils literal"><span class="pre">I_</span></code>という別名も定義される。</p>
 </div>
-<div class="section" id="id4">
-<h3>ユーザー定義リテラルと関数<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="expr-usage-constant-literal">
+<span id="id4"></span><h3>ユーザー定義リテラルと関数<a class="headerlink" href="#expr-usage-constant-literal" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ユーザー定義リテラルを用いると、(定数関数ではなく)定数を表す特殊なオブジェクトを作ることができる。
 そのオブジェクトを<code class="docutils literal"><span class="pre">tlnc::c</span></code>関数に渡すと定数関数を生成することができるが、
 実際には純粋な定数関数を生成する場合以外は<code class="docutils literal"><span class="pre">tlnc::c</span></code>を使わなくても期待した動作をする。</p>

@@ -113,7 +113,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../jacobian/index.html#id4">使い方</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../generic/index.html#id2">概要</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
@@ -318,13 +321,13 @@
 引数が与えられたときに式の項や部分式とその評価結果の型を列挙し、
 その列挙した項や部分式と評価結果をペア(<code class="docutils literal"><span class="pre">std::pair</span></code>)にしてタプルに入れることでメモを作っている。
 タプルを作った後は、タプルの増えた部分の評価をしてメモを更新する。</p>
-<p>タプルに要素を作るとき、<a class="reference internal" href="#details-call-eval"><span>評価</span></a>の項目にあるような木構造で考えると、
-ある節点を追加する際に子の要素を先にタプルに追加してからその節点を追加するようにしていて、
-そうすることでメモに具体的な値を代入する際に子の要素の評価結果が利用できるようになるので同じ項や部分式は
-1度しか評価されなくなる。
-更にタプルの要素を重複しないようにすることで同じ項を何度も評価しないようにしている。</p>
+<p>ある項をタプルに追加するとき、その項の中にある式を先にタプルに追加してからその項自身を追加するようにしている。
+そうすることでメモに値を代入する際に子の中の式の評価結果を利用できるようになる。
+また、タプルの要素を重複しないようにすることで同じ項を何度も評価しないようにしている。</p>
 <p><a class="reference internal" href="#details-expr"><span>Expressionsの詳細</span></a>での例に<code class="docutils literal"><span class="pre">double</span></code>型のベクトルが渡されたとすると、
-次の表の各行をペアにしたものを要素として持つタプルが作成される。</p>
+次の表の各行をペアにしたようなものを要素として持つタプルが作成され、
+左側のオブジェクトと渡されたベクトルを使って右側に具体的な評価結果を代入していく。
+<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>のベクトルが渡されたときは表の右側が全て<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>になる。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="73%" />
@@ -336,7 +339,7 @@
 </tr>
 </thead>
 <tbody valign="top">
-<tr class="row-even"><td><code class="docutils literal"><span class="pre">2</span></code></td>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">2_dc</span></code></td>
 <td><code class="docutils literal"><span class="pre">double</span></code></td>
 </tr>
 <tr class="row-odd"><td><code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code></td>
@@ -359,7 +362,6 @@
 </tr>
 </tbody>
 </table>
-<p>左側と渡されたベクトルを使って右側に具体的な値を代入していく。</p>
 </div>
 </div>
 </div>

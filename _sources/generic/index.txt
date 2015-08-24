@@ -3,4 +3,12 @@
 Generic
 =======
 
+概要
+----
+
+引数の型が何であっても呼び出せる関数を提供する。
+引数の型は\ ``double``\ 型か\ ``kv::interval<double>``\ 型か
+:ref:`double型の定数 <expr-usage-constant-literal>`\ を想定している。
+
+
 
