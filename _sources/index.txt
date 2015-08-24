@@ -39,6 +39,10 @@ kvのインストールについては\ `kvのドキュメント <http://verifie
    derivative/index
    generic/index
    traits/index
+
+.. toctree::
+   :maxdepth: 3
+
    details/index
 
 Indices and tables

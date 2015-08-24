@@ -1,4 +1,4 @@
-.. _call:
+.. _call-:
 
 Call
 ====
@@ -17,16 +17,18 @@ Call
 関数一覧
 --------
 
-.. cpp:function:: tlnc::call(Func &&, Arg &&)
-.. cpp:function:: tlnc::call(Func &&, Tuple &&)
-.. cpp:function:: tlnc::call(Func &&, Arg &&, Memo &&)
-.. cpp:function:: tlnc::call(Func &&, Tuple &&, Memo &&)
+いずれも\ ``tlnc``\ 名前空間に属する。
+
+.. cpp:function:: call(Func &&, Arg &&)
+.. cpp:function:: call(Func &&, Tuple &&)
+.. cpp:function:: call(Func &&, Arg &&, Memo &&)
+.. cpp:function:: call(Func &&, Tuple &&, Memo &&)
 
    :ref:`expr-usage-placeholders`\ が含まれる関数を呼ぶときは2番目の引数にタプルを渡す。
    詳細は\ :ref:`call-usage`\ を参照。
    引数に\ ``Memo``\ が含まれている関数については\ :ref:`call-usage-memoize`\ を参照。
 
-.. cpp:function:: tlnc::memo()
+.. cpp:function:: memo()
 
    空のメモを作成する。詳細は\ :ref:`call-usage-memoize`\ を参照。
 

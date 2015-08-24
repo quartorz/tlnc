@@ -70,7 +70,7 @@
         
           
           
-              <ul class="current">
+              <ul>
 <li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id2">概要</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../expressions/usage.html">使い方</a><ul>
@@ -102,7 +102,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../derivative/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../derivative/index.html#id3">関数</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
@@ -113,19 +117,24 @@
 </li>
 </ul>
 </li>
+</ul>
+<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">実装の詳細</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id2">数式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#expressions">Expressions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#details-expr-operators">演算子</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#details-expr-constant">定数関数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id5">関数</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id6">1変数関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">1変数関数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#details-expr-func-twovars">2変数関数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id8">引数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id9">プレースホルダ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#details-expr-eval">評価</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id11">メモ化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">プレースホルダー</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#call">Call</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#details-call-eval">評価</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">メモ化</a></li>
 </ul>
 </li>
 </ul>
@@ -169,8 +178,8 @@
             
   <div class="section" id="details">
 <span id="id1"></span><h1>実装の詳細<a class="headerlink" href="#details" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="section" id="id2">
-<h2>数式<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="expressions">
+<span id="details-expr"></span><h2>Expressions<a class="headerlink" href="#expressions" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>関数<span class="math">\(f(x_0, x_1) = 2x_0 x_1 + \cos(\sin(x_0))\)</span>は、ライブラリを用いると以下のように書くことができる。</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">x</span><span class="p">;</span>
 <span class="k">using</span> <span class="n">tlnc</span><span class="o">::</span><span class="n">sin</span><span class="p">;</span>
@@ -190,7 +199,7 @@
 </div>
 <p>この関数を用いて数式の記述に関する実装の詳細を述べる。</p>
 <div class="section" id="details-expr-operators">
-<span id="id3"></span><h3>演算子<a class="headerlink" href="#details-expr-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id2"></span><h3>演算子<a class="headerlink" href="#details-expr-operators" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>演算子のオーバーロードはパターン4以外の動作をする
 <a class="reference internal" href="#details-expr-func-twovars"><span>2変数関数</span></a>と同じように定義されている。
 しかし、2変数関数と違って名前空間は<code class="docutils literal"><span class="pre">tlnc::expressions</span></code>に属している。
@@ -206,15 +215,15 @@
 演算子を適用した結果を更に式の一部として利用できることになる。</p>
 </div>
 <div class="section" id="details-expr-constant">
-<span id="id4"></span><h3>定数関数<a class="headerlink" href="#details-expr-constant" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id3"></span><h3>定数関数<a class="headerlink" href="#details-expr-constant" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>定数関数は<code class="docutils literal"><span class="pre">tlnc::expressions::constant</span></code>クラステンプレートの
 テンプレートパラメータに定数を表す型を持たせることで表す。</p>
 </div>
-<div class="section" id="id5">
-<h3>関数<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id4">
+<h3>関数<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>どのような関数があるかは<a class="reference internal" href="../expressions/index.html#expressions"><span>Expressions</span></a>を参照。</p>
-<div class="section" id="id6">
-<h4>1変数関数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<div class="section" id="id5">
+<h4>1変数関数<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>上の例での<code class="docutils literal"><span class="pre">tlnc::cos</span></code>や<code class="docutils literal"><span class="pre">tlnc::sin</span></code>のような1変数関数に対する呼び出しは、引数の型が</p>
 <ol class="arabic simple">
 <li><a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラス</li>
@@ -236,7 +245,7 @@
 </dl>
 </div>
 <div class="section" id="details-expr-func-twovars">
-<span id="id7"></span><h4>2変数関数<a class="headerlink" href="#details-expr-func-twovars" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<span id="id6"></span><h4>2変数関数<a class="headerlink" href="#details-expr-func-twovars" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p>冪関数<code class="docutils literal"><span class="pre">pow</span></code>のような2変数関数の場合は、引数の型が</p>
 <ol class="arabic simple">
 <li>両方とも<a class="reference internal" href="../traits/index.html#_CPPv213is_expressionI1TE" title="is_expression"><code class="xref cpp cpp-class docutils literal"><span class="pre">is_expression</span></code></a>を満たすクラス</li>
@@ -252,8 +261,8 @@
 コンパイルエラーになる。</p>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>引数<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id7">
+<h3>引数<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>可変引数の変数テンプレートを特殊化し、</p>
 <ol class="arabic simple">
 <li>引数が1個の時は<code class="docutils literal"><span class="pre">tlnc::expressions::vector_arg&lt;I&gt;</span></code></li>
@@ -262,15 +271,19 @@
 </ol>
 <p>が型になるようになっている。</p>
 </div>
-<div class="section" id="id9">
-<h3>プレースホルダ<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id8">
+<h3>プレースホルダー<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">tlnc::expressions::placeholder&lt;I&gt;</span></code>を型に持つ変数を<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に
 <code class="docutils literal"><span class="pre">_1</span></code>から<code class="docutils literal"><span class="pre">_10</span></code>まで宣言してある。
 <code class="docutils literal"><span class="pre">tlnc::holder&lt;I&gt;</span></code>は変数テンプレート。</p>
 </div>
-<div class="section" id="details-expr-eval">
-<span id="id10"></span><h3>評価<a class="headerlink" href="#details-expr-eval" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>上の例のように式を書くとテンプレートが入れ子になったものが<code class="docutils literal"><span class="pre">f</span></code>の型になる。
+</div>
+<div class="section" id="call">
+<h2>Call<a class="headerlink" href="#call" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="details-call-eval">
+<span id="id9"></span><h3>評価<a class="headerlink" href="#details-call-eval" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference internal" href="#details-expr"><span>Expressionsの詳細</span></a>の例のように式を書くと
+テンプレートが入れ子になったものが<code class="docutils literal"><span class="pre">f</span></code>の型になる。
 その構造を木で表すと次のようになる:</p>
 <div class="highlight-python"><div class="highlight"><pre>        add
        /   \
@@ -282,16 +295,65 @@
 </pre></div>
 </div>
 <p><code class="docutils literal"><span class="pre">f</span></code>はこの木の根の<code class="docutils literal"><span class="pre">add</span></code>を指していると考える。
-関数を評価するための値が渡されたときに、</p>
+葉には定数か引数(<code class="docutils literal"><span class="pre">x&lt;&gt;</span></code>や<code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>など)かプレースホルダーしか来ないので、
+関数を評価するためのタプルが渡されたときに、</p>
 <ul class="simple">
 <li>演算子や関数は子に値を伝播させて子の評価結果に何か操作をしたものを返す</li>
-<li>定数は渡された値に関係なく同じ値を返す</li>
-<li>引数(<code class="docutils literal"><span class="pre">x&lt;0&gt;など</span></code>)は渡された値をそのまま返す</li>
+<li>定数は渡されたタプルの中身に関係なく同じ値を返す</li>
+<li><code class="docutils literal"><span class="pre">x&lt;&gt;</span></code>は渡されたタプルの0番目をそのまま返す</li>
+<li><code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>などのベクトルや行列の要素を表すものはタプルの0番目の特定の要素をそのまま返す</li>
+<li>プレースホルダーはタプルの特定の要素をそのまま返す</li>
 </ul>
 <p>というようにすれば関数の値が評価できることになる。</p>
 </div>
-<div class="section" id="id11">
-<h3>メモ化<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id10">
+<h3>メモ化<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>メモの実態はタプルである。
+引数が与えられたときに式の項や部分式とその評価結果の型を列挙し、
+その列挙した項や部分式と評価結果をペア(<code class="docutils literal"><span class="pre">std::pair</span></code>)にしてタプルに入れることでメモを作っている。
+タプルを作った後は、タプルの増えた部分の評価をしてメモを更新する。</p>
+<p>タプルに要素を作るとき、<a class="reference internal" href="#details-call-eval"><span>評価</span></a>の項目にあるような木構造で考えると、
+ある節点を追加する際に子の要素を先にタプルに追加してからその節点を追加するようにしていて、
+そうすることでメモに具体的な値を代入する際に子の要素の評価結果が利用できるようになるので同じ項や部分式は
+1度しか評価されなくなる。
+更にタプルの要素を重複しないようにすることで同じ項を何度も評価しないようにしている。</p>
+<p><a class="reference internal" href="#details-expr"><span>Expressionsの詳細</span></a>での例に<code class="docutils literal"><span class="pre">double</span></code>型のベクトルが渡されたとすると、
+次の表の各行をペアにしたものを要素として持つタプルが作成される。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="73%" />
+<col width="27%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">項</th>
+<th class="head">評価結果の型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">2</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">x&lt;1&gt;</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">x&lt;0&gt;</span> <span class="pre">*</span> <span class="pre">x&lt;1&gt;</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">sin(x&lt;0&gt;)</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">cos(sin(x&lt;0&gt;))</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">2</span> <span class="pre">*</span> <span class="pre">x&lt;0&gt;</span> <span class="pre">*</span> <span class="pre">x&lt;1&gt;</span> <span class="pre">+</span> <span class="pre">cos(sin(x&lt;0&gt;))</span></code></td>
+<td><code class="docutils literal"><span class="pre">double</span></code></td>
+</tr>
+</tbody>
+</table>
+<p>左側と渡されたベクトルを使って右側に具体的な値を代入していく。</p>
 </div>
 </div>
 </div>

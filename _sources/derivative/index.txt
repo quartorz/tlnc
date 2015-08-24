@@ -1,4 +1,39 @@
-.. _derivative:
+.. _derivative-:
 
 Derivative
 ==========
+
+概要
+----
+
+式の微分を行うための機能を提供する。
+
+* ヘッダ
+
+.. code-block:: cpp
+
+   #include <tlnc/derivative.hpp>
+
+関数
+----
+
+.. cpp:function:: derivative(Func &&, Arg &&)
+
+   関数\ ``Func``\ を\ ``Arg``\ で(偏)微分した関数を返す。
+   返ってきた関数は\ :ref:`expressions`\ を使って定義した関数と同じように扱うことができる。
+
+   .. code-block:: cpp
+
+      using tlnc::x;
+
+      // 1変数関数 f(x) = 2x
+      auto f = 2.0_dc * x<>
+
+      // f(x)をxで微分する
+      tlnc::derivative(f, x<>);
+
+      // 2変数関数 g(x0, x1) = x0 * x1 + 2x0
+      auto g = x<0> * x<1> + 2.0_dc * x<0>
+
+      // g(x0, x1)をx0で偏微分する
+      tlnc::derivative(g, x<0>);

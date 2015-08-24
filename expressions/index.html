@@ -103,7 +103,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../derivative/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../derivative/index.html#id3">関数</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
@@ -114,19 +118,24 @@
 </li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#expressions">Expressions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-operators">演算子</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数関数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id5">関数</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id6">1変数関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id4">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id5">1変数関数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../details/index.html#details-expr-func-twovars">2変数関数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">引数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id9">プレースホルダ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-eval">評価</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id11">メモ化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id7">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">プレースホルダー</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#call">Call</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-call-eval">評価</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id10">メモ化</a></li>
 </ul>
 </li>
 </ul>
@@ -194,54 +203,55 @@
 </div>
 <div class="section" id="id3">
 <h2>関数一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>詳しい使い方は<a class="reference internal" href="usage.html#expr-usage"><span>使い方</span></a>を参照。</p>
+<p>いずれも<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に属する。
+詳しい使い方は<a class="reference internal" href="usage.html#expr-usage"><span>使い方</span></a>を参照。</p>
 <p>各関数の引数として<code class="docutils literal"><span class="pre">double</span></code>型や<code class="docutils literal"><span class="pre">kv::interval&lt;double&gt;</span></code>等の、通常の値型を渡すと、
 スカラー値を受け取る:ref:<cite>generic</cite>の関数と同様の動作をし、
 ベクトルや行列を受け取る関数はBoost.uBLASの関数と同様の動作をする。
 式を渡すと数式となる。
 特に説明のない関数は標準ライブラリの同名の関数と同様な動作をすると考えればよい。</p>
 <dl class="function">
-<dt id="_CPPv2N4tlnc3cosERR4Expr">
-<span id="tlnc::cos__ExprRR"></span><code class="descclassname">tlnc::</code><code class="descname">cos</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc3cosERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv23cosRR4Expr">
+<span id="cos__ExprRR"></span><code class="descclassname"></code><code class="descname">cos</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23cosRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc3sinERR4Expr">
-<span id="tlnc::sin__ExprRR"></span><code class="descclassname">tlnc::</code><code class="descname">sin</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc3sinERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv23sinRR4Expr">
+<span id="sin__ExprRR"></span><code class="descclassname"></code><code class="descname">sin</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23sinRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc3tanERR4Expr">
-<span id="tlnc::tan__ExprRR"></span><code class="descclassname">tlnc::</code><code class="descname">tan</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc3tanERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv23tanRR4Expr">
+<span id="tan__ExprRR"></span><code class="descclassname"></code><code class="descname">tan</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23tanRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc3logERR4Expr">
-<span id="tlnc::log__ExprRR"></span><code class="descclassname">tlnc::</code><code class="descname">log</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc3logERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv23logRR4Expr">
+<span id="log__ExprRR"></span><code class="descclassname"></code><code class="descname">log</code><span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23logRR4Expr" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc3powERR4BaseRR8Exponent">
-<span id="tlnc::pow__BaseRR.ExponentRR"></span><code class="descclassname">tlnc::</code><code class="descname">pow</code><span class="sig-paren">(</span>Base&amp;&amp;, Exponent&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc3powERR4BaseRR8Exponent" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv23powRR4BaseRR8Exponent">
+<span id="pow__BaseRR.ExponentRR"></span><code class="descclassname"></code><code class="descname">pow</code><span class="sig-paren">(</span>Base&amp;&amp;, Exponent&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv23powRR4BaseRR8Exponent" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc4prodERR5Expr1RR5Expr2">
-<span id="tlnc::prod__Expr1RR.Expr2RR"></span><code class="descclassname">tlnc::</code><code class="descname">prod</code><span class="sig-paren">(</span>Expr1&amp;&amp;, Expr2&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4prodERR5Expr1RR5Expr2" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv24prodRR5Expr1RR5Expr2">
+<span id="prod__Expr1RR.Expr2RR"></span><code class="descclassname"></code><code class="descname">prod</code><span class="sig-paren">(</span>Expr1&amp;&amp;, Expr2&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24prodRR5Expr1RR5Expr2" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Boost.uBLASの<code class="docutils literal"><span class="pre">prod</span></code>と同様な動作をする。
 ベクトルや行列の積を計算する。</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc12element_prodERR5Expr1RR5Expr2">
-<span id="tlnc::element_prod__Expr1RR.Expr2RR"></span><code class="descclassname">tlnc::</code><code class="descname">element_prod</code><span class="sig-paren">(</span>Expr1&amp;&amp;, Expr2&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc12element_prodERR5Expr1RR5Expr2" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv212element_prodRR5Expr1RR5Expr2">
+<span id="element_prod__Expr1RR.Expr2RR"></span><code class="descclassname"></code><code class="descname">element_prod</code><span class="sig-paren">(</span>Expr1&amp;&amp;, Expr2&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv212element_prodRR5Expr1RR5Expr2" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Boost.uBLASの<code class="docutils literal"><span class="pre">element_prod</span></code>と同様な動作をする。
 同じ大きさのベクトルや行列を渡すと要素ごとの積を計算する。</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc2atIDp2IsEERR4Expr">
-<span id="tlnc::at:IsDp:__ExprRR"></span><code class="descclassname">tlnc::</code><code class="descname">at</code>&lt;Is...&gt;<span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc2atIDp2IsEERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv22atIDp2IsERR4Expr">
+<span id="at:IsDp:__ExprRR"></span><code class="descclassname"></code><code class="descname">at</code>&lt;Is...&gt;<span class="sig-paren">(</span>Expr&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv22atIDp2IsERR4Expr" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>ベクトルや行列を返す式を受け取り、
 式の評価結果から<code class="docutils literal"><span class="pre">Is...</span></code>要素を取り出す式を返す。
 <code class="docutils literal"><span class="pre">Is...</span></code>が1個の時はベクトルを返す式を、
@@ -254,8 +264,8 @@
 <p>いずれも<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に属する。
 詳しい使い方は<a class="reference internal" href="usage.html#expr-usage"><span>使い方</span></a>を参照。</p>
 <dl class="var">
-<dt id="_CPPv2N4tlnc1xIDp2IsEE">
-<span id="tlnc::x:IsDp:__unspecified"></span>unspecified <code class="descclassname">tlnc::</code><code class="descname">x</code>&lt;Is...&gt;<a class="headerlink" href="#_CPPv2N4tlnc1xIDp2IsEE" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv21xIDp2IsE">
+<span id="x:IsDp:__unspecified"></span>unspecified <code class="descclassname"></code><code class="descname">x</code>&lt;Is...&gt;<a class="headerlink" href="#_CPPv21xIDp2IsE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><code class="docutils literal"><span class="pre">std::size_t</span></code>型の非型テンプレートパラメータ<code class="docutils literal"><span class="pre">Is...</span></code>を受け取る変数テンプレート。
 <code class="docutils literal"><span class="pre">Is...</span></code>が空の時は引数そのものを表し、
 <code class="docutils literal"><span class="pre">Is...</span></code>が1個の時は引数として渡されるベクトルのある要素を表し、
@@ -264,15 +274,15 @@
 </dd></dl>
 
 <dl class="var">
-<dt id="_CPPv2N4tlnc2_1E">
-<span id="tlnc::_1__tlnc::expressions::placeholder:1:"></span>tlnc::expressions::placeholder&lt;1&gt; <code class="descclassname">tlnc::</code><code class="descname">_1</code><a class="headerlink" href="#_CPPv2N4tlnc2_1E" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv22_1">
+<span id="_1__unspecified"></span>unspecified <code class="descclassname"></code><code class="descname">_1</code><a class="headerlink" href="#_CPPv22_1" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>プレースホルダーを表す。同様の変数が<code class="docutils literal"><span class="pre">_10</span></code>まで定義されている。
 使い方は<a class="reference internal" href="usage.html#expr-usage-placeholders"><span>プレースホルダー</span></a>を参照。</p>
 </dd></dl>
 
 <dl class="var">
-<dt>
-<code class="descname">tlnc::holder&lt;I&gt;</code></dt>
+<dt id="_CPPv26holderI1IE">
+<span id="holder:I:__unspecified"></span>unspecified <code class="descclassname"></code><code class="descname">holder</code>&lt;I&gt;<a class="headerlink" href="#_CPPv26holderI1IE" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>プレースホルダーが10個で足りないときに使う。</p>
 </dd></dl>
 

@@ -103,7 +103,11 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../derivative/index.html#id2">概要</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../derivative/index.html#id3">関数</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
@@ -114,19 +118,24 @@
 </li>
 </ul>
 </li>
+</ul>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../details/index.html#id2">数式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#expressions">Expressions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-operators">演算子</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-constant">定数関数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id5">関数</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id6">1変数関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id4">関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../details/index.html#id5">1変数関数</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../details/index.html#details-expr-func-twovars">2変数関数</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">引数</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id9">プレースホルダ</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-expr-eval">評価</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id11">メモ化</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id7">引数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id8">プレースホルダー</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../details/index.html#call">Call</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#details-call-eval">評価</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../details/index.html#id10">メモ化</a></li>
 </ul>
 </li>
 </ul>
@@ -182,32 +191,33 @@
 </div>
 <div class="section" id="id3">
 <h2>関数一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>いずれも<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に属する。</p>
 <dl class="function">
-<dt id="_CPPv2N4tlnc4callERR4FuncRR3Arg">
-<span id="tlnc::call__FuncRR.ArgRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Arg&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR3Arg" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv24callRR4FuncRR3Arg">
+<span id="call__FuncRR.ArgRR"></span><code class="descclassname"></code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Arg&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24callRR4FuncRR3Arg" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc4callERR4FuncRR5Tuple">
-<span id="tlnc::call__FuncRR.TupleRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Tuple&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR5Tuple" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv24callRR4FuncRR5Tuple">
+<span id="call__FuncRR.TupleRR"></span><code class="descclassname"></code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Tuple&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24callRR4FuncRR5Tuple" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc4callERR4FuncRR3ArgRR4Memo">
-<span id="tlnc::call__FuncRR.ArgRR.MemoRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Arg&amp;&amp;, Memo&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR3ArgRR4Memo" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv24callRR4FuncRR3ArgRR4Memo">
+<span id="call__FuncRR.ArgRR.MemoRR"></span><code class="descclassname"></code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Arg&amp;&amp;, Memo&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24callRR4FuncRR3ArgRR4Memo" title="この定義へのパーマリンク">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc4callERR4FuncRR5TupleRR4Memo">
-<span id="tlnc::call__FuncRR.TupleRR.MemoRR"></span><code class="descclassname">tlnc::</code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Tuple&amp;&amp;, Memo&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4callERR4FuncRR5TupleRR4Memo" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv24callRR4FuncRR5TupleRR4Memo">
+<span id="call__FuncRR.TupleRR.MemoRR"></span><code class="descclassname"></code><code class="descname">call</code><span class="sig-paren">(</span>Func&amp;&amp;, Tuple&amp;&amp;, Memo&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24callRR4FuncRR5TupleRR4Memo" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p><a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders"><span>プレースホルダー</span></a>が含まれる関数を呼ぶときは2番目の引数にタプルを渡す。
 詳細は<a class="reference internal" href="#call-usage"><span>使い方</span></a>を参照。
 引数に<code class="docutils literal"><span class="pre">Memo</span></code>が含まれている関数については<a class="reference internal" href="#call-usage-memoize"><span>メモ化</span></a>を参照。</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="_CPPv2N4tlnc4memoEv">
-<span id="tlnc::memo"></span><code class="descclassname">tlnc::</code><code class="descname">memo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv2N4tlnc4memoEv" title="この定義へのパーマリンク">¶</a></dt>
+<dt id="_CPPv24memov">
+<span id="memo"></span><code class="descclassname"></code><code class="descname">memo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv24memov" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>空のメモを作成する。詳細は<a class="reference internal" href="#call-usage-memoize"><span>メモ化</span></a>を参照。</p>
 </dd></dl>
 
@@ -234,7 +244,7 @@
 <div class="section" id="call-usage-no-placeholders">
 <span id="id5"></span><h3>プレースホルダーのない関数<a class="headerlink" href="#call-usage-no-placeholders" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal"><span class="pre">f</span></code>や<code class="docutils literal"><span class="pre">g</span></code>には<a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders"><span>プレースホルダー</span></a>が含まれていない。
-このような関数は単純に<a class="reference internal" href="#_CPPv2N4tlnc4callERR4FuncRR3Arg" title="tlnc::call"><code class="xref cpp cpp-func docutils literal"><span class="pre">tlnc::call()</span></code></a>に関数と引数を渡すだけで呼び出すことができる。</p>
+このような関数は単純に<code class="xref cpp cpp-func docutils literal"><span class="pre">tlnc::call()</span></code>に関数と引数を渡すだけで呼び出すことができる。</p>
 <div class="section" id="id6">
 <h4>1変数関数<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h4>
 <p><code class="docutils literal"><span class="pre">f</span></code>はプレースホルダーのない1変数関数なので単純に値を渡すだけで呼び出すことができる。</p>
