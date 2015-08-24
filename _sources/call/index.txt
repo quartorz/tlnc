@@ -37,6 +37,8 @@ Call
 使い方
 ------
 
+数式の書き方については\ :ref:`Expressionsの使い方 <expr-usage>`\ を参照。
+
 .. code-block:: cpp
 
    #include <bcl/literals.hpp>
