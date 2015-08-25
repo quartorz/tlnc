@@ -26,7 +26,7 @@ namespace tlnc{
 			{
 				using common_t = ::std::common_type_t<decltype(Exprs{}(x))...>;
 
-				::boost::numeric::ublas::bounded_vector<common_t, row_size> result(row_size);
+				::boost::numeric::ublas::c_vector<common_t, row_size> result;
 
 				::std::size_t i = 0;
 
@@ -59,7 +59,7 @@ namespace tlnc{
 			) const
 			{
 				using common_t = ::std::common_type_t<decltype(Exprs{}(arg))...>;
-				::boost::numeric::ublas::bounded_vector<common_t, row_size> v(row_size);
+				::boost::numeric::ublas::c_vector<common_t, row_size> v;
 				(..., (v(Js) = ::bcl::get<Is>(memo).second));
 				::bcl::get<I>(memo).second = ::std::move(v);
 			}

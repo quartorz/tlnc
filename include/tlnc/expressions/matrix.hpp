@@ -63,7 +63,7 @@ namespace tlnc{
 			template <typename Arg>
 			constexpr auto operator()(Arg &&arg) const
 			{
-				::boost::numeric::ublas::bounded_matrix<result_value_type<Arg>, row_size, column_size> result(row_size, column_size);
+				::boost::numeric::ublas::c_matrix<result_value_type<Arg>, row_size, column_size> result;
 
 				operator_call_impl1(
 					result, ::std::forward<Arg>(arg),
@@ -92,7 +92,7 @@ namespace tlnc{
 			template <::std::size_t I, typename Arg, typename Memo, ::sprout::index_t ... Is>
 			constexpr void update_memo_impl1(Arg &&arg, Memo &memo, ::sprout::index_tuple<Is...>) const
 			{
-				::boost::numeric::ublas::bounded_matrix<result_value_type<Arg>, row_size, column_size> result(row_size, column_size);
+				::boost::numeric::ublas::c_matrix<result_value_type<Arg>, row_size, column_size> result;
 				(..., update_memo_impl2<Is>(result, memo, ::sprout::make_index_tuple<column_size>::make()));
 				::bcl::get<I>(memo).second = ::std::move(result);
 			}
