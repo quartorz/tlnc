@@ -73,19 +73,21 @@
           
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id2">概要</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../expressions/usage.html">使い方</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id2">定数関数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id5">関数を含む式</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#id6">多変数関数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#expr-usage-vector-matrix">ベクトルや行列を返す関数</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../expressions/usage.html#expr-usage-placeholders">プレースホルダー</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id2">概要</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id3">関数一覧</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#id4">変数一覧</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../expressions/index.html#expr-usage">使い方</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id6">定数関数</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/index.html#id7">マクロ</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../expressions/index.html#expr-usage-constant-literal">ユーザー定義リテラルと関数</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id9">関数を含む式</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#id10">多変数関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#expr-usage-vector-matrix">ベクトルや行列を返す関数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../expressions/index.html#expr-usage-placeholders">プレースホルダー</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a><ul>
@@ -114,7 +116,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#id4">使い方</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../generic/index.html#id2">概要</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id2">概要</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../traits/index.html#id3">クラス一覧</a><ul>
@@ -198,8 +203,8 @@
 <div class="section" id="id3">
 <h2>関数<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>関数はいずれも<code class="docutils literal"><span class="pre">tlnc</span></code>名前空間に属する。
-引数の<code class="docutils literal"><span class="pre">vector&lt;Exprs...&gt;</span></code>は<a class="reference internal" href="../expressions/usage.html#expr-usage-vector-matrix"><span>ベクトルを返す関数</span></a>を表していて、
-いずれも<a class="reference internal" href="../expressions/usage.html#expr-usage-vector-matrix"><span>行列を返す関数</span></a>を返す。
+引数の<code class="docutils literal"><span class="pre">vector&lt;Exprs...&gt;</span></code>は<a class="reference internal" href="../expressions/index.html#expr-usage-vector-matrix"><span>ベクトルを返す関数</span></a>を表していて、
+いずれも<a class="reference internal" href="../expressions/index.html#expr-usage-vector-matrix"><span>行列を返す関数</span></a>を返す。
 偏微分には<a class="reference internal" href="../derivative/index.html#derivative"><span>Derivative</span></a>を使っている。</p>
 <dl class="function">
 <dt id="_CPPv28jacobianI1NE6vectorIDp5ExprsE">
@@ -231,7 +236,7 @@
 <dl class="function">
 <dt id="_CPPv28jacobian6vectorIDp5ExprsERR1X">
 <span id="jacobian__vector:ExprsDp:.XRR"></span><code class="descclassname"></code><code class="descname">jacobian</code><span class="sig-paren">(</span>vector&lt;Exprs...&gt;, X&amp;&amp;<span class="sig-paren">)</span><a class="headerlink" href="#_CPPv28jacobian6vectorIDp5ExprsERR1X" title="この定義へのパーマリンク">¶</a></dt>
-<dd><p>2つ目の引数には変数(<code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>など)を<a class="reference internal" href="../expressions/usage.html#expr-usage-vector-matrix"><span>コンマで並べたもの</span></a>を渡す。
+<dd><p>2つ目の引数には変数(<code class="docutils literal"><span class="pre">x&lt;0&gt;</span></code>など)を<a class="reference internal" href="../expressions/index.html#expr-usage-vector-matrix"><span>コンマで並べたもの</span></a>を渡す。
 2つ目の引数に並べられている変数を使ってヤコビ行列を生成する。</p>
 </dd></dl>
 

@@ -1,6 +1,0 @@
-.. _expressions-constant:
-
-constantクラス
-==============
-
-
