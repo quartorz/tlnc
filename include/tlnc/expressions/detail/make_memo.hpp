@@ -44,22 +44,22 @@ namespace tlnc::expressions::detail{
 			typename Memo, typename Arg, typename Tuple,
 			::std::size_t I, ::std::size_t N
 		>
-		struct memoize_make_memo_impl{
-			using left = memoize_make_memo_impl<
+		struct make_memo_impl{
+			using left = make_memo_impl<
 				Memo, Arg, Tuple, I, N / 2 + N % 2>;
-			using right = memoize_make_memo_impl<
+			using right = make_memo_impl<
 				typename left::type, Arg, Tuple, I + N / 2 + N % 2, N / 2>;
 
 			using type = typename right::type;
 		};
 
 		template <typename Memo, typename Arg, typename Tuple, ::std::size_t I>
-		struct memoize_make_memo_impl<Memo, Arg, Tuple, I, 0>{
+		struct make_memo_impl<Memo, Arg, Tuple, I, 0>{
 			using type = Memo;
 		};
 
 		template <typename Memo, typename Arg, typename Tuple, ::std::size_t I>
-		struct memoize_make_memo_impl<Memo, Arg, Tuple, I, 1>
+		struct make_memo_impl<Memo, Arg, Tuple, I, 1>
 		{
 			using element = ::bcl::tuple_element_t<I, Tuple>;
 			using type = typename element::template make_memo_t<Memo, Arg>;
@@ -76,7 +76,7 @@ namespace tlnc::expressions::detail{
 		using func_pair = ::std::pair<func, ::std::result_of_t<func(Arg)>>;
 
 		struct make_memo_impl{
-			using arg_memo = typename detail::memoize_make_memo_impl<
+			using arg_memo = typename detail::make_memo_impl<
 				Memo, Arg, ::bcl::tuple<Args...>, 0, sizeof...(Args)
 			>::type;
 			using type = ::bcl::tuple_concat_t<
