@@ -13,7 +13,7 @@ Generic
 クラス一覧
 ----------
 
-クラスは全て\ ``tlnc``\ 名前空間に属していて\ ``operator()``\ を持つ。
+クラスは全て\ ``tlnc::generic``\ 名前空間に属していて\ ``operator()``\ を持つ。
 
 .. cpp:class:: sin
 .. cpp:class:: cos
