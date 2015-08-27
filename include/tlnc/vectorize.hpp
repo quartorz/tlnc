@@ -13,7 +13,7 @@ namespace tlnc{
 		namespace ub = ::boost::numeric::ublas;
 
 		template <typename Func>
-		class function_wrapper{
+		class vectorize_wrapper{
 			Func f;
 
 			template <typename, typename Arg>
@@ -29,7 +29,7 @@ namespace tlnc{
 			using result_type = typename result_type_impl<typename ::tlnc::is_callable<Func, Arg>::type, Arg>::type;
 
 		public:
-			function_wrapper(Func f) : f(f)
+			vectorize_wrapper(Func f) : f(f)
 			{
 			}
 
@@ -77,8 +77,8 @@ namespace tlnc{
 	}
 
 	template <typename Func>
-	detail::function_wrapper<Func> vectorize(Func f)
+	detail::vectorize_wrapper<Func> vectorize(Func f)
 	{
-		return detail::function_wrapper<Func>(f);
+		return detail::vectorize_wrapper<Func>(f);
 	}
 }
