@@ -31,7 +31,7 @@ namespace tlnc{
 	}
 
 	template <typename Func>
-	constexpr auto wrap(Func &&)
+	constexpr auto func(Func &&)
 	{
 		return detail::function_wrapper<::std::decay_t<Func>>{};
 	}
