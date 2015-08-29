@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <algorithm>
 
 #include <boost/numeric/ublas/matrix.hpp>
 
@@ -57,6 +58,9 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+
+			static constexpr ::std::size_t placeholder_max =
+				::std::max(Expr1::placeholder_max, Expr2::placeholder_max);
 		};
 	}
 

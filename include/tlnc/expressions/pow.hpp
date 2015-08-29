@@ -1,6 +1,8 @@
 #pragma once
 
 #include <type_traits>
+#include <cstdint>
+#include <algorithm>
 
 #include <tlnc/traits.hpp>
 #include <tlnc/generic.hpp>
@@ -54,6 +56,9 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+
+			static constexpr ::std::size_t placeholder_max =
+				::std::max(Base::placeholder_max, Exponent::placeholder_max);
 		};
 	}
 

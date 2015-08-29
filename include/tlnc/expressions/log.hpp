@@ -46,6 +46,8 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+
+			static constexpr ::std::size_t placeholder_max = Expr::placeholder_max;
 		};
 	}
 

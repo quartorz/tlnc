@@ -2,6 +2,7 @@
 
 #include <type_traits>
 #include <cstdint>
+#include <algorithm>
 
 #include <boost/numeric/ublas/vector.hpp>
 
@@ -159,6 +160,8 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+
+			static constexpr ::std::size_t placeholder_max = ::std::max({Exprs::placeholder_max...});
 		};
 
 		template <typename ... Exprs1, typename ... Exprs2>
@@ -623,6 +626,8 @@ namespace tlnc{
 
 			template <typename Memo, typename Arg>
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
+
+			static constexpr ::std::size_t placeholder_max = ::std::max({Exprs::placeholder_max...});
 		};
 
 		template <typename ... Exprs1, typename ... Exprs2>
