@@ -36,11 +36,23 @@ namespace tlnc{
 				typename X,
 				::std::enable_if_t<
 					!::std::is_same<X, vector_arg<I>>{}
+					&& ::tlnc::is_argument<X>{}
 				>* = nullptr
 			>
 			constexpr auto derivative() const
 			{
 				return TLNC_C(0.0);
+			}
+
+			template <
+				typename Xs,
+				::std::enable_if_t<
+					!::tlnc::is_argument<Xs>{}
+				>* = nullptr
+			>
+			constexpr auto derivative() const
+			{
+				return ::bcl::tuple_element_t<I, Xs>{};
 			}
 
 			constexpr auto reduction() const
@@ -167,10 +179,6 @@ namespace tlnc{
 
 	template <>
 	struct is_expression<expressions::arg> : ::std::true_type{
-	};
-
-	template <typename T>
-	struct is_argument : ::std::false_type{
 	};
 
 	template <::std::size_t I>

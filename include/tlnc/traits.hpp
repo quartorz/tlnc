@@ -87,6 +87,10 @@ namespace tlnc{
 	struct is_constant : ::std::false_type{
 	};
 
+	template <typename T>
+	struct is_argument : ::std::false_type{
+	};
+
 	template <typename T, typename = void>
 	struct constant_traits{
 		static constexpr bool is_constant = false;

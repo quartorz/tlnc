@@ -40,7 +40,7 @@ namespace tlnc{
 			template <typename X>
 			constexpr auto derivative() const
 			{
-				return vector<decltype(Exprs{}.derivative())...>{};
+				return vector<decltype(Exprs{}.template derivative<X>())...>{};
 			}
 
 			constexpr auto reduction() const
