@@ -83,7 +83,7 @@ namespace tlnc{
 			using make_memo_t = typename make_memo<Memo, Arg>::type;
 			
 			static constexpr ::std::size_t placeholder_max =
-				::std::::std::max({Exprs::placeholder_max...});
+				::std::max({Exprs::placeholder_max...});
 		};
 	}
 

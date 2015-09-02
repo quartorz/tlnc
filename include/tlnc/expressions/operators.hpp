@@ -956,6 +956,18 @@ namespace tlnc{
 			static_assert(sizeof...(Vectors1) == sizeof...(Vectors2));
 			return matrix<decltype(Vectors1{} + Vectors2{})...>{};
 		}
+
+		template <typename T, typename ... Exprs>
+		constexpr auto operator*(T &&, vector<Exprs...>)
+		{
+			return vector<decltype(T{} * Exprs{})...>{};
+		}
+
+		template <typename T, typename ... Vectors>
+		constexpr auto operator*(T &&, matrix<Vectors...>)
+		{
+			return matrix<decltype(T{} * Vectors{})...>{};
+		}
 	}
 }
 
