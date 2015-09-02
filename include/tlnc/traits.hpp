@@ -12,20 +12,24 @@
 namespace tlnc{
 	namespace ub = ::boost::numeric::ublas;
 
-	template <typename T>
-	struct is_ublas_vector : ::std::false_type{
-	};
-
-	template <typename T, typename A>
-	struct is_ublas_vector<ub::vector<T, A>> : ::std::true_type{
-	};
+	namespace detail{
+		template <typename E>
+		::std::true_type is_ublas_vector_impl(::boost::numeric::ublas::vector_expression<E> &&);
+		::std::false_type is_ublas_vector_impl(...);
+	}
 
 	template <typename T>
-	struct is_ublas_matrix : ::std::false_type{
+	struct is_ublas_vector : decltype(detail::is_ublas_vector_impl(::std::declval<T>())){
 	};
 
-	template <typename T, typename L, typename A>
-	struct is_ublas_matrix<ub::matrix<T, L, A>> : ::std::true_type{
+	namespace detail{
+		template <typename E>
+		::std::true_type is_ublas_matrix_impl(::boost::numeric::ublas::matrix_expression<E> &&);
+		::std::false_type is_ublas_matrix_impl(...);
+	}
+
+	template <typename T>
+	struct is_ublas_matrix : decltype(detail::is_ublas_matrix_impl(::std::declval<T>())){
 	};
 
 	// true if T is a class defined in namespace ::tlnc::expressions
@@ -37,24 +41,32 @@ namespace tlnc{
 	constexpr auto is_expression_v = is_expression<T>::value;
 
 	namespace detail{
-		template <typename T>
+		template <bool, typename T>
 		struct value_type_impl{
 			using type = T;
 		};
 
-		template <typename T, typename A>
-		struct value_type_impl<ub::vector<T, A>>{
-			using type = T;
-		};
+// 		template <typename T, typename A>
+// 		struct value_type_impl<ub::vector<T, A>>{
+// 			using type = T;
+// 		};
+//
+// 		template <typename T, typename L, typename A>
+// 		struct value_type_impl<ub::matrix<T, L, A>>{
+// 			using type = T;
+// 		};
 
-		template <typename T, typename L, typename A>
-		struct value_type_impl<ub::matrix<T, L, A>>{
-			using type = T;
+		template <typename T>
+		struct value_type_impl<true, T>{
+			using type = typename T::value_type;
 		};
 	}
 
 	template <typename T>
-	using value_type = detail::value_type_impl<::std::decay_t<T>>;
+	using value_type = detail::value_type_impl<
+		is_ublas_vector<::std::decay_t<T>>{} || is_ublas_matrix<::std::decay_t<T>>{},
+		::std::decay_t<T>
+	>;
 
 	template <typename T>
 	using value_type_t = typename value_type<T>::type;
