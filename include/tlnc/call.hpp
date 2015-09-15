@@ -9,6 +9,7 @@
 #include <bcl/has_xxx.hpp>
 
 #include <tlnc/expressions/detail/memo_find.hpp>
+#include <tlnc/make_memo.hpp>
 
 namespace tlnc{
 	namespace detail{
@@ -73,6 +74,7 @@ namespace tlnc{
 		};
 	}
 
+	// normal invocation
 	template <
 		typename Func, typename Arg,
 		::std::enable_if_t<detail::is_tuple<::std::decay_t<Arg>>{}>* = nullptr
@@ -93,6 +95,7 @@ namespace tlnc{
 			::bcl::tuple<::std::add_const_t<Arg>&>(::std::forward<Arg>(arg)));
 	}
 
+	// invocation with memoization and partial update of memo
 	template <
 		typename Func, typename Arg, typename Memo,
 		::std::enable_if_t<detail::is_tuple<::std::decay_t<Arg>>{}>* = nullptr
@@ -101,7 +104,7 @@ namespace tlnc{
 	{
 		using func_t = ::std::decay_t<Func>;
 		using memo_t = ::std::decay_t<Memo>;
-		using memo_new_t = typename func_t::template make_memo_t<memo_t, Arg>;
+		using memo_new_t = decltype(make_memo(f, arg, memo));
 
 		constexpr auto memo_old_size = ::bcl::tuple_size<memo_t>::value;
 		constexpr auto memo_new_size = ::bcl::tuple_size<memo_new_t>::value;
