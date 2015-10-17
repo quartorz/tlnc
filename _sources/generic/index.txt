@@ -7,8 +7,8 @@ Generic
 ----
 
 引数の型が何であっても呼び出せる関数オブジェクトを提供する。
-引数の型は\ ``double``\ 型か\ ``kv::interval<double>``\ 型か
-:ref:`double型の定数 <expr-usage-constant-literal>`\ を想定している。
+今のところ引数の型は\ ``double``\ 型か\ ``kv::interval<double>``\ 型か
+:ref:`double型の定数 <expr-usage-constant-literal>`\ を想定した実装になっている。
 
 クラス一覧
 ----------
