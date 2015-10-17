@@ -386,6 +386,7 @@
 <a class="reference internal" href="#_CPPv212element_prodRR5Expr1RR5Expr2" title="element_prod"><code class="xref cpp cpp-func docutils literal"><span class="pre">element_prod()</span></code></a>のようなベクトルを受け取る関数に引数を渡す時は、
 <code class="docutils literal"><span class="pre">element_prod(x&lt;&gt;,</span> <span class="pre">x&lt;&gt;)</span></code>のように<code class="docutils literal"><span class="pre">x&lt;&gt;</span></code>を使えばよい。
 <code class="docutils literal"><span class="pre">x&lt;0,</span> <span class="pre">0&gt;</span></code>のように書けば行列を受け取る関数も記述できる。</p>
+<p>行列やベクトルはBoost uBLASのものを使うことを前提としている。</p>
 </div>
 <div class="section" id="expr-usage-vector-matrix">
 <span id="id11"></span><h3>ベクトルや行列を返す関数<a class="headerlink" href="#expr-usage-vector-matrix" title="このヘッドラインへのパーマリンク">¶</a></h3>
@@ -398,6 +399,20 @@
 <span class="k">auto</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">(</span><span class="mf">3.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">,</span> <span class="mf">4.0</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span><span class="o">&lt;&gt;</span><span class="p">));</span>
 </pre></div>
 </div>
+<p><code class="docutils literal"><span class="pre">f</span></code>や<code class="docutils literal"><span class="pre">g</span></code>はそれぞれ</p>
+<div class="math">
+\[\begin{split}\begin{align}
+  f(x)&amp;=[x\;\;2x]^T\\
+  g(x)&amp;=
+  \left[
+  \begin{matrix}
+    x &amp; 2x\\
+    3x &amp; 4x
+  \end{matrix}
+  \right]
+\end{align}\end{split}\]</div>
+<p>という関数を表す。
+行列やベクトルはBoost uBLASのものを利用する。</p>
 </div>
 <div class="section" id="expr-usage-placeholders">
 <span id="id12"></span><h3>プレースホルダー<a class="headerlink" href="#expr-usage-placeholders" title="このヘッドラインへのパーマリンク">¶</a></h3>

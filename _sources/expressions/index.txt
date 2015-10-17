@@ -198,6 +198,8 @@ Expressions
 ``element_prod(x<>, x<>)``\ のように\ ``x<>``\ を使えばよい。
 ``x<0, 0>``\ のように書けば行列を受け取る関数も記述できる。
 
+行列やベクトルはBoost uBLASのものを使うことを前提としている。
+
 .. _expr-usage-vector-matrix:
 
 ベクトルや行列を返す関数
@@ -213,6 +215,24 @@ Expressions
 
    auto f = (x<>, 2.0_dc * x<>);
    auto g = (f, (3.0_dc * x<>, 4.0_dc * x<>));
+
+``f``\ や\ ``g``\ はそれぞれ
+
+.. math::
+
+   \begin{align}
+     f(x)&=[x\;\;2x]^T\\
+     g(x)&=
+     \left[
+     \begin{matrix}
+       x & 2x\\
+       3x & 4x
+     \end{matrix}
+     \right]
+   \end{align}
+
+という関数を表す。
+行列やベクトルはBoost uBLASのものを利用する。
 
 .. _expr-usage-placeholders:
 
