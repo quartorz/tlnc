@@ -5,4 +5,4 @@ Template Library for Numerical Computation
 [cti](https://github.com/quartorz/cti)と組み合わせることができます。
 C++1z以降でコンパイルする必要があります。
 
-[ドキュメント](http://quart.red/tlnc/)
+[ドキュメント](http://gh-pages.quart.red/tlnc/)
