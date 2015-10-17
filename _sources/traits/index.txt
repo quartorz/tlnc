@@ -70,35 +70,40 @@ is_*系
       template <typename T, typename = void>
       struct constant_traits;
 
-   2番目の引数は特殊化を定義する際に使われるものなので無視してよい。
+   :cpp:class:`expressions::constant`\ から様々な情報を取得するためのtraits。
 
    .. cpp:member:: static constexpr bool is_constant
 
-      ``T``\ が\ :cpp:class:`constant`\ で、
-      渡されているテンプレートパラメータが\ :cpp:class:`is_value`\ を満たす時に\ ``true``\ 、
+      ``T``\ が\ :cpp:class:`expressions::constant`\ で、
+      :cpp:class:`expressions::constant`\ に渡されているテンプレートパラメータが
+      :cpp:class:`is_value`\ を満たす時に\ ``true``\ 、
       それ以外の時に\ ``false``\ となる。
 
    .. cpp:member:: static constexpr bool is_zero
 
       ``is_constant``\ が\ ``false``\ の時は常に\ ``false``\ となる。
-      ``is_constant``\ が\ ``true``\ で、かつ\ :cpp:class:`constant`\ に渡されているテンプレートパラメータが
+      ``is_constant``\ が\ ``true``\ で、
+      かつ\ :cpp:class:`expressions::constant`\ に渡されているテンプレートパラメータが
       ちょうど\ ``0.0``\ を表す場合に\ ``true``\ となる。
 
    .. cpp:member:: static constexpr bool is_one
 
       ``is_constant``\ が\ ``false``\ の時は常に\ ``false``\ となる。
-      ``is_constant``\ が\ ``true``\ で、かつ\ :cpp:class:`constant`\ に渡されているテンプレートパラメータが
+      ``is_constant``\ が\ ``true``\ で、
+      かつ\ :cpp:class:`expressions::constant`\ に渡されているテンプレートパラメータが
       ちょうど\ ``1.0``\ を表す場合に\ ``true``\ となる。
 
    .. cpp:type:: zero_type
 
       ``is_constant``\ が\ ``false``\ の時は定義されない。
       ``is_constant``\ が\ ``true``\ の時は、
-      :cpp:class:`constant`\ が保持する値の型のコンストラクタに\ ``0.0``\ を渡した時の値を表現する型を保持する。
+      :cpp:class:`expressions::constant`\ が保持する値の型のコンストラクタに
+      ``0.0``\ を渡した時の値を表現する型を保持する。
 
    .. cpp:type:: one_type
 
       ``is_constant``\ が\ ``false``\ の時は定義されない。
       ``is_constant``\ が\ ``true``\ の時は、
-      :cpp:class:`constant`\ が保持する値の型のコンストラクタに\ ``1.0``\ を渡した時の値を表現する型を保持する。
+      :cpp:class:`expressions::constant`\ が保持する値の型のコンストラクタに
+      ``1.0``\ を渡した時の値を表現する型を保持する。
 
