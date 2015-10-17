@@ -140,15 +140,16 @@ int main()
 
 		auto u_next = u_j + h * r1.first + pow(h, p) * r2.first;
 
+		// u_next includes the exact solution at t = t2
+		std::cout
+			<< mid(t2)
+			<< ',' << u_next(0).lower() << ',' << u_next(0).upper()
+			<< ',' << u_next(1).lower() << ',' << u_next(1).upper()
+			<< ',' << u_next(2).lower() << ',' << u_next(2).upper()
+			<< std::endl;
+
 		bcl::get<0>(arg) = u_next;
 		t1 = t2;
-
-		std::cout
-			<< mid(t1)
-			<< ',' << bcl::get<0>(arg)(0).lower() << ',' << bcl::get<0>(arg)(0).upper()
-			<< ',' << bcl::get<0>(arg)(1).lower() << ',' << bcl::get<0>(arg)(1).upper()
-			<< ',' << bcl::get<0>(arg)(2).lower() << ',' << bcl::get<0>(arg)(2).upper()
-			<< std::endl;
 	}
 
 	return 0;
