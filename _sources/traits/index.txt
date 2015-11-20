@@ -27,11 +27,11 @@ is_*系
 
 .. cpp:class:: is_ublas_vector<typename T>
 
-   ``T``\ が\ ``boost::numeric::ublas::vector<T, A>``\ かどうかを判定する。
+   ``T``\ が\ ``boost::numeric::ublas::vector_expression<E>``\ から派生しているかを判定する。
 
 .. cpp:class:: is_ublas_matrix<typename T>
 
-   ``T``\ が\ ``boost::numeric::ublas::matrix<T, F, A>``\ かどうかを判定する。
+   ``T``\ が\ ``boost::numeric::ublas::matrix_expression<T, F, A>``\ から派生しているかを判定する。
 
 .. cpp:class:: is_expression<typename T>
 
