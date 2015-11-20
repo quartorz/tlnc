@@ -31,7 +31,7 @@ is_*系
 
 .. cpp:class:: is_ublas_matrix<typename T>
 
-   ``T``\ が\ ``boost::numeric::ublas::matrix_expression<T, F, A>``\ から派生しているかを判定する。
+   ``T``\ が\ ``boost::numeric::ublas::matrix_expression<E>``\ から派生しているかを判定する。
 
 .. cpp:class:: is_expression<typename T>
 
@@ -54,9 +54,8 @@ is_*系
 
    .. cpp:type:: type
 
-      ``T``\ が\ ``boost::numeric:ublas::vector<T, A>``\ や
-      ``boost::numeric::ublas::matrix<T, F, A>``\ であれば\ ``T::value_type``\ 、
-      そうでなければ\ ``T``\ となる。
+      ``T``\ が\ :cpp:class:`is_ublas_vector`\ か\ :cpp:class:`is_ublas_matrix`
+      を満たす場合は\ ``T::value_type``\ 、そうでなければ\ ``T``\ となる。
       エイリアス\ ``value_type_t<T>``\ が存在する。
 
 .. _constant_traits:
