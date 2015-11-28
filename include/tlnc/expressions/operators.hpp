@@ -649,7 +649,7 @@ namespace tlnc{
 		template <typename ... ExprsL, typename ... ExprsR>
 		constexpr auto operator+(op_add<ExprsL...>, op_add<ExprsR...>)
 		{
-			return op_add<ExprsL..., op_add<ExprsR...>>{};
+			return op_add<ExprsL..., ExprsR...>{};
 		}
 
 		template <
@@ -682,7 +682,7 @@ namespace tlnc{
 		>
 		constexpr auto operator+(T &&, op_add<Exprs...>)
 		{
-			return op_add<::std::decay_t<T>, op_add<Exprs...>>{};
+			return op_add<::std::decay_t<T>, Exprs...>{};
 		}
 
 		template <
@@ -758,7 +758,7 @@ namespace tlnc{
 		template <typename ... ExprsL, typename ... ExprsR>
 		constexpr auto operator*(op_mul<ExprsL...>, op_mul<ExprsR...>)
 		{
-			return op_mul<ExprsL..., op_mul<ExprsR...>>{}.reduction();
+			return op_mul<ExprsL..., ExprsR...>{}.reduction();
 		}
 
 		template <
@@ -791,7 +791,7 @@ namespace tlnc{
 		>
 		constexpr auto operator*(T &&, op_mul<Exprs...>)
 		{
-			return op_mul<::std::decay_t<T>, op_mul<Exprs...>>{}.reduction();
+			return op_mul<::std::decay_t<T>, Exprs...>{}.reduction();
 		}
 
 		template <
