@@ -40,6 +40,7 @@ kvのインストールについては\ `kvのドキュメント <http://verifie
    jacobian/index
    generic/index
    traits/index
+   sample/index
 
 .. toctree::
    :maxdepth: 3

@@ -1,0 +1,236 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>サンプルプログラム &mdash; tlnc: Template Library for Numerical Computation beta ドキュメント</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="tlnc: Template Library for Numerical Computation beta ドキュメント" href="../index.html"/>
+        <link rel="next" title="実装の詳細" href="../details/index.html"/>
+        <link rel="prev" title="Traits" href="../traits/index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> tlnc: Template Library for Numerical Computation
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                beta
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../expressions/index.html">Expressions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../call/index.html">Call</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../derivative/index.html">Derivative</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../jacobian/index.html">Jacobian</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../generic/index.html">Generic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../traits/index.html">Traits</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">サンプルプログラム</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#lorenz">Lorenz方程式の精度保証</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../details/index.html">実装の詳細</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../index.html">tlnc: Template Library for Numerical Computation</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html">Docs</a> &raquo;</li>
+      
+    <li>サンプルプログラム</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/sample/index.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="id1">
+<h1>サンプルプログラム<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="lorenz">
+<h2>Lorenz方程式の精度保証<a class="headerlink" href="#lorenz" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p><a class="reference external" href="https://github.com/quartorz/tlnc/blob/master/sample/lorenz.cpp">sample/lorenz.cpp</a>は、Taylor展開法によってLorenz方程式の精度保証を行うプログラムである。Wrapping effectを全く考慮しておらず、Taylor展開の次数を5にしても<span class="math">\(t=1.45678\)</span>程度で区間が無限大に発散するため、実用性はない。</p>
+<p>tlncを用いてLorenz方程式</p>
+<div class="math">
+\[\begin{split}\frac{d\mathbf{u}}{dt}=f(t,\mathbf{u})=
+\begin{pmatrix}
+  -6x+6y \\ -xz+28x-y \\ xy-\frac{8}{3}z
+\end{pmatrix}\end{split}\]</div>
+<p>の<span class="math">\(\mathbf{f}(t,\mathbf{u})\)</span>を記述しているのがプログラムの</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Lorenz equation</span>
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="o">-</span><span class="mi">6</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">6</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span>
+    <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">28</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="mi">8</span><span class="n">_di</span> <span class="o">/</span> <span class="mi">3</span><span class="n">_di</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると項の数と計算時間は<span class="math">\(O(9^p)\)</span>となる。サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(9^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとメモリ使用量とコンパイル時間が増えすぎるので実用性はないと思う。</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../details/index.html" class="btn btn-neutral float-right" title="実装の詳細" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../traits/index.html" class="btn btn-neutral" title="Traits" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2015, quarter.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'beta',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/translations.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
