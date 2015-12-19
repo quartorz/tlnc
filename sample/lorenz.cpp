@@ -25,7 +25,7 @@ struct make_phi_aux{
 		auto k = CTI_I(static_cast<double>(K)){};
 		auto g = make_phi_aux<K - 1>{}(f, xs);
 
-		return (1_di / k) * (/*tlnc::derivative(g, f) + */tlnc::prod(tlnc::jacobian(g, xs), f));
+		return (1_di / k) * (tlnc::prod(tlnc::jacobian(g, xs), f));
 	}
 };
 
