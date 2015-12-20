@@ -146,20 +146,20 @@
 <p><a class="reference external" href="https://github.com/quartorz/tlnc/blob/master/sample/lorenz.cpp">sample/lorenz.cpp</a>は、Taylor展開法によってLorenz方程式の精度保証を行うプログラムである。Wrapping effectを全く考慮しておらず、Taylor展開の次数を5にしても<span class="math">\(t=1.45678\)</span>程度で区間が無限大に発散するため、実用性はない。</p>
 <p>tlncを用いてLorenz方程式</p>
 <div class="math">
-\[\begin{split}\frac{d\mathbf{u}}{dt}=f(t,\mathbf{u})=
+\[\begin{split}\frac{d\mathbf{u}}{dt}=\mathbf{f}(t,\mathbf{u})=
 \begin{pmatrix}
   -6x+6y \\ -xz+28x-y \\ xy-\frac{8}{3}z
 \end{pmatrix}\end{split}\]</div>
 <p>の<span class="math">\(\mathbf{f}(t,\mathbf{u})\)</span>を記述しているのがプログラムの</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Lorenz equation</span>
-<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span>
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span>
     <span class="o">-</span><span class="mi">6</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">6</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span>
     <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">28</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span>
     <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="mi">8</span><span class="n">_di</span> <span class="o">/</span> <span class="mi">3</span><span class="n">_di</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span>
 <span class="p">);</span>
 </pre></div>
 </div>
-<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると項の数と計算時間は<span class="math">\(O(9^p)\)</span>となる。サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(9^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとメモリ使用量とコンパイル時間が増えすぎるので実用性はないと思う。</p>
+<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると項の数と計算時間は<span class="math">\(O(9^p)\)</span>となる。サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(9^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとコンパイル時のメモリ使用量とコンパイル時間が増えすぎるので、wrapping effectを考慮した実装にしても実用性はないと思う。</p>
 </div>
 </div>
 
