@@ -159,7 +159,7 @@
 <span class="p">);</span>
 </pre></div>
 </div>
-<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると項の数と計算時間は<span class="math">\(O(9^p)\)</span>となる。サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(9^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとコンパイル時のメモリ使用量とコンパイル時間が増えすぎるので、wrapping effectを考慮した実装にしても実用性はないと思う。</p>
+<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると何も工夫しない場合の項の数と計算時間は<span class="math">\(O(9^p)\)</span>となるが、サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(9^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとコンパイル時のメモリ使用量とコンパイル時間が増えすぎるので、wrapping effectを考慮した実装にしても実用性はないと思う。</p>
 </div>
 </div>
 
