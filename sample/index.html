@@ -152,14 +152,14 @@
 \end{pmatrix}\end{split}\]</div>
 <p>の<span class="math">\(\mathbf{f}(t,\mathbf{u})\)</span>を記述しているのがプログラムの</p>
 <div class="highlight-cpp"><div class="highlight"><pre><span class="c1">// Lorenz equation</span>
-<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span>
+<span class="k">auto</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span>
     <span class="o">-</span><span class="mi">6</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">6</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span>
     <span class="o">-</span><span class="n">x</span> <span class="o">*</span> <span class="n">z</span> <span class="o">+</span> <span class="mi">28</span><span class="n">_dc</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">,</span>
     <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="p">(</span><span class="mi">8</span><span class="n">_di</span> <span class="o">/</span> <span class="mi">3</span><span class="n">_di</span><span class="p">)</span> <span class="o">*</span> <span class="n">z</span>
 <span class="p">);</span>
 </pre></div>
 </div>
-<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると何も工夫しない場合の項の数と計算時間は<span class="math">\(O(9^p)\)</span>となるが、サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(9^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとコンパイル時のメモリ使用量とコンパイル時間が増えすぎるので、wrapping effectを考慮した実装にしても実用性はないと思う。</p>
+<p>の部分で、<code class="docutils literal"><span class="pre">make_phi&lt;K&gt;</span></code>と<code class="docutils literal"><span class="pre">make_phi_aux&lt;K&gt;</span></code>を使ってTaylor展開法に必要な処理を自動生成している。Taylor展開の次数を<span class="math">\(p\)</span>とすると何も工夫しない場合の項の数と計算時間は<span class="math">\(O(3^p)\)</span>となるが、サンプルプログラムでは<a class="reference internal" href="../call/index.html#call-usage-memoize"><span>メモ化</span></a>をすることでコンパイル時間が<span class="math">\(O(3^p)\)</span>になる代わりに計算時間を<span class="math">\(O(p)\)</span>に抑えている。<span class="math">\(p\ge 6\)</span>にするとコンパイル時のメモリ使用量とコンパイル時間が増えすぎるので、wrapping effectを考慮した実装にしても実用性はないと思う。</p>
 </div>
 </div>
 
